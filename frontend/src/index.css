@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;600;700&family=Inter:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Poppins", "Plus Jakarta Sans", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --color-primary: #c72929;
+  --color-accent-green: #8BC34A;
+  --color-background-light: #f8f6f6;
+  --color-text-dark: #171212;
+}
+
+@layer base {
+  body {
+    @apply font-body bg-background-light text-text-dark;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+}
