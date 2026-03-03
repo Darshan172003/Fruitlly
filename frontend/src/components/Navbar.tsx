@@ -17,7 +17,7 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-[#f4f1f1]">
-      <div className="max-w-[1200px] mx-auto px-6 py-3 flex items-center justify-between">
+      <div className="max-w-300 mx-auto px-6 py-3 flex items-center justify-between">
         <Link 
           to="/"
           className="flex items-center gap-3 cursor-pointer"

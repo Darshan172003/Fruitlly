@@ -75,7 +75,7 @@ const Recipes = () => {
     >
       {/* Hero Section */}
       <section className="bg-white py-16 px-4 md:px-10 lg:px-40 border-b border-slate-100">
-        <div className="max-w-[1200px] mx-auto flex flex-col gap-6 text-center items-center">
+        <div className="max-w-300 mx-auto flex flex-col gap-6 text-center items-center">
           <span className="text-primary font-bold text-sm uppercase tracking-widest">Culinary Inspiration</span>
           <h1 className="text-slate-900 text-4xl md:text-6xl font-black leading-tight tracking-tight font-display">
             Fruitlly Recipe Gallery
@@ -88,7 +88,7 @@ const Recipes = () => {
 
       {/* Video Grid */}
       <section className="py-16 px-4 md:px-10 lg:px-40">
-        <div className="max-w-[1200px] mx-auto">
+        <div className="max-w-300 mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {recipes.map((recipe) => (
               <motion.div 
@@ -146,12 +146,12 @@ const Recipes = () => {
 
       {/* Custom Recipe CTA */}
       <section className="py-20 px-4 md:px-10 lg:px-40 bg-white">
-        <div className="max-w-[1200px] mx-auto bg-slate-900 rounded-[40px] p-12 md:p-20 text-center items-center flex flex-col gap-8 relative overflow-hidden">
+        <div className="max-w-300 mx-auto bg-slate-900 rounded-[40px] p-12 md:p-20 text-center items-center flex flex-col gap-8 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -mr-32 -mt-32"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary-green/20 rounded-full blur-[80px] -ml-32 -mb-32"></div>
           
           <h2 className="text-white text-3xl md:text-5xl font-black font-display relative z-10">Need a Custom Recipe?</h2>
-          <p className="text-slate-400 text-lg max-w-[600px] relative z-10">
+          <p className="text-slate-400 text-lg max-w-150 relative z-10">
             Our culinary team can help you develop exclusive jelly-based products and recipe cards for your private label or retail chain.
           </p>
           <button className="bg-primary hover:bg-red-700 text-white px-10 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-primary/20 relative z-10">

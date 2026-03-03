@@ -23,7 +23,7 @@ const About = () => {
     >
       {/* Hero Section */}
       <section className="flex flex-1 justify-center py-12 px-4 md:px-10 lg:px-40">
-        <div className="flex flex-col max-w-[1200px] flex-1">
+        <div className="flex flex-col max-w-300 flex-1">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-center">
             <div 
               className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-2xl shadow-lg lg:w-1/2"
@@ -40,10 +40,10 @@ const About = () => {
                 </p>
               </div>
               <div className="flex flex-wrap gap-4">
-                <button className="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-white text-base font-bold leading-normal tracking-tight hover:scale-105 transition-transform shadow-lg shadow-primary/20">
+                <button className="flex min-w-35 cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-white text-base font-bold leading-normal tracking-tight hover:scale-105 transition-transform shadow-lg shadow-primary/20">
                   View Products
                 </button>
-                <button className="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary-green text-white text-base font-bold leading-normal tracking-tight hover:scale-105 transition-transform shadow-lg shadow-primary-green/20">
+                <button className="flex min-w-35 cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary-green text-white text-base font-bold leading-normal tracking-tight hover:scale-105 transition-transform shadow-lg shadow-primary-green/20">
                   Certifications
                 </button>
               </div>
@@ -54,9 +54,9 @@ const About = () => {
 
       {/* Legacy Section */}
       <section className="flex flex-1 justify-center py-16 px-4 md:px-10 lg:px-40 bg-slate-50">
-        <div className="flex flex-col max-w-[1200px] flex-1">
+        <div className="flex flex-col max-w-300 flex-1">
           <div className="flex flex-col gap-10">
-            <div className="flex flex-col gap-4 max-w-[720px]">
+            <div className="flex flex-col gap-4 max-w-180">
               <h2 className="text-slate-900 text-3xl font-bold leading-tight md:text-4xl md:font-black tracking-tight font-display">
                 The Legacy of Tulsi Foods
               </h2>
@@ -105,7 +105,7 @@ const About = () => {
 
       {/* Manufacturing Excellence */}
       <section className="flex flex-1 justify-center py-20 px-4 md:px-10 lg:px-40 bg-white">
-        <div className="flex flex-col max-w-[1200px] flex-1">
+        <div className="flex flex-col max-w-300 flex-1">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="flex flex-col gap-8">
               <div className="flex flex-col gap-4">
@@ -166,13 +166,13 @@ const About = () => {
       {/* Global Export Network */}
       <section className="flex flex-1 justify-center py-20 px-4 md:px-10 lg:px-40 bg-primary text-white overflow-hidden relative">
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white rounded-full blur-[120px]"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 bg-white rounded-full blur-[120px]"></div>
         </div>
-        <div className="flex flex-col max-w-[1200px] flex-1 relative z-10">
+        <div className="flex flex-col max-w-300 flex-1 relative z-10">
           <div className="flex flex-col items-center text-center gap-6 mb-12">
             <span className="text-white/80 font-bold text-sm uppercase tracking-widest">Global Export Network</span>
             <h2 className="text-4xl md:text-5xl font-black tracking-tight font-display">Connecting Sweetness Worldwide</h2>
-            <p className="text-white/80 text-lg max-w-[720px]">
+            <p className="text-white/80 text-lg max-w-180">
               From our central manufacturing hub, we export to major markets across Asia, Europe, and the Middle East. Our logistics network is optimized for temperature-controlled shipping to preserve product integrity.
             </p>
           </div>
@@ -211,7 +211,7 @@ const About = () => {
 
       {/* Pillars Section */}
       <section className="flex flex-1 justify-center py-20 px-4 md:px-10 lg:px-40 bg-white">
-        <div className="flex flex-col max-w-[1200px] flex-1">
+        <div className="flex flex-col max-w-300 flex-1">
           <div className="flex flex-col items-center mb-12">
             <span className="text-primary-green font-bold text-sm mb-2 uppercase tracking-widest">Driven by Purpose</span>
             <h2 className="text-slate-900 text-3xl font-bold leading-tight text-center font-display">Our Core Pillars</h2>
@@ -257,10 +257,10 @@ const About = () => {
 
       {/* Our Values */}
       <section className="flex flex-1 justify-center py-20 px-4 md:px-10 lg:px-40 bg-slate-50">
-        <div className="flex flex-col max-w-[1200px] flex-1">
+        <div className="flex flex-col max-w-300 flex-1">
           <div className="flex flex-col items-center mb-16 text-center">
             <h2 className="text-slate-900 text-3xl font-bold font-display mb-4">Our Core Values</h2>
-            <p className="text-slate-500 max-w-[600px]">The principles that guide our decisions and define our culture every day.</p>
+            <p className="text-slate-500 max-w-150">The principles that guide our decisions and define our culture every day.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="flex flex-col items-center text-center gap-4">
@@ -297,12 +297,12 @@ const About = () => {
 
       {/* Final CTA */}
       <section className="flex flex-1 justify-center py-24 px-4 md:px-10 lg:px-40 bg-white">
-        <div className="flex flex-col max-w-[1200px] flex-1 bg-slate-900 rounded-[40px] p-12 md:p-20 text-center items-center gap-8 relative overflow-hidden">
+        <div className="flex flex-col max-w-300 flex-1 bg-slate-900 rounded-[40px] p-12 md:p-20 text-center items-center gap-8 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -mr-32 -mt-32"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary-green/20 rounded-full blur-[80px] -ml-32 -mb-32"></div>
           
           <h2 className="text-white text-4xl md:text-5xl font-black font-display relative z-10">Ready to Partner with Fruitlly?</h2>
-          <p className="text-slate-400 text-lg max-w-[600px] relative z-10">
+          <p className="text-slate-400 text-lg max-w-150 relative z-10">
             Join our network of global B2B partners and bring premium jelly treats to your market.
           </p>
           <div className="flex flex-wrap justify-center gap-4 relative z-10">

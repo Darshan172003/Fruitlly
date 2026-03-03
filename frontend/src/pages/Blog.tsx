@@ -58,7 +58,7 @@ const Blog = () => {
     >
       {/* Header Section */}
       <div className="px-4 md:px-10 lg:px-40 flex justify-center py-12 md:py-16">
-        <div className="flex flex-col max-w-[1200px] flex-1">
+        <div className="flex flex-col max-w-300 flex-1">
           <div className="flex flex-wrap justify-between items-end gap-6">
             <div className="flex min-w-72 flex-col gap-3">
               <h1 className="text-slate-900 text-5xl font-extrabold leading-tight tracking-tight font-display">Industry Insights</h1>
@@ -67,7 +67,7 @@ const Blog = () => {
               </p>
             </div>
             <div className="flex gap-3">
-              <button className="flex items-center gap-2 min-w-[84px] cursor-pointer justify-center overflow-hidden rounded-xl h-12 px-6 bg-white text-slate-900 border border-slate-200 text-sm font-bold hover:bg-gray-50 transition-colors">
+              <button className="flex items-center gap-2 min-w-21 cursor-pointer justify-center overflow-hidden rounded-xl h-12 px-6 bg-white text-slate-900 border border-slate-200 text-sm font-bold hover:bg-gray-50 transition-colors">
                 <MdNotifications size={20} />
                 <span className="truncate">Subscribe</span>
               </button>
@@ -78,13 +78,13 @@ const Blog = () => {
 
       {/* Categories Filter */}
       <div className="px-4 md:px-10 lg:px-40 flex justify-center">
-        <div className="flex flex-col max-w-[1200px] flex-1">
+        <div className="flex flex-col max-w-300 flex-1">
           <div className="pb-8">
             <div className="flex border-b border-slate-100 px-0 gap-8 overflow-x-auto no-scrollbar">
               {['All Posts', 'Industry Trends', 'Manufacturing', 'Supply Chain'].map((tab, idx) => (
                 <button 
                   key={tab}
-                  className={`flex flex-col items-center justify-center border-b-[3px] pb-[13px] pt-4 whitespace-nowrap text-sm font-bold tracking-tight transition-all ${idx === 0 ? 'border-b-primary text-primary' : 'border-b-transparent text-slate-400 hover:text-primary'}`}
+                  className={`flex flex-col items-center justify-center border-b-[3px] pb-3.25 pt-4 whitespace-nowrap text-sm font-bold tracking-tight transition-all ${idx === 0 ? 'border-b-primary text-primary' : 'border-b-transparent text-slate-400 hover:text-primary'}`}
                 >
                   {tab}
                 </button>
@@ -96,14 +96,14 @@ const Blog = () => {
 
       {/* Blog Grid */}
       <div className="px-4 md:px-10 lg:px-40 flex justify-center py-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1200px] w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-300 w-full">
           {posts.map((post) => (
             <motion.div 
               key={post.id}
               whileHover={{ y: -5 }}
               className="group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100"
             >
-              <div className="relative w-full aspect-[16/9] overflow-hidden">
+              <div className="relative w-full aspect-video overflow-hidden">
                 <img 
                   src={post.image} 
                   alt={post.title}
@@ -142,7 +142,7 @@ const Blog = () => {
 
       {/* Newsletter Section */}
       <div className="px-4 md:px-10 lg:px-40 flex justify-center py-16">
-        <div className="flex flex-1 flex-col items-start justify-between gap-8 rounded-2xl border border-slate-100 bg-white p-10 md:p-12 md:flex-row md:items-center shadow-lg max-w-[1200px]">
+        <div className="flex flex-1 flex-col items-start justify-between gap-8 rounded-2xl border border-slate-100 bg-white p-10 md:p-12 md:flex-row md:items-center shadow-lg max-w-300">
           <div className="flex flex-col gap-4">
             <h4 className="text-slate-900 text-3xl font-bold leading-tight font-display">Get the latest B2B reports</h4>
             <p className="text-slate-500 text-lg font-normal leading-normal max-w-xl">
@@ -151,11 +151,11 @@ const Blog = () => {
           </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
             <input 
-              className="h-14 px-6 rounded-xl border border-slate-200 bg-slate-50 focus:ring-primary focus:border-primary text-base font-medium min-w-[280px]" 
+              className="h-14 px-6 rounded-xl border border-slate-200 bg-slate-50 focus:ring-primary focus:border-primary text-base font-medium min-w-70" 
               placeholder="Your work email" 
               type="email" 
             />
-            <button className="flex min-w-[160px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-8 bg-primary text-white text-base font-bold shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all hover:scale-105">
+            <button className="flex min-w-40 cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-8 bg-primary text-white text-base font-bold shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all hover:scale-105">
               <span className="truncate">Join Newsletter</span>
             </button>
           </div>

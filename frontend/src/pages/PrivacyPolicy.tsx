@@ -23,7 +23,7 @@ const PrivacyPolicy = () => {
     >
       {/* Hero Section */}
       <div className="relative h-64 w-full overflow-hidden bg-primary/5">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-r from-primary/20 to-transparent"></div>
         <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-end px-6 pb-12">
           <nav className="mb-4 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-primary">
             <Link to="/" className="hover:underline">Home</Link>

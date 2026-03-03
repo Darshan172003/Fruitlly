@@ -70,7 +70,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ url, thumbnail, title }) => {
                 <MdPlayArrow size={48} className="ml-1" />
               </motion.div>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+            <div className="absolute bottom-0 left-0 right-0 p-6 bg-linear-to-t from-black/80 to-transparent">
               <h3 className="text-white text-xl font-bold">{title}</h3>
             </div>
           </motion.div>
@@ -105,7 +105,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ url, thumbnail, title }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-20"
+            className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-black/90 via-black/40 to-transparent z-20"
           >
             {/* Progress Bar */}
             <div className="w-full h-1 bg-white/20 rounded-full mb-4 overflow-hidden cursor-pointer relative">

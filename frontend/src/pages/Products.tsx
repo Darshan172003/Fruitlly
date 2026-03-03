@@ -103,7 +103,7 @@ const Products = () => {
       {/* Technical Specifications */}
       <section className="bg-slate-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-[2rem] p-8 md:p-12 shadow-sm border border-slate-100">
+          <div className="bg-white rounded-4xl p-8 md:p-12 shadow-sm border border-slate-100">
             <h2 className="text-3xl font-bold text-slate-900 mb-12 flex items-center gap-3">
               <Package className="text-primary" />
               Technical Specifications
@@ -126,7 +126,7 @@ const Products = () => {
 
       {/* Wholesale Catalog CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="bg-primary/5 rounded-[2rem] p-8 md:p-16 border border-primary/10 flex flex-col lg:flex-row items-center justify-between gap-12">
+        <div className="bg-primary/5 rounded-4xl p-8 md:p-16 border border-primary/10 flex flex-col lg:flex-row items-center justify-between gap-12">
           <div className="max-w-2xl text-center lg:text-left">
             <h2 className="text-3xl font-bold text-primary mb-6">Request a Wholesale Catalog</h2>
             <p className="text-lg text-slate-700 leading-relaxed">

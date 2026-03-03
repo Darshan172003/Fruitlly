@@ -15,7 +15,7 @@ const TermsAndConditions = () => {
       animate={{ opacity: 1 }}
       className="flex flex-1 justify-center py-12 px-6"
     >
-      <div className="flex flex-col max-w-[800px] flex-1">
+      <div className="flex flex-col max-w-200 flex-1">
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-2 mb-8 text-sm font-medium">
           <Link to="/" className="text-slate-500 hover:text-primary transition-colors">Home</Link>
