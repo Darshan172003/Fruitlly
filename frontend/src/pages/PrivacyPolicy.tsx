@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
-import { 
+import {
   MdChevronRight, 
   MdBusiness, 
   MdPerson, 
@@ -14,7 +14,54 @@ import {
 } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
+const tocSections = [
+  { id: 'introduction', label: 'Introduction' },
+  { id: 'information-collection', label: 'Information Collection' },
+  { id: 'use-of-data', label: 'Use of Data' },
+  { id: 'security', label: 'B2B Client Security' },
+  { id: 'sharing', label: 'Data Sharing' },
+  { id: 'contact', label: 'Contact Us' },
+];
+
 const PrivacyPolicy = () => {
+  const [activeSection, setActiveSection] = useState(tocSections[0].id);
+  const sectionIds = useMemo(() => tocSections.map((section) => section.id), []);
+
+  useEffect(() => {
+    const nodes = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((node): node is HTMLElement => node !== null);
+
+    if (!nodes.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visible[0]?.target?.id) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      {
+        root: null,
+        rootMargin: '-30% 0px -55% 0px',
+        threshold: [0.15, 0.3, 0.5, 0.75],
+      }
+    );
+
+    nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, [sectionIds]);
+
+  const handleSectionClick = (id: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setActiveSection(id);
+    window.history.replaceState(null, '', `#${id}`);
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -22,48 +69,48 @@ const PrivacyPolicy = () => {
       className="flex flex-col flex-1"
     >
       {/* Hero Section */}
-      <div className="relative h-64 w-full overflow-hidden bg-primary/5">
-        <div className="absolute inset-0 bg-linear-to-r from-primary/20 to-transparent"></div>
-        <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-end px-6 pb-12">
-          <nav className="mb-4 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-primary">
-            <Link to="/" className="hover:underline">Home</Link>
-            <span className="flex items-center">
-              <MdChevronRight size={14} />
-            </span>
-            <span>Legal</span>
-          </nav>
-          <h1 className="text-4xl font-bold text-slate-900 md:text-5xl">Privacy Policy</h1>
-          <p className="mt-4 max-w-2xl text-lg text-slate-600">
+      <div className="relative w-full overflow-hidden border-b border-slate-200 bg-linear-to-b from-white to-slate-50">
+        <div className="relative mx-auto max-w-7xl px-6 pb-12 pt-12 lg:pb-14 lg:pt-16">
+          <div className="mb-5 inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-slate-600">
+            Last Updated: October 24, 2023
+          </div>
+          <h1 className="text-4xl font-black tracking-tight text-slate-900 md:text-5xl">Privacy Policy</h1>
+          <p className="mt-4 max-w-3xl text-base text-slate-600 md:text-lg">
             Learn how Fruitlly B2B protects and manages your corporate data and business information.
           </p>
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:py-20 w-full">
-        <div className="flex flex-col lg:flex-row gap-12">
+      <div className="mx-auto w-full max-w-7xl px-6 py-12 lg:py-16">
+        <div className="flex flex-col gap-10 lg:flex-row">
           {/* Sidebar */}
-          <aside className="w-full lg:w-1/4">
-            <div className="sticky top-28 space-y-2 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-              <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-400">Table of Contents</p>
-              <nav className="flex flex-col gap-1">
-                <a className="rounded-lg px-3 py-2 text-sm font-medium text-primary bg-primary/5 transition-colors" href="#introduction">Introduction</a>
-                <a className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors" href="#information-collection">Information Collection</a>
-                <a className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors" href="#use-of-data">Use of Data</a>
-                <a className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors" href="#security">B2B Client Security</a>
-                <a className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors" href="#sharing">Data Sharing</a>
-                <a className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors" href="#contact">Contact Us</a>
+          <aside className="hidden lg:block lg:w-1/4">
+            <div className="sticky top-28 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <p className="mb-4 text-xs font-bold uppercase tracking-[0.14em] text-slate-400">Table of Contents</p>
+              <nav className="flex flex-col gap-1.5">
+                {tocSections.map((section, index) => (
+                  <a
+                    key={section.id}
+                    href={`#${section.id}`}
+                    onClick={handleSectionClick(section.id)}
+                    className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                      activeSection === section.id
+                        ? 'bg-slate-100 text-slate-900'
+                        : 'text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    <span className="mr-2 text-xs text-slate-400">{String(index + 1).padStart(2, '0')}</span>
+                    {section.label}
+                  </a>
+                ))}
               </nav>
-              <div className="mt-8 border-t border-slate-100 pt-6">
-                <p className="text-xs text-slate-500">Last Updated:</p>
-                <p className="text-sm font-semibold text-slate-900">October 24, 2023</p>
-              </div>
             </div>
           </aside>
 
           {/* Content */}
-          <article className="w-full lg:w-3/4 space-y-12">
-            <section id="introduction">
-              <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+          <article className="w-full space-y-8 lg:w-3/4">
+            <section id="introduction" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-8">
+              <h2 className="mb-6 flex items-center gap-3 text-3xl font-bold text-slate-900">
                 <span className="h-8 w-1.5 rounded-full bg-primary"></span>
                 Our Commitment to Your Privacy
               </h2>
@@ -77,7 +124,7 @@ const PrivacyPolicy = () => {
               </div>
             </section>
 
-            <section className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm" id="information-collection">
+            <section className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-8" id="information-collection">
               <h2 className="text-2xl font-bold text-slate-900 mb-6">Information Collection</h2>
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-4">
@@ -123,7 +170,7 @@ const PrivacyPolicy = () => {
               </div>
             </section>
 
-            <section id="use-of-data">
+            <section id="use-of-data" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-8">
               <h2 className="text-2xl font-bold text-slate-900 mb-6">How We Use Your Data</h2>
               <div className="prose prose-slate max-w-none text-slate-600 space-y-4">
                 <p>We use the collected information to provide and improve our B2B services, including:</p>
@@ -137,30 +184,30 @@ const PrivacyPolicy = () => {
               </div>
             </section>
 
-            <section className="relative overflow-hidden rounded-2xl bg-slate-900 p-8 text-white" id="security">
-              <div className="relative z-10 lg:w-2/3">
-                <h2 className="text-2xl font-bold mb-4">B2B Client Security</h2>
-                <p className="text-slate-300 mb-6">
+            <section className="relative scroll-mt-28 overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-8" id="security">
+              <div className="relative z-10">
+                <h2 className="mb-4 text-2xl font-bold text-slate-900">B2B Client Security</h2>
+                <p className="mb-6 text-slate-600">
                   We implement industry-standard encryption and security protocols to protect your sensitive business data. Our servers are monitored 24/7, and access to client data is strictly restricted to authorized personnel only.
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <div className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium">
-                    <MdLock size={16} />
+                  <div className="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-800">
+                    <MdLock size={16} className="text-primary" />
                     SSL Encrypted
                   </div>
-                  <div className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium">
-                    <MdVerifiedUser size={16} />
+                  <div className="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-800">
+                    <MdVerifiedUser size={16} className="text-primary" />
                     GDPR Compliant
                   </div>
-                  <div className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium">
-                    <MdGppGood size={16} />
+                  <div className="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-800">
+                    <MdGppGood size={16} className="text-primary" />
                     Secure Payments
                   </div>
                 </div>
               </div>
             </section>
 
-            <section id="sharing">
+            <section id="sharing" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-8">
               <h2 className="text-2xl font-bold text-slate-900 mb-6">Information Sharing</h2>
               <p className="text-slate-600 mb-4">
                 Fruitlly B2B does not sell your business data to third parties. We only share information with service providers that help us operate our business, such as:
@@ -181,7 +228,7 @@ const PrivacyPolicy = () => {
               </div>
             </section>
 
-            <section className="rounded-2xl border-2 border-primary/10 bg-primary/5 p-8 text-center" id="contact">
+            <section className="scroll-mt-28 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center shadow-sm sm:p-8" id="contact">
               <h2 className="text-2xl font-bold text-slate-900 mb-4">Questions about our Privacy Policy?</h2>
               <p className="text-slate-600 mb-8 max-w-xl mx-auto">
                 If you have any questions regarding how we handle your business data, please contact our Data Protection Officer.
