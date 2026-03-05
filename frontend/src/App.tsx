@@ -11,6 +11,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Blog from './pages/Blog';
 import Recipes from './pages/Recipes';
 import Products from './pages/Products';
+import NotFound from './pages/NotFound';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -40,8 +41,8 @@ export default function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/recipes" element={<Recipes />} />
             <Route path="/products" element={<Products />} />
-            {/* Fallback for other routes */}
-            <Route path="*" element={<Home />} />
+            {/* 404 fallback */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
 
