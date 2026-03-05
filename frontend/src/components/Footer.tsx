@@ -64,9 +64,9 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 mt-10 border-t border-gray-100 text-center text-xs text-gray-400">
-        &copy; {CurrentYear} Fruitlly by Tulsi Foods. All rights reserved.
-        <div className="mt-3 flex flex-wrap items-center justify-center gap-4 text-xs text-gray-500">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 mt-10 border-t border-gray-100 text-center text-xs text-gray-400 flex items-center sm:justify-between justify-center gap-4 flex-wrap">
+        <div className="">&copy; {CurrentYear} Fruitlly by Tulsi Foods. All rights reserved.</div>
+        <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-gray-500">
           <Link to="/faq" className="hover:text-primary">FAQ</Link>
           <Link to="/privacy" className="hover:text-primary">Privacy Policy</Link>
           <Link to="/terms" className="hover:text-primary">Terms and Conditions</Link>
