@@ -163,9 +163,7 @@ const FAQ = () => {
 
   return (
     <div className="flex flex-col flex-1">
-      <header className="relative overflow-hidden py-20 lg:py-24">
-        <div className="absolute inset-0 -z-20 bg-linear-to-b from-primary/15 via-primary/5 to-transparent"></div>
-        <div className="pointer-events-none absolute -top-28 left-1/2 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/20 blur-3xl"></div>
+      <header className="relative overflow-hidden border-b border-slate-200 bg-slate-50 py-16 lg:py-20">
         <div className="mx-auto max-w-5xl px-4 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 18 }}
@@ -179,13 +177,13 @@ const FAQ = () => {
             from product quality to logistics and compliance.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <span className="rounded-full border border-primary/20 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm">
+            <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm">
               4 Key Categories
             </span>
-            <span className="rounded-full border border-primary/20 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm">
+            <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm">
               Quick Procurement Clarity
             </span>
-            <span className="rounded-full border border-primary/20 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm">
+            <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm">
               B2B Support Ready
             </span>
           </div>
@@ -195,7 +193,7 @@ const FAQ = () => {
       <main className="mx-auto w-full max-w-7xl px-4 py-10 lg:py-14">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-4">
           <aside className="lg:col-span-1">
-            <div className="sticky top-28 rounded-2xl border border-primary/10 bg-white p-4 shadow-lg shadow-primary/5">
+            <div className="sticky top-28 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
               <h3 className="mb-3 px-2 text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
                 Categories
               </h3>
@@ -211,14 +209,14 @@ const FAQ = () => {
                       onClick={handleCategoryClick(cat.id)}
                       className={`group block rounded-xl border px-3 py-3 transition-all ${
                         isActive
-                          ? 'border-primary/30 bg-primary/10 text-primary shadow-sm'
-                          : 'border-transparent text-slate-600 hover:border-primary/20 hover:bg-primary/5'
+                          ? 'border-slate-300 bg-slate-100 text-slate-900 shadow-sm'
+                          : 'border-transparent text-slate-600 hover:border-slate-200 hover:bg-slate-50'
                       }`}
                     >
                       <div className="flex items-center gap-2.5">
                         <span
                           className={`flex h-8 w-8 items-center justify-center rounded-lg ${
-                            isActive ? 'bg-primary text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-primary/15'
+                            isActive ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'
                           }`}
                         >
                           <Icon size={18} />
@@ -257,7 +255,7 @@ const FAQ = () => {
                       return (
                         <div
                           key={item.question}
-                          className="overflow-hidden rounded-2xl border border-primary/10 bg-white shadow-sm"
+                          className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
                         >
                           <button
                             type="button"
@@ -268,7 +266,7 @@ const FAQ = () => {
                           <span className="pr-4 text-base font-semibold leading-relaxed text-slate-900 md:text-lg">
                             {item.question}
                           </span>
-                          <span className={`shrink-0 text-primary transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+                          <span className={`shrink-0 text-slate-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
                             <MdExpandMore size={24} />
                           </span>
                           </button>
@@ -299,9 +297,9 @@ const FAQ = () => {
         </div>
       </main>
 
-      <section className="bg-linear-to-br from-primary/10 via-primary/5 to-transparent py-16">
+      <section className="border-t border-slate-200 bg-slate-50 py-16">
         <div className="mx-auto max-w-6xl px-4">
-          <div className="rounded-3xl border border-primary/20 bg-white p-8 text-center shadow-lg shadow-primary/10 md:p-12">
+          <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm md:p-12">
             <h2 className="mb-3 text-3xl font-black tracking-tight text-slate-900">Still have questions?</h2>
             <p className="mx-auto mb-8 max-w-2xl text-slate-600">
               Our B2B team can help with pricing, custom requirements, and supply planning.
@@ -314,7 +312,7 @@ const FAQ = () => {
                 <MdEmail size={20} /> Email Support
               </a>
               <a
-                className="flex items-center justify-center gap-2 rounded-xl border border-primary/25 bg-white px-8 py-4 font-bold text-slate-900 transition-all hover:border-primary"
+                className="flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-8 py-4 font-bold text-slate-900 transition-all hover:border-slate-500"
                 href="tel:+1234567890"
               >
                 <MdPhone size={20} /> Call Sales Team
