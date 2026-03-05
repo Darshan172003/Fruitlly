@@ -12,6 +12,7 @@ import Blog from './pages/Blog';
 import Recipes from './pages/Recipes';
 import Products from './pages/Products';
 import NotFound from './pages/NotFound';
+import FloatingContactButtons from './components/ui/FloatingContactButtons';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -45,6 +46,8 @@ export default function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
+
+        <FloatingContactButtons />
 
         <Footer />
       </div>
