@@ -1,5 +1,4 @@
 import React, { FormEvent, useState } from 'react';
-import emailjs from '@emailjs/browser';
 import { MdSend } from 'react-icons/md';
 
 const fieldClassName =
@@ -32,6 +31,7 @@ const B2BInquiryForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [submitMessage, setSubmitMessage] = useState('');
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -43,38 +43,22 @@ const B2BInquiryForm = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-    if (!serviceId || !templateId || !publicKey) {
-      setSubmitStatus('error');
-      setSubmitMessage('Email service is not configured. Please add EmailJS environment keys.');
-      return;
-    }
-
     try {
       setIsSubmitting(true);
       setSubmitStatus('idle');
       setSubmitMessage('');
 
-      await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          company_name: formData.companyName,
-          contact_person: formData.contactPerson,
-          phone_number: formData.phoneNumber,
-          email_address: formData.emailAddress,
-          city: formData.city,
-          state: formData.state,
-          pin_code: formData.pinCode,
-          message: formData.message,
+      const response = await fetch(`${backendUrl}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          publicKey,
-        },
-      );
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit inquiry');
+      }
 
       setSubmitStatus('success');
       setSubmitMessage('Inquiry submitted successfully. Our team will contact you soon.');
