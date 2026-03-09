@@ -70,19 +70,19 @@ const Products = () => {
     <div className="bg-[#f7f7f8]">
       <section className="relative overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-24">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-12">
+          <div className="mb-10 flex flex-col gap-8 md:mb-12 md:flex-row md:items-end md:justify-between">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="max-w-3xl"
             >
-              <span className="inline-flex rounded-full border border-primary/15 bg-white/80 px-4 py-2 text-primary font-bold uppercase tracking-[0.25em] text-xs mb-5">
+              <span className="mb-4 inline-flex rounded-full border border-primary/15 bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.25em] text-primary sm:text-xs">
                 Fruitlly Catalog
               </span>
-              <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight leading-tight">
+              <h1 className="mb-5 text-3xl font-black leading-tight tracking-tight text-slate-900 sm:text-4xl md:text-5xl lg:text-6xl">
                 Premium jelly products crafted for wholesale and retail shelves.
               </h1>
-              <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl">
+              <p className="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg md:text-xl md:leading-8">
                 Browse the live Fruitlly range with product names, images, and short descriptions. The hero section stays fixed while products update from the admin panel.
               </p>
             </motion.div>
@@ -94,7 +94,7 @@ const Products = () => {
             >
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
+                className="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 text-base font-bold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 sm:px-8 sm:py-4 sm:text-lg"
               >
                 Inquire for Bulk Supply
               </Link>
@@ -125,7 +125,27 @@ const Products = () => {
           {!loading && !error && groupedProducts.length > 0 && (
             <div className="space-y-8">
               <div className="border-b border-slate-200 pb-8">
-                <div className="flex flex-wrap gap-3">
+                <div className="md:hidden">
+                  <label className="block">
+                    <span className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-500">
+                      Category Filter
+                    </span>
+                    <select
+                      value={selectedCategoryId}
+                      onChange={(event) => setSelectedCategoryId(event.target.value)}
+                      className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 outline-none transition focus:border-primary"
+                    >
+                      <option value="all">All Products</option>
+                      {groupedProducts.map((group) => (
+                        <option key={group.categoryId} value={group.categoryId}>
+                          {group.categoryName}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+
+                <div className="hidden flex-wrap gap-3 md:flex">
                   <button
                     type="button"
                     onClick={() => setSelectedCategoryId('all')}
@@ -167,7 +187,7 @@ const Products = () => {
                   </div>
                 </div> */}
 
-                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 min-[840px]:grid-cols-3 sm:gap-6 xl:grid-cols-4 xl:gap-6">
                   {visibleProducts.map((product, index) => (
                     <motion.div
                       key={`${product.categoryId}-${product.id}`}
@@ -181,7 +201,7 @@ const Products = () => {
                         className="group flex h-full flex-col overflow-hidden rounded-4xl border border-[#f3e8df] bg-white shadow-[0_18px_45px_rgba(34,24,14,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_65px_rgba(34,24,14,0.14)]"
                       >
                         <div className="relative aspect-4/3 overflow-hidden bg-slate-100">
-                          <span className="absolute left-5 top-5 z-10 rounded-2xl bg-white/90 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-slate-900 shadow-sm">
+                          <span className="absolute left-4 top-4 z-10 rounded-2xl bg-white/90 px-3 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-900 shadow-sm sm:left-5 sm:top-5 sm:px-4 sm:text-xs">
                             {product.categoryName}
                           </span>
                           <img
@@ -191,13 +211,13 @@ const Products = () => {
                             referrerPolicy="no-referrer"
                           />
                         </div>
-                        <div className="flex flex-1 flex-col p-4">
-                          <h3 className="text-2xl font-bold text-slate-900 leading-tight">{product.title}</h3>
-                          <p className="mt-3 flex-1 text-sm text-slate-700 leading-relaxed">
+                        <div className="flex flex-1 flex-col p-4 sm:p-5 lg:p-6">
+                          <h3 className="text-xl font-bold leading-tight text-slate-900 sm:text-2xl">{product.title}</h3>
+                          <p className="mt-3 flex-1 text-sm leading-6 text-slate-700 sm:text-[15px]">
                             {getShortDescriptionPreview(product.shortDescription)}
                           </p>
-                          <div className="mt-6 border-t border-slate-100 pt-5 flex items-center justify-center">
-                            <span className="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2 text-sm font-bold text-white transition group-hover:bg-primary/90">
+                          <div className="mt-5 flex items-center justify-center border-t border-slate-100 pt-5 sm:mt-6">
+                            <span className="inline-flex min-w-37 items-center justify-center rounded-xl border border-primary bg-white px-5 py-3 text-sm font-bold text-primary transition group-hover:bg-primary group-hover:text-white sm:min-w-40">
                               View Details
                             </span>
                           </div>
@@ -213,19 +233,19 @@ const Products = () => {
       </section>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="flex flex-col items-center justify-between gap-12 rounded-4xl border border-slate-200 bg-white p-8 shadow-[0_20px_50px_rgba(15,23,42,0.06)] md:p-16 lg:flex-row">
+        <div className="flex flex-col items-center justify-between gap-10 rounded-4xl border border-slate-200 bg-white p-8 shadow-[0_20px_50px_rgba(15,23,42,0.06)] md:p-12 lg:flex-row lg:gap-12 lg:p-16">
           <div className="max-w-2xl text-center lg:text-left">
-            <h2 className="mb-6 text-3xl font-black text-slate-900">Request a Wholesale Catalog</h2>
-            <p className="text-lg leading-relaxed text-slate-700">
+            <h2 className="mb-5 text-2xl font-black text-slate-900 sm:text-3xl">Request a Wholesale Catalog</h2>
+            <p className="text-base leading-7 text-slate-700 sm:text-lg sm:leading-relaxed">
               Interested in exploring our full range of confectionery products? Get in touch for our
               latest product catalog, certifications, and volume-based pricing structures for global
               distribution.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+          <div className="flex w-full flex-col gap-4 sm:flex-row lg:w-auto">
             <Link
               to="/contact"
-              className="flex items-center justify-center gap-2 rounded-2xl bg-primary px-8 py-4 font-bold text-white transition-all hover:bg-primary/90"
+              className="flex items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-4 text-sm font-bold text-white transition-all hover:bg-primary/90 sm:px-8 sm:text-base"
             >
               <Mail size={20} />
               Contact Sales
