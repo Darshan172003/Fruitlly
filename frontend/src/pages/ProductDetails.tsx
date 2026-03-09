@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { FaWhatsapp } from 'react-icons/fa6';
+import { HiOutlineArrowLeft, HiOutlineArrowRight, HiOutlineClipboardDocumentList, HiOutlineDocumentText } from 'react-icons/hi2';
 import { db } from '../lib/firebase';
 import type { Product } from '../types/product';
 import { mapProductData } from '../lib/productCatalog';
@@ -82,8 +83,9 @@ const ProductDetails = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
         <Link
           to="/products"
-          className="inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-primary/30 hover:text-primary"
+          className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-primary/30 hover:text-primary"
         >
+          <HiOutlineArrowLeft size={18} />
           Back to products
         </Link>
 
@@ -133,8 +135,9 @@ const ProductDetails = () => {
                 </a>
                 <Link
                   to="/products"
-                  className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 px-6 py-4 text-sm font-bold text-slate-700 transition hover:border-slate-300 hover:bg-white"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-6 py-4 text-sm font-bold text-slate-700 transition hover:border-slate-300 hover:bg-white"
                 >
+                  <HiOutlineArrowRight size={18} />
                   Browse More Products
                 </Link>
               </div>
@@ -149,7 +152,12 @@ const ProductDetails = () => {
             className="rounded-4xl border border-slate-200 bg-white p-7 shadow-sm md:p-8"
           >
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <h2 className="text-xl font-black text-slate-900">Overview</h2>
+              <div className="flex items-center gap-3">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/8 text-primary">
+                  <HiOutlineDocumentText size={22} />
+                </span>
+                <h2 className="text-xl font-black text-slate-900">Overview</h2>
+              </div>
               <span className="rounded-full bg-slate-50 px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">
                 Product Summary
               </span>
@@ -166,7 +174,12 @@ const ProductDetails = () => {
             className="rounded-4xl border border-slate-200 bg-white p-7 shadow-sm md:p-8"
           >
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <h2 className="text-xl font-black text-slate-900">Product Information</h2>
+              <div className="flex items-center gap-3">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/8 text-primary">
+                  <HiOutlineClipboardDocumentList size={22} />
+                </span>
+                <h2 className="text-xl font-black text-slate-900">Product Information</h2>
+              </div>
               <span className="rounded-full bg-slate-50 px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">
                 Technical Details
               </span>

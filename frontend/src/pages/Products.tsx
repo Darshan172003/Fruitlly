@@ -325,8 +325,9 @@ const Products = () => {
                             {getShortDescriptionPreview(product.shortDescription)}
                           </p>
                           <div className="mt-5 flex items-center justify-center border-t border-slate-100 pt-5 sm:mt-6">
-                            <span className="inline-flex min-w-37 items-center justify-center rounded-xl border border-primary bg-white px-5 py-3 text-sm font-bold text-primary transition group-hover:bg-primary group-hover:text-white sm:min-w-40">
+                            <span className="inline-flex min-w-37 items-center justify-center gap-2 rounded-xl border border-primary bg-white px-5 py-3 text-sm font-bold text-primary transition group-hover:bg-primary group-hover:text-white sm:min-w-40">
                               View Details
+                              <ChevronRight size={16} />
                             </span>
                           </div>
                         </div>
