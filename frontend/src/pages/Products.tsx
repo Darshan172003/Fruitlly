@@ -7,6 +7,16 @@ import { db } from '../lib/firebase';
 import { groupProductsByCategory, mapProductDocument } from '../lib/productCatalog';
 import type { Product, ProductCategoryGroup } from '../types/product';
 
+const getShortDescriptionPreview = (value: string, maxWords = 20) => {
+  const words = value.trim().split(/\s+/).filter(Boolean);
+
+  if (words.length <= maxWords) {
+    return value.trim();
+  }
+
+  return `${words.slice(0, maxWords).join(' ')}...`;
+};
+
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [groupedProducts, setGroupedProducts] = useState<ProductCategoryGroup[]>([]);
@@ -57,12 +67,8 @@ const Products = () => {
     : products;
 
   return (
-    <div className="bg-linear-to-b from-[#fffaf4] via-white to-[#fff4ec]">
+    <div className="bg-[#f7f7f8]">
       <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top,#ffd7c5_0%,rgba(255,255,255,0)_68%)]" />
-        <div className="pointer-events-none absolute right-0 top-12 h-72 w-72 rounded-full bg-primary/8 blur-3xl" />
-        <div className="pointer-events-none absolute left-0 top-20 h-72 w-72 rounded-full bg-accent-green/10 blur-3xl" />
-
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-24">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-12">
             <motion.div
@@ -146,7 +152,7 @@ const Products = () => {
               </div>
 
               <section className="space-y-6">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                {/* <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                   <div>
                     <span className="inline-flex rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-xs font-bold uppercase tracking-[0.25em] text-slate-500">
                       {selectedCategory ? selectedCategory.categoryName : 'All Categories'}
@@ -159,7 +165,7 @@ const Products = () => {
                   <div className="rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-slate-600 shadow-sm">
                     Showing {visibleProducts.length} product{visibleProducts.length === 1 ? '' : 's'}
                   </div>
-                </div>
+                </div> */}
 
                 <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
                   {visibleProducts.map((product, index) => (
@@ -184,13 +190,14 @@ const Products = () => {
                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                             referrerPolicy="no-referrer"
                           />
-                          <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent" />
                         </div>
-                        <div className="flex flex-1 flex-col p-6 md:p-7">
+                        <div className="flex flex-1 flex-col p-4">
                           <h3 className="text-2xl font-bold text-slate-900 leading-tight">{product.title}</h3>
-                          <p className="mt-3 flex-1 text-base text-slate-700 leading-relaxed">{product.shortDescription}</p>
-                          <div className="mt-6 border-t border-slate-100 pt-5">
-                            <span className="inline-flex items-center text-base font-bold text-primary transition group-hover:translate-x-1">
+                          <p className="mt-3 flex-1 text-sm text-slate-700 leading-relaxed">
+                            {getShortDescriptionPreview(product.shortDescription)}
+                          </p>
+                          <div className="mt-6 border-t border-slate-100 pt-5 flex items-center justify-center">
+                            <span className="inline-flex items-center justify-center rounded-xl bg-primary px-4 py-2 text-sm font-bold text-white transition group-hover:bg-primary/90">
                               View Details
                             </span>
                           </div>

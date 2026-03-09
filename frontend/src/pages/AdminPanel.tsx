@@ -122,6 +122,7 @@ const AdminPanel = () => {
   const [editingProductId, setEditingProductId] = useState('');
   const [deletingProductId, setDeletingProductId] = useState('');
   const [activeSection, setActiveSection] = useState<AdminSectionId>('add-product');
+  const [selectedLibraryCategoryId, setSelectedLibraryCategoryId] = useState('all');
   const [pageIndex, setPageIndex] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [pageCursors, setPageCursors] = useState<Array<QueryDocumentSnapshot<DocumentData> | null>>([null]);
@@ -147,6 +148,7 @@ const AdminPanel = () => {
       setCategoryError('');
       setProductsLoading(false);
       setLibraryError('');
+      setSelectedLibraryCategoryId('all');
       setPageIndex(0);
       setHasNextPage(false);
       setPageCursors([null]);
@@ -176,6 +178,14 @@ const AdminPanel = () => {
         setCategoriesLoading(false);
         setCategoryError('');
 
+        setSelectedLibraryCategoryId((current) => {
+          if (current === 'all') {
+            return current;
+          }
+
+          return nextCategories.some((category) => category.id === current) ? current : 'all';
+        });
+
         setForm((current) => {
           if (current.categoryId) {
             return current;
@@ -203,20 +213,33 @@ const AdminPanel = () => {
     setProductsLoading(true);
 
     try {
-      const productsQuery = cursor
-        ? query(
-            collectionGroup(db, 'items'),
-            orderBy('categorySortName', 'asc'),
-            orderBy('productSortName', 'asc'),
-            startAfter(cursor),
-            limit(PRODUCTS_PAGE_SIZE + 1),
-          )
-        : query(
-            collectionGroup(db, 'items'),
-            orderBy('categorySortName', 'asc'),
-            orderBy('productSortName', 'asc'),
-            limit(PRODUCTS_PAGE_SIZE + 1),
-          );
+      const productsQuery = selectedLibraryCategoryId === 'all'
+        ? cursor
+          ? query(
+              collectionGroup(db, 'items'),
+              orderBy('categorySortName', 'asc'),
+              orderBy('productSortName', 'asc'),
+              startAfter(cursor),
+              limit(PRODUCTS_PAGE_SIZE + 1),
+            )
+          : query(
+              collectionGroup(db, 'items'),
+              orderBy('categorySortName', 'asc'),
+              orderBy('productSortName', 'asc'),
+              limit(PRODUCTS_PAGE_SIZE + 1),
+            )
+        : cursor
+          ? query(
+              collection(db, 'products', selectedLibraryCategoryId, 'items'),
+              orderBy('productSortName', 'asc'),
+              startAfter(cursor),
+              limit(PRODUCTS_PAGE_SIZE + 1),
+            )
+          : query(
+              collection(db, 'products', selectedLibraryCategoryId, 'items'),
+              orderBy('productSortName', 'asc'),
+              limit(PRODUCTS_PAGE_SIZE + 1),
+            );
 
       const snapshot = await getDocs(productsQuery);
       const hasExtraDocument = snapshot.docs.length > PRODUCTS_PAGE_SIZE;
@@ -243,7 +266,7 @@ const AdminPanel = () => {
     }
 
     void loadProductPage(null, 0);
-  }, [adminUser]);
+  }, [adminUser, selectedLibraryCategoryId]);
 
   useEffect(() => {
     if (!selectedImage) {
@@ -529,6 +552,14 @@ const AdminPanel = () => {
     await loadProductPage(previousCursor, previousPageIndex);
   };
 
+  const handleLibraryCategoryChange = (categoryId: string) => {
+    setSelectedLibraryCategoryId(categoryId);
+    setPageIndex(0);
+    setHasNextPage(false);
+    setPageCursors([null]);
+    setCurrentLastVisible(null);
+  };
+
   if (authLoading) {
     return (
       <div className="min-h-screen bg-[#090d1a] text-white grid place-items-center px-6">
@@ -587,14 +618,17 @@ const AdminPanel = () => {
         return (
           <ProductListPanel
             products={products}
+            categories={categories}
             productsLoading={productsLoading}
             libraryError={libraryError}
             deletingProductId={deletingProductId}
             pageIndex={pageIndex}
             hasNextPage={hasNextPage}
             hasPreviousPage={pageIndex > 0}
+            selectedCategoryId={selectedLibraryCategoryId}
             onEditProduct={handleEditProduct}
             onDeleteProduct={handleDeleteProduct}
+            onCategoryChange={handleLibraryCategoryChange}
             onNextPage={handleNextPage}
             onPreviousPage={handlePreviousPage}
           />
