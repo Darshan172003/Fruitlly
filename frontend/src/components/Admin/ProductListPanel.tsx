@@ -121,7 +121,7 @@ const ProductListPanel = ({
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {products.map((product) => (
               <article key={`${product.categoryId}-${product.id}`} className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 shadow-sm">
-                <div className="relative aspect-[4/3] overflow-hidden bg-slate-200">
+                <div className="relative aspect-4/3 overflow-hidden bg-slate-200">
                   <span className="absolute left-4 top-4 z-10 rounded-full bg-white/95 px-3 py-1 text-[11px] font-black uppercase tracking-[0.2em] text-slate-900 shadow-sm">
                     {product.categoryName}
                   </span>
