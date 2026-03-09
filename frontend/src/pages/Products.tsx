@@ -1,149 +1,228 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
-import { Package, ShieldCheck, Truck, FlaskConical, Download, Mail, Search } from 'lucide-react';
+import { Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { collectionGroup, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { db } from '../lib/firebase';
+import { groupProductsByCategory, mapProductDocument } from '../lib/productCatalog';
+import type { Product, ProductCategoryGroup } from '../types/product';
 
 const Products = () => {
-  const productFeatures = [
-    {
-      title: "Premium Sugar Coating",
-      description: "Fine granulated coating for a satisfying crunch and sweet finish.",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD_TVdlDxCmpzRfddV-x-96rsmPODnqEbT-8-Q1wRHbN0P8OSRX4GQHdoO7123TQNjb5rGeWEx3U5FF-MLbdmJFBvKAoyMtzsoma4fmYZ72COP9Ah-nG14R1DuIawKNnk8GjNOoAunTAvWTCGsb9aMOC7oB-7I2m_KFNZ7Rb9kNmX2T-8P9YVW3dMD9P6D-FxIInLstzN6jjDq_XWb95Rw4ZDgn4hPPkW3znAT85fqdipCPkCyDB6THSLaKmvwoDCVbNsBwQDdWXxwF"
-    },
-    {
-      title: "Multiple Flavors & Colors",
-      description: "Available in strawberry, orange, lemon, and lime assortments.",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCA12WQTi3UJg-rKbX1pMHruMDjdnaywT246pId1_kmkoGGH5KYgd_DWIe-pKJVCgjZEymaBbWw6BJJ7z8y5zoYVHE8hiZEw4L3yCvk6NCdMr2Upj8Pvpxb_oaJD8m2ln-i-roEEpKTstIN0QtIdMJXhKrbptDsOB1vV-HnfymekwHcedMElxqmC_UpyQ-c4GUoMT86mqoKTHMXbCNT1TJvupH7gkEYaLEwlg1UQR5cMuvqxlsAOz3MlPq7zYcifcYpxBDp3UkFhey5"
-    },
-    {
-      title: "B2B Ready Supply",
-      description: "Optimized for high-volume orders with consistent batch quality.",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBXqxFBoHjmleCqNzTq9MfPBkAU3vkr_Zaatwylk-AE8YSHOMwrSGlwqin79OGK_qyjJW8fWZNUdemUxEe8_0P7knJBwgqPz_JLcB6V1BPYnFh2t74J8UPhg3hyzCfGBBA-pcohiYllgixanpV925goiDZBtF8fqagraEWcxIYylHTVgUpXxh8bQ68piAEok-j3Qt93n6_RWUFZVkJkb4Xbx3E07DbWSvMbwyiaI0CsLPBH_JUiwIo1x_zzG9XuBf0bMeVwUsi1alwC"
-    },
-    {
-      title: "Professional FMCG Grade",
-      description: "Compliant with international food safety and hygiene standards.",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBNdtyE0jmHpqbw_iU726iX6LU1bqG1I00wfg1ssgR8pyJ46-iITKV_VNxeY8jYbpk1y6qSm7r9ZM4MJhDET3_4pwFnu1z17Gt_7UCV8bLku6ecnIb4NKmsVbCGWKdlEe20RAaAg1aCa1aZifFI2rGPW9aa0uc2-YRho8s1SdbNXxj4O-5r04rgiq-t5BzxIx0uWrGsHGR8hNYAcLf6l4Kzt6RGzxOKV2DlkXs9uIhhvTqmjzuEeRY9GmfIifMJYmyH0zt0KCJgF6dW"
-    }
-  ];
+  const [products, setProducts] = useState<Product[]>([]);
+  const [groupedProducts, setGroupedProducts] = useState<ProductCategoryGroup[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState('all');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const specs = [
-    {
-      label: "Ingredients",
-      value: "Sugar, Natural Fruit Pulp, Pectin, Citric Acid, Food Grade Stabilizers, Permitted Synthetic Colors"
-    },
-    {
-      label: "Texture Profile",
-      value: "Dual-texture: Soft, melt-in-mouth pectin center with a crystal sugar exterior coating."
-    },
-    {
-      label: "Bulk Packaging",
-      value: "5kg Laminated Bags, 20kg Master Cartons, Custom Private Labeling (OEM) Options."
-    },
-    {
-      label: "Shelf Life & Storage",
-      value: "12 Months from manufacture. Store in cool, dry place away from direct sunlight."
-    }
-  ];
+  useEffect(() => {
+    const productsQuery = query(collectionGroup(db, 'items'), orderBy('categorySortName', 'asc'), orderBy('productSortName', 'asc'));
+
+    const unsubscribe = onSnapshot(
+      productsQuery,
+      (snapshot) => {
+        const nextProducts = snapshot.docs.map(mapProductDocument);
+        const nextGroupedProducts = groupProductsByCategory(nextProducts);
+
+        setProducts(nextProducts);
+        setGroupedProducts(nextGroupedProducts);
+        setSelectedCategoryId((current) => {
+          if (current === 'all') {
+            return current;
+          }
+
+          if (current && nextGroupedProducts.some((group) => group.categoryId === current)) {
+            return current;
+          }
+
+          return 'all';
+        });
+        setLoading(false);
+        setError('');
+      },
+      () => {
+        setLoading(false);
+        setError('We could not load the product catalog right now.');
+      },
+    );
+
+    return () => unsubscribe();
+  }, []);
+
+  const selectedCategory = selectedCategoryId === 'all'
+    ? null
+    : groupedProducts.find((group) => group.categoryId === selectedCategoryId) ?? null;
+
+  const visibleProducts = selectedCategory
+    ? selectedCategory.products
+    : products;
 
   return (
-    <div className="bg-white">
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-12">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-2xl"
-          >
-            <span className="text-primary font-bold uppercase tracking-widest text-sm mb-4 block">
-              Premium Confectionery
-            </span>
-            <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight leading-tight">
-              Sugar Coated Jelly Cubes
-            </h1>
-            <p className="text-lg text-slate-600 leading-relaxed">
-              Wholesale confectionery supply for retailers and distributors worldwide by Tulsi Foods.
-            </p>
-          </motion.div>
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
-          >
-            Inquire for Bulk Supply
-          </motion.button>
-        </div>
+    <div className="bg-linear-to-b from-[#fffaf4] via-white to-[#fff4ec]">
+      <section className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(circle_at_top,#ffd7c5_0%,rgba(255,255,255,0)_68%)]" />
+        <div className="pointer-events-none absolute right-0 top-12 h-72 w-72 rounded-full bg-primary/8 blur-3xl" />
+        <div className="pointer-events-none absolute left-0 top-20 h-72 w-72 rounded-full bg-accent-green/10 blur-3xl" />
 
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {productFeatures.map((feature, index) => (
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-24">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-12">
             <motion.div
-              key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="group cursor-pointer"
+              className="max-w-3xl"
             >
-              <div className="relative aspect-square rounded-2xl overflow-hidden mb-4 shadow-sm group-hover:shadow-xl transition-all duration-300">
-                <img
-                  src={feature.image}
-                  alt={feature.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">{feature.title}</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">{feature.description}</p>
+              <span className="inline-flex rounded-full border border-primary/15 bg-white/80 px-4 py-2 text-primary font-bold uppercase tracking-[0.25em] text-xs mb-5">
+                Fruitlly Catalog
+              </span>
+              <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight leading-tight">
+                Premium jelly products crafted for wholesale and retail shelves.
+              </h1>
+              <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl">
+                Browse the live Fruitlly range with product names, images, and short descriptions. The hero section stays fixed while products update from the admin panel.
+              </p>
             </motion.div>
-          ))}
-        </div>
-      </section>
 
-      {/* Technical Specifications */}
-      <section className="bg-slate-50 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-4xl p-8 md:p-12 shadow-sm border border-slate-100">
-            <h2 className="text-3xl font-bold text-slate-900 mb-12 flex items-center gap-3">
-              <Package className="text-primary" />
-              Technical Specifications
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
-              {specs.map((spec, index) => (
-                <div key={index} className="border-t border-slate-100 pt-6">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">
-                    {spec.label}
-                  </span>
-                  <p className="text-lg font-medium text-slate-800 leading-relaxed">
-                    {spec.value}
-                  </p>
-                </div>
-              ))}
-            </div>
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full md:w-auto"
+            >
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
+              >
+                Inquire for Bulk Supply
+              </Link>
+            </motion.div>
           </div>
+
+          {loading && (
+            <div className="rounded-3xl border border-slate-200 bg-white px-6 py-16 text-center text-slate-600 shadow-sm">
+              Loading products...
+            </div>
+          )}
+
+          {!loading && error && (
+            <div className="rounded-3xl border border-red-100 bg-red-50 px-6 py-16 text-center text-red-700">
+              {error}
+            </div>
+          )}
+
+          {!loading && !error && products.length === 0 && (
+            <div className="rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center shadow-sm">
+              <h2 className="text-2xl font-bold text-slate-900 mb-3">Products will appear here</h2>
+              <p className="text-slate-600 max-w-2xl mx-auto">
+                Add your first product from the hidden admin route to publish the catalog on this page.
+              </p>
+            </div>
+          )}
+
+          {!loading && !error && groupedProducts.length > 0 && (
+            <div className="space-y-8">
+              <div className="border-b border-slate-200 pb-8">
+                <div className="flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedCategoryId('all')}
+                    className={`rounded-full border px-6 py-3 text-sm font-bold transition ${selectedCategoryId === 'all' ? 'border-primary bg-primary text-white shadow-lg shadow-primary/20' : 'border-slate-200 bg-white text-slate-700 hover:border-primary/30 hover:text-primary'}`}
+                  >
+                    All Products
+                  </button>
+
+                  {groupedProducts.map((group) => {
+                    const isActive = group.categoryId === selectedCategoryId;
+
+                    return (
+                      <button
+                        key={group.categoryId}
+                        type="button"
+                        onClick={() => setSelectedCategoryId(group.categoryId)}
+                        className={`rounded-full border px-6 py-3 text-sm font-bold transition ${isActive ? 'border-primary bg-primary text-white shadow-lg shadow-primary/20' : 'border-slate-200 bg-white text-slate-700 hover:border-primary/30 hover:text-primary'}`}
+                      >
+                        {group.categoryName}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <section className="space-y-6">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <span className="inline-flex rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-xs font-bold uppercase tracking-[0.25em] text-slate-500">
+                      {selectedCategory ? selectedCategory.categoryName : 'All Categories'}
+                    </span>
+                    <h2 className="mt-4 text-3xl font-black text-slate-900">
+                      {selectedCategory ? `${selectedCategory.categoryName} Products` : 'All Products'}
+                    </h2>
+                  </div>
+
+                  <div className="rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-slate-600 shadow-sm">
+                    Showing {visibleProducts.length} product{visibleProducts.length === 1 ? '' : 's'}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4">
+                  {visibleProducts.map((product, index) => (
+                    <motion.div
+                      key={`${product.categoryId}-${product.id}`}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.08 }}
+                      className="h-full"
+                    >
+                      <Link
+                        to={`/products/${product.categoryId}/${product.id}`}
+                        className="group flex h-full flex-col overflow-hidden rounded-4xl border border-[#f3e8df] bg-white shadow-[0_18px_45px_rgba(34,24,14,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_65px_rgba(34,24,14,0.14)]"
+                      >
+                        <div className="relative aspect-4/3 overflow-hidden bg-slate-100">
+                          <span className="absolute left-5 top-5 z-10 rounded-2xl bg-white/90 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-slate-900 shadow-sm">
+                            {product.categoryName}
+                          </span>
+                          <img
+                            src={product.imageUrl}
+                            alt={product.title}
+                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            referrerPolicy="no-referrer"
+                          />
+                          <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent" />
+                        </div>
+                        <div className="flex flex-1 flex-col p-6 md:p-7">
+                          <h3 className="text-2xl font-bold text-slate-900 leading-tight">{product.title}</h3>
+                          <p className="mt-3 flex-1 text-base text-slate-700 leading-relaxed">{product.shortDescription}</p>
+                          <div className="mt-6 border-t border-slate-100 pt-5">
+                            <span className="inline-flex items-center text-base font-bold text-primary transition group-hover:translate-x-1">
+                              View Details
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              </section>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Wholesale Catalog CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="bg-primary/5 rounded-4xl p-8 md:p-16 border border-primary/10 flex flex-col lg:flex-row items-center justify-between gap-12">
+        <div className="flex flex-col items-center justify-between gap-12 rounded-4xl border border-slate-200 bg-white p-8 shadow-[0_20px_50px_rgba(15,23,42,0.06)] md:p-16 lg:flex-row">
           <div className="max-w-2xl text-center lg:text-left">
-            <h2 className="text-3xl font-bold text-primary mb-6">Request a Wholesale Catalog</h2>
-            <p className="text-lg text-slate-700 leading-relaxed">
-              Interested in exploring our full range of confectionery products? Get in touch for our 
-              latest product catalog, certifications, and volume-based pricing structures for global 
+            <h2 className="mb-6 text-3xl font-black text-slate-900">Request a Wholesale Catalog</h2>
+            <p className="text-lg leading-relaxed text-slate-700">
+              Interested in exploring our full range of confectionery products? Get in touch for our
+              latest product catalog, certifications, and volume-based pricing structures for global
               distribution.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-            <button className="flex items-center justify-center gap-2 bg-slate-900 text-white px-8 py-4 rounded-xl font-bold hover:bg-slate-800 transition-all">
-              <Download size={20} />
-              Download PDF
-            </button>
-            <button className="flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-xl font-bold hover:bg-primary/90 transition-all">
+            <Link
+              to="/contact"
+              className="flex items-center justify-center gap-2 rounded-2xl bg-primary px-8 py-4 font-bold text-white transition-all hover:bg-primary/90"
+            >
               <Mail size={20} />
               Contact Sales
-            </button>
+            </Link>
           </div>
         </div>
       </section>
