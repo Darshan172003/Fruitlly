@@ -9,6 +9,7 @@ import TermsAndConditions from './pages/TermsAndConditions';
 import FAQ from './pages/FAQ';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Blog from './pages/Blog';
+import BlogDetails from './pages/BlogDetails';
 import Recipes from './pages/Recipes';
 import Products from './pages/Products';
 import ProductDetails from './pages/ProductDetails';
@@ -43,6 +44,7 @@ const AppShell = () => {
           <Route path="/faq" element={<FAQ />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:postId" element={<BlogDetails />} />
           <Route path="/recipes" element={<Recipes />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:categoryId/:productId" element={<ProductDetails />} />

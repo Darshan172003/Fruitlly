@@ -32,10 +32,13 @@ import {
   uploadBytes,
 } from 'firebase/storage';
 import { auth, db, storage } from '../lib/firebase';
+import type { BlogPost } from '../types/blog';
 import type { Product } from '../types/product';
 import type { Recipe } from '../types/recipe';
 import {
   AdminLogin,
+  BlogFormPanel,
+  BlogListPanel,
   RecipeFormPanel,
   RecipeListPanel,
   AdminShell,
@@ -43,11 +46,13 @@ import {
   ProductListPanel,
   type AdminSectionId,
   type AdminSidebarItem,
+  type BlogFormState,
   type CategoryFormState,
   type CategoryOption,
   type ProductFormState,
   type RecipeFormState,
 } from '../components/Admin';
+import { getBlogCategoryColor, getBlogCategoryId, getBlogPlainText, getBlogReadTime, mapBlogDocument } from '../lib/blogs';
 import { mapCategoryDocument, mapProductDocument, slugifyValue } from '../lib/productCatalog';
 import { extractYouTubeVideoId, getRecipeThumbnail, mapRecipeDocument } from '../lib/recipes';
 
@@ -71,6 +76,15 @@ const emptyRecipeForm: RecipeFormState = {
   duration: '',
 };
 
+const emptyBlogForm: BlogFormState = {
+  title: '',
+  category: '',
+  excerpt: '',
+  content: '',
+  imageUrl: '',
+  imagePath: '',
+};
+
 const normalizeError = (message: unknown) => {
   if (message instanceof Error) {
     return message.message;
@@ -81,6 +95,7 @@ const normalizeError = (message: unknown) => {
 
 const PRODUCTS_PAGE_SIZE = 6;
 const RECIPES_PAGE_SIZE = 6;
+const BLOGS_PAGE_SIZE = 6;
 
 const sidebarItems: AdminSidebarItem[] = [
   {
@@ -107,6 +122,18 @@ const sidebarItems: AdminSidebarItem[] = [
     description: 'Manage recipe videos',
     icon: <HiOutlineQueueList size={18} />,
   },
+  {
+    id: 'add-blog',
+    label: 'Add Blog Post',
+    description: 'Create blog content',
+    icon: <HiOutlinePlus size={18} />,
+  },
+  {
+    id: 'blog-library',
+    label: 'Blog Library',
+    description: 'Manage blog posts',
+    icon: <HiOutlineQueueList size={18} />,
+  },
 ];
 
 const sectionContent: Record<AdminSectionId, { title: string; description: string }> = {
@@ -125,6 +152,14 @@ const sectionContent: Record<AdminSectionId, { title: string; description: strin
   'recipe-library': {
     title: 'Recipe Library',
     description: 'Edit or remove the recipe videos shown on the public recipes page.',
+  },
+  'add-blog': {
+    title: 'Add Blog Post',
+    description: 'Create blog posts with cover images, excerpts, and formatted article content.',
+  },
+  'blog-library': {
+    title: 'Blog Library',
+    description: 'Edit or remove blog posts shown on the public blog page.',
   },
 };
 
@@ -172,6 +207,21 @@ const AdminPanel = () => {
   const [savingRecipe, setSavingRecipe] = useState(false);
   const [editingRecipeId, setEditingRecipeId] = useState('');
   const [deletingRecipeId, setDeletingRecipeId] = useState('');
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+  const [blogsLoading, setBlogsLoading] = useState(true);
+  const [blogsError, setBlogsError] = useState('');
+  const [blogPageIndex, setBlogPageIndex] = useState(0);
+  const [blogHasNextPage, setBlogHasNextPage] = useState(false);
+  const [blogPageCursors, setBlogPageCursors] = useState<Array<QueryDocumentSnapshot<DocumentData> | null>>([null]);
+  const [blogCurrentLastVisible, setBlogCurrentLastVisible] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+  const [blogForm, setBlogForm] = useState<BlogFormState>(emptyBlogForm);
+  const [blogSelectedImage, setBlogSelectedImage] = useState<File | null>(null);
+  const [blogPreviewUrl, setBlogPreviewUrl] = useState('');
+  const [blogFormError, setBlogFormError] = useState('');
+  const [blogFormSuccess, setBlogFormSuccess] = useState('');
+  const [savingBlog, setSavingBlog] = useState(false);
+  const [editingBlogId, setEditingBlogId] = useState('');
+  const [deletingBlogId, setDeletingBlogId] = useState('');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -204,6 +254,20 @@ const AdminPanel = () => {
       setRecipeHasNextPage(false);
       setRecipePageCursors([null]);
       setRecipeCurrentLastVisible(null);
+      setBlogs([]);
+      setBlogsLoading(false);
+      setBlogsError('');
+      setBlogPageIndex(0);
+      setBlogHasNextPage(false);
+      setBlogPageCursors([null]);
+      setBlogCurrentLastVisible(null);
+      setBlogForm(emptyBlogForm);
+      setBlogSelectedImage(null);
+      setBlogPreviewUrl('');
+      setBlogFormError('');
+      setBlogFormSuccess('');
+      setEditingBlogId('');
+      setDeletingBlogId('');
       setRecipeForm(emptyRecipeForm);
       setRecipeFormError('');
       setRecipeFormSuccess('');
@@ -220,6 +284,10 @@ const AdminPanel = () => {
     setRecipeHasNextPage(false);
     setRecipePageCursors([null]);
     setRecipeCurrentLastVisible(null);
+    setBlogPageIndex(0);
+    setBlogHasNextPage(false);
+    setBlogPageCursors([null]);
+    setBlogCurrentLastVisible(null);
   }, [adminUser]);
 
   useEffect(() => {
@@ -359,6 +427,45 @@ const AdminPanel = () => {
     }
   };
 
+  const loadBlogPage = async (
+    cursor: QueryDocumentSnapshot<DocumentData> | null,
+    nextPageIndex: number,
+  ) => {
+    setBlogsLoading(true);
+
+    try {
+      const blogsQuery = cursor
+        ? query(
+            collection(db, 'blogs'),
+            orderBy('publishedAt', 'desc'),
+            startAfter(cursor),
+            limit(BLOGS_PAGE_SIZE + 1),
+          )
+        : query(
+            collection(db, 'blogs'),
+            orderBy('publishedAt', 'desc'),
+            limit(BLOGS_PAGE_SIZE + 1),
+          );
+
+      const snapshot = await getDocs(blogsQuery);
+      const hasExtraDocument = snapshot.docs.length > BLOGS_PAGE_SIZE;
+      const visibleDocuments = hasExtraDocument ? snapshot.docs.slice(0, BLOGS_PAGE_SIZE) : snapshot.docs;
+
+      setBlogs(visibleDocuments.map(mapBlogDocument));
+      setBlogHasNextPage(hasExtraDocument);
+      setBlogCurrentLastVisible(visibleDocuments.length > 0 ? visibleDocuments[visibleDocuments.length - 1] : null);
+      setBlogPageIndex(nextPageIndex);
+      setBlogsError('');
+
+      return { visibleCount: visibleDocuments.length };
+    } catch (error) {
+      setBlogsError(normalizeError(error));
+      return { visibleCount: 0 };
+    } finally {
+      setBlogsLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (!adminUser) {
       return;
@@ -376,6 +483,14 @@ const AdminPanel = () => {
   }, [adminUser]);
 
   useEffect(() => {
+    if (!adminUser) {
+      return;
+    }
+
+    void loadBlogPage(null, 0);
+  }, [adminUser]);
+
+  useEffect(() => {
     if (!selectedImage) {
       setPreviewUrl('');
       return;
@@ -388,6 +503,20 @@ const AdminPanel = () => {
       URL.revokeObjectURL(nextPreviewUrl);
     };
   }, [selectedImage]);
+
+  useEffect(() => {
+    if (!blogSelectedImage) {
+      setBlogPreviewUrl('');
+      return;
+    }
+
+    const nextPreviewUrl = URL.createObjectURL(blogSelectedImage);
+    setBlogPreviewUrl(nextPreviewUrl);
+
+    return () => {
+      URL.revokeObjectURL(nextPreviewUrl);
+    };
+  }, [blogSelectedImage]);
 
   const resetForm = () => {
     setForm({
@@ -404,6 +533,14 @@ const AdminPanel = () => {
     setRecipeFormError('');
     setRecipeFormSuccess('');
     setEditingRecipeId('');
+  };
+
+  const resetBlogForm = () => {
+    setBlogForm(emptyBlogForm);
+    setBlogSelectedImage(null);
+    setBlogFormError('');
+    setBlogFormSuccess('');
+    setEditingBlogId('');
   };
 
   const refreshCurrentPage = async () => {
@@ -428,6 +565,17 @@ const AdminPanel = () => {
     }
   };
 
+  const refreshCurrentBlogPage = async () => {
+    const cursor = blogPageIndex === 0 ? null : blogPageCursors[blogPageIndex] ?? null;
+    const result = await loadBlogPage(cursor, blogPageIndex);
+
+    if (result.visibleCount === 0 && blogPageIndex > 0) {
+      const previousPageIndex = blogPageIndex - 1;
+      const previousCursor = previousPageIndex === 0 ? null : blogPageCursors[previousPageIndex] ?? null;
+      await loadBlogPage(previousCursor, previousPageIndex);
+    }
+  };
+
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmittingLogin(true);
@@ -446,6 +594,7 @@ const AdminPanel = () => {
     await signOut(auth);
     resetForm();
     resetRecipeForm();
+    resetBlogForm();
   };
 
   const handleCategoryCreate = async () => {
@@ -547,6 +696,11 @@ const AdminPanel = () => {
   const handleImageSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] ?? null;
     setSelectedImage(file);
+  };
+
+  const handleBlogImageSelect = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] ?? null;
+    setBlogSelectedImage(file);
   };
 
   const handleEditProduct = (product: Product) => {
@@ -726,6 +880,48 @@ const AdminPanel = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleEditBlog = (blog: BlogPost) => {
+    setActiveSection('add-blog');
+    setEditingBlogId(blog.id);
+    setBlogSelectedImage(null);
+    setBlogForm({
+      title: blog.title,
+      category: blog.category,
+      excerpt: blog.excerpt,
+      content: blog.content,
+      imageUrl: blog.imageUrl,
+      imagePath: blog.imagePath,
+    });
+    setBlogFormError('');
+    setBlogFormSuccess('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const uploadBlogImageIfNeeded = async () => {
+    const blogId = slugifyValue(blogForm.title);
+
+    if (!blogSelectedImage) {
+      return {
+        imageUrl: blogForm.imageUrl,
+        imagePath: blogForm.imagePath,
+      };
+    }
+
+    const fileName = `${Date.now()}-${blogSelectedImage.name.replace(/\s+/g, '-').toLowerCase()}`;
+    const imageRef = ref(storage, `blogs/${blogId}/${fileName}`);
+    await uploadBytes(imageRef, blogSelectedImage);
+    const downloadUrl = await getDownloadURL(imageRef);
+
+    if (editingBlogId && blogForm.imagePath) {
+      await deleteObject(ref(storage, blogForm.imagePath)).catch(() => undefined);
+    }
+
+    return {
+      imageUrl: downloadUrl,
+      imagePath: imageRef.fullPath,
+    };
+  };
+
   const handleSaveRecipe = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -819,6 +1015,111 @@ const AdminPanel = () => {
     }
   };
 
+  const handleSaveBlog = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!adminUser) {
+      setBlogFormError('Please sign in again.');
+      return;
+    }
+
+    if (!editingBlogId && !blogSelectedImage) {
+      setBlogFormError('Please choose a blog cover image before saving.');
+      return;
+    }
+
+    setSavingBlog(true);
+    setBlogFormError('');
+    setBlogFormSuccess('');
+
+    try {
+      const title = blogForm.title.trim();
+      const category = blogForm.category.trim();
+      const excerpt = blogForm.excerpt.trim();
+      const content = blogForm.content.trim();
+      const contentText = getBlogPlainText(content);
+
+      if (!title || !category || !excerpt || !contentText) {
+        throw new Error('Complete all blog fields before saving.');
+      }
+
+      const blogId = slugifyValue(title);
+      if (!blogId) {
+        throw new Error('Use letters or numbers in the blog title.');
+      }
+
+      const imageData = await uploadBlogImageIfNeeded();
+      const categoryId = getBlogCategoryId(category);
+      const nextBlogRef = doc(db, 'blogs', blogId);
+      const payload: Record<string, unknown> = {
+        title,
+        excerpt,
+        content,
+        category,
+        categoryId,
+        categoryColor: getBlogCategoryColor(categoryId),
+        imageUrl: imageData.imageUrl,
+        imagePath: imageData.imagePath,
+        readTime: getBlogReadTime(content),
+        sortTitle: title.toLowerCase(),
+        updatedAt: serverTimestamp(),
+      };
+
+      if (!editingBlogId) {
+        payload.createdAt = serverTimestamp();
+        payload.publishedAt = serverTimestamp();
+      }
+
+      await setDoc(nextBlogRef, payload, { merge: true });
+
+      if (editingBlogId && editingBlogId !== blogId) {
+        await deleteDoc(doc(db, 'blogs', editingBlogId));
+      }
+
+      setBlogPageCursors((current) => current.slice(0, blogPageIndex + 1));
+      await refreshCurrentBlogPage();
+      setBlogForm(emptyBlogForm);
+      setBlogSelectedImage(null);
+      setEditingBlogId('');
+      setBlogFormSuccess(editingBlogId ? 'Blog post updated successfully.' : 'Blog post created successfully.');
+    } catch (error) {
+      setBlogFormError(normalizeError(error));
+    } finally {
+      setSavingBlog(false);
+    }
+  };
+
+  const handleDeleteBlog = async (blog: BlogPost) => {
+    const confirmed = window.confirm(`Delete ${blog.title}? This cannot be undone.`);
+    if (!confirmed) {
+      return;
+    }
+
+    setDeletingBlogId(blog.id);
+    setBlogFormError('');
+    setBlogFormSuccess('');
+
+    try {
+      await deleteDoc(doc(db, 'blogs', blog.id));
+
+      if (blog.imagePath) {
+        await deleteObject(ref(storage, blog.imagePath)).catch(() => undefined);
+      }
+
+      if (editingBlogId === blog.id) {
+        resetBlogForm();
+      }
+
+      setBlogPageCursors((current) => current.slice(0, blogPageIndex + 1));
+      await refreshCurrentBlogPage();
+      setBlogFormSuccess('Blog post deleted successfully.');
+    } catch (error) {
+      setBlogFormError(normalizeError(error));
+    } finally {
+      setDeletingBlogId('');
+    }
+  };
+
   const handleNextPage = async () => {
     if (!hasNextPage || !currentLastVisible) {
       return;
@@ -867,6 +1168,30 @@ const AdminPanel = () => {
     await loadRecipePage(previousCursor, previousPageIndex);
   };
 
+  const handleNextBlogPage = async () => {
+    if (!blogHasNextPage || !blogCurrentLastVisible) {
+      return;
+    }
+
+    setBlogPageCursors((current) => {
+      const next = [...current];
+      next[blogPageIndex + 1] = blogCurrentLastVisible;
+      return next;
+    });
+
+    await loadBlogPage(blogCurrentLastVisible, blogPageIndex + 1);
+  };
+
+  const handlePreviousBlogPage = async () => {
+    if (blogPageIndex === 0) {
+      return;
+    }
+
+    const previousPageIndex = blogPageIndex - 1;
+    const previousCursor = previousPageIndex === 0 ? null : blogPageCursors[previousPageIndex] ?? null;
+    await loadBlogPage(previousCursor, previousPageIndex);
+  };
+
   const handleLibraryCategoryChange = (categoryId: string) => {
     setSelectedLibraryCategoryId(categoryId);
     setPageIndex(0);
@@ -906,6 +1231,10 @@ const AdminPanel = () => {
 
   const handleRecipeFormChange = (field: keyof RecipeFormState, value: string) => {
     setRecipeForm((current) => ({ ...current, [field]: value }));
+  };
+
+  const handleBlogFormChange = (field: keyof BlogFormState, value: string) => {
+    setBlogForm((current) => ({ ...current, [field]: value }));
   };
 
   const handleMoqChange = (index: number, value: string) => {
@@ -1014,6 +1343,38 @@ const AdminPanel = () => {
             onDeleteRecipe={handleDeleteRecipe}
             onNextPage={handleNextRecipePage}
             onPreviousPage={handlePreviousRecipePage}
+          />
+        );
+      case 'add-blog':
+        return (
+          <BlogFormPanel
+            editingBlogId={editingBlogId}
+            form={blogForm}
+            selectedImage={blogSelectedImage}
+            previewUrl={blogPreviewUrl}
+            formError={blogFormError}
+            formSuccess={blogFormSuccess}
+            savingBlog={savingBlog}
+            onImageSelect={handleBlogImageSelect}
+            onFormChange={handleBlogFormChange}
+            onCancelEdit={resetBlogForm}
+            onSubmit={handleSaveBlog}
+          />
+        );
+      case 'blog-library':
+        return (
+          <BlogListPanel
+            blogs={blogs}
+            blogsLoading={blogsLoading}
+            blogsError={blogsError}
+            deletingBlogId={deletingBlogId}
+            pageIndex={blogPageIndex}
+            hasNextPage={blogHasNextPage}
+            hasPreviousPage={blogPageIndex > 0}
+            onEditBlog={handleEditBlog}
+            onDeleteBlog={handleDeleteBlog}
+            onNextPage={handleNextBlogPage}
+            onPreviousPage={handlePreviousBlogPage}
           />
         );
       default:

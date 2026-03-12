@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { ProductCategory } from '../../types/product';
 
-export type AdminSectionId = 'add-product' | 'catalog' | 'add-recipe' | 'recipe-library';
+export type AdminSectionId = 'add-product' | 'catalog' | 'add-recipe' | 'recipe-library' | 'add-blog' | 'blog-library';
 
 export interface ProductFormState {
   categoryId: string;
@@ -17,6 +17,15 @@ export interface RecipeFormState {
   description: string;
   youtubeUrl: string;
   duration: string;
+}
+
+export interface BlogFormState {
+  title: string;
+  category: string;
+  excerpt: string;
+  content: string;
+  imageUrl: string;
+  imagePath: string;
 }
 
 export interface AdminSidebarItem {
