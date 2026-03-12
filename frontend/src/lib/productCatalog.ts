@@ -1,6 +1,20 @@
 import type { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import type { Product, ProductCategory, ProductCategoryGroup } from '../types/product';
 
+const mapMoqValues = (value: unknown): string[] => {
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => String(item ?? '').trim())
+      .filter(Boolean);
+  }
+
+  if (typeof value === 'string' && value.trim()) {
+    return [value.trim()];
+  }
+
+  return [];
+};
+
 export const slugifyValue = (value: string) => {
   return value
     .trim()
@@ -25,13 +39,9 @@ export const mapProductData = (id: string, data: DocumentData, parentCategoryId:
     productSortName: String(data.productSortName ?? id),
     title: String(data.title ?? ''),
     shortDescription: String(data.shortDescription ?? ''),
-    description: String(data.description ?? ''),
     imageUrl: String(data.imageUrl ?? ''),
     imagePath: String(data.imagePath ?? ''),
-    ingredients: String(data.ingredients ?? ''),
-    textureProfile: String(data.textureProfile ?? ''),
-    bulkPackaging: String(data.bulkPackaging ?? ''),
-    shelfLifeStorage: String(data.shelfLifeStorage ?? ''),
+    moqs: mapMoqValues(data.moqs),
   };
 };
 

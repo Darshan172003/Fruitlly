@@ -1,5 +1,5 @@
 import React, { type ChangeEvent, type FormEvent } from 'react';
-import { HiOutlineCloudArrowUp, HiOutlineFolderPlus, HiOutlinePlus } from 'react-icons/hi2';
+import { HiOutlineCloudArrowUp, HiOutlineFolderPlus, HiOutlinePlus, HiOutlineTrash } from 'react-icons/hi2';
 import { ImSpinner8 } from 'react-icons/im';
 import type { CategoryFormState, CategoryOption, ProductFormState } from './types';
 
@@ -11,6 +11,7 @@ interface ProductFormPanelProps {
   categoriesLoading: boolean;
   categoryError: string;
   savingCategory: boolean;
+  deletingCategoryId: string;
   selectedImage: File | null;
   previewUrl: string;
   formError: string;
@@ -18,9 +19,13 @@ interface ProductFormPanelProps {
   savingProduct: boolean;
   onCategoryFormChange: (value: string) => void;
   onCreateCategory: () => void;
+  onDeleteCategory: (categoryId: string, categoryName: string) => void;
   onCancelEdit: () => void;
   onImageSelect: (event: ChangeEvent<HTMLInputElement>) => void;
   onFormChange: (field: keyof ProductFormState, value: string) => void;
+  onMoqChange: (index: number, value: string) => void;
+  onAddMoq: () => void;
+  onRemoveMoq: (index: number) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }
 
@@ -32,6 +37,7 @@ const ProductFormPanel = ({
   categoriesLoading,
   categoryError,
   savingCategory,
+  deletingCategoryId,
   selectedImage,
   previewUrl,
   formError,
@@ -39,9 +45,13 @@ const ProductFormPanel = ({
   savingProduct,
   onCategoryFormChange,
   onCreateCategory,
+  onDeleteCategory,
   onCancelEdit,
   onImageSelect,
   onFormChange,
+  onMoqChange,
+  onAddMoq,
+  onRemoveMoq,
   onSubmit,
 }: ProductFormPanelProps) => {
   return (
@@ -85,6 +95,45 @@ const ProductFormPanel = ({
               {savingCategory ? <ImSpinner8 className="animate-spin" size={18} /> : <HiOutlineFolderPlus size={18} />}
               Create Category
             </button>
+          </div>
+
+          <div className="mt-5">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-sm font-semibold text-slate-700">Manage categories</p>
+              <span className="text-xs font-medium text-slate-400">
+                {categories.length} categor{categories.length === 1 ? 'y' : 'ies'}
+              </span>
+            </div>
+
+            <div className="mt-3 space-y-3">
+              {categories.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-4 py-4 text-sm text-slate-500">
+                  No categories created yet.
+                </div>
+              ) : (
+                categories.map((category) => (
+                  <div
+                    key={category.id}
+                    className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:flex-row sm:items-center sm:justify-between"
+                  >
+                    <div>
+                      <p className="text-sm font-semibold text-slate-900">{category.name}</p>
+                      <p className="text-xs text-slate-500">ID: {category.id}</p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => onDeleteCategory(category.id, category.name)}
+                      disabled={deletingCategoryId === category.id}
+                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-red-200 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {deletingCategoryId === category.id ? <ImSpinner8 className="animate-spin" size={16} /> : <HiOutlineTrash size={16} />}
+                      Delete Category
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
 
           {categoryError && (
@@ -134,16 +183,6 @@ const ProductFormPanel = ({
             />
           </label>
 
-          <label className="block md:col-span-2">
-            <span className="mb-2 block text-sm font-semibold text-slate-700">Detailed description</span>
-            <textarea
-              value={form.description}
-              onChange={(event) => onFormChange('description', event.target.value)}
-              className="min-h-32 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition focus:border-primary"
-              required
-            />
-          </label>
-
           <label className="block">
             <span className="mb-2 block text-sm font-semibold text-slate-700">Product image</span>
             <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-3">
@@ -158,45 +197,48 @@ const ProductFormPanel = ({
             </div>
           </label>
 
-          <label className="block md:col-span-2">
-            <span className="mb-2 block text-sm font-semibold text-slate-700">Ingredients</span>
-            <textarea
-              value={form.ingredients}
-              onChange={(event) => onFormChange('ingredients', event.target.value)}
-              className="min-h-28 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition focus:border-primary"
-              required
-            />
-          </label>
+          <div className="block md:col-span-2">
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <div>
+                <span className="block text-sm font-semibold text-slate-700">MOQ options</span>
+                <p className="mt-1 text-sm text-slate-500">Add one or more minimum order quantity values for this product.</p>
+              </div>
 
-          <label className="block">
-            <span className="mb-2 block text-sm font-semibold text-slate-700">Texture profile</span>
-            <textarea
-              value={form.textureProfile}
-              onChange={(event) => onFormChange('textureProfile', event.target.value)}
-              className="min-h-28 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition focus:border-primary"
-              required
-            />
-          </label>
+              <button
+                type="button"
+                onClick={onAddMoq}
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+              >
+                <HiOutlinePlus size={16} />
+                Add MOQ
+              </button>
+            </div>
 
-          <label className="block">
-            <span className="mb-2 block text-sm font-semibold text-slate-700">Bulk packaging</span>
-            <textarea
-              value={form.bulkPackaging}
-              onChange={(event) => onFormChange('bulkPackaging', event.target.value)}
-              className="min-h-28 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition focus:border-primary"
-              required
-            />
-          </label>
+            <div className="space-y-3">
+              {form.moqs.map((moq, index) => (
+                <div key={`moq-${index}`} className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <input
+                    type="text"
+                    value={moq}
+                    onChange={(event) => onMoqChange(index, event.target.value)}
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition focus:border-primary"
+                    placeholder="50 cartons"
+                    required
+                  />
 
-          <label className="block md:col-span-2">
-            <span className="mb-2 block text-sm font-semibold text-slate-700">Shelf life and storage</span>
-            <textarea
-              value={form.shelfLifeStorage}
-              onChange={(event) => onFormChange('shelfLifeStorage', event.target.value)}
-              className="min-h-28 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition focus:border-primary"
-              required
-            />
-          </label>
+                  <button
+                    type="button"
+                    onClick={() => onRemoveMoq(index)}
+                    disabled={form.moqs.length === 1}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-red-200 px-4 py-3 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <HiOutlineTrash size={16} />
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {(selectedImage || form.imageUrl) && (

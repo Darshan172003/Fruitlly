@@ -210,14 +210,14 @@ const Products = () => {
             </div>
           )}
 
-          {!loading && !error && products.length === 0 && (
+          {/* {!loading && !error && products.length === 0 && (
             <div className="rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center shadow-sm">
               <h2 className="text-2xl font-bold text-slate-900 mb-3">Products will appear here</h2>
               <p className="text-slate-600 max-w-2xl mx-auto">
                 Add your first product from the hidden admin route to publish the catalog on this page.
               </p>
             </div>
-          )}
+          )} */}
 
           {!loading && !error && categories.length > 0 && (
             <div className="space-y-8">

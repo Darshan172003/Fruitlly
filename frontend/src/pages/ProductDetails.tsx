@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { FaWhatsapp } from 'react-icons/fa6';
-import { HiOutlineArrowLeft, HiOutlineArrowRight, HiOutlineClipboardDocumentList, HiOutlineDocumentText } from 'react-icons/hi2';
+import { HiOutlineArrowLeft, HiOutlineArrowRight } from 'react-icons/hi2';
 import { db } from '../lib/firebase';
 import type { Product } from '../types/product';
 import { mapProductData } from '../lib/productCatalog';
@@ -13,6 +13,7 @@ const ProductDetails = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedMoq, setSelectedMoq] = useState('');
 
   useEffect(() => {
     if (!productId || !categoryId) {
@@ -45,6 +46,10 @@ const ProductDetails = () => {
     return () => unsubscribe();
   }, [categoryId, productId]);
 
+  useEffect(() => {
+    setSelectedMoq(product?.moqs[0] ?? '');
+  }, [product]);
+
   if (loading) {
     return (
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -72,9 +77,10 @@ const ProductDetails = () => {
     '',
     `I am interested in this product: ${product.title}.`,
     `Category: ${product.categoryName}`,
+    ...(selectedMoq ? [`Preferred MOQ: ${selectedMoq}`] : []),
     `Product link: ${productUrl}`,
     '',
-    'Please share pricing, MOQ, packaging options, and export details.',
+    'Please share pricing and export details.',
   ].join('\n');
   const whatsappUrl = `https://wa.me/919422283890?text=${encodeURIComponent(whatsappMessage)}`;
 
@@ -116,12 +122,49 @@ const ProductDetails = () => {
 
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
             <section className="rounded-4xl border border-slate-200 bg-white p-7 shadow-sm md:p-8">
+              <div className="flex flex-wrap gap-3">
+                <span className="inline-flex rounded-full border border-primary/15 bg-primary/8 px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-primary">
+                  {product.categoryName}
+                </span>
+                <span className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-slate-500">
+                  {product.moqs.length} MOQ Option{product.moqs.length === 1 ? '' : 's'}
+                </span>
+              </div>
+
               <h1 className="text-3xl font-black leading-tight tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
                 {product.title}
               </h1>
               <p className="mt-5 text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
                 {product.shortDescription}
               </p>
+
+              <div className="mt-8 rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                <label className="block">
+                  <span className="mb-2 block text-xs font-black uppercase tracking-[0.22em] text-slate-500">
+                    Select MOQ
+                  </span>
+                  <select
+                    value={selectedMoq}
+                    onChange={(event) => setSelectedMoq(event.target.value)}
+                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 outline-none transition focus:border-primary"
+                    disabled={product.moqs.length === 0}
+                  >
+                    {product.moqs.length === 0 ? (
+                      <option value="">MOQ available on request</option>
+                    ) : (
+                      product.moqs.map((moq) => (
+                        <option key={moq} value={moq}>
+                          {moq}
+                        </option>
+                      ))
+                    )}
+                  </select>
+                </label>
+
+                <p className="mt-3 text-sm text-slate-500">
+                  {selectedMoq ? `Selected MOQ: ${selectedMoq}` : 'Contact the team for MOQ details.'}
+                </p>
+              </div>
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <a
@@ -143,67 +186,6 @@ const ProductDetails = () => {
               </div>
             </section>
           </motion.div>
-        </div>
-
-        <div className="mt-8 space-y-8">
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="rounded-4xl border border-slate-200 bg-white p-7 shadow-sm md:p-8"
-          >
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-3">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/8 text-primary">
-                  <HiOutlineDocumentText size={22} />
-                </span>
-                <h2 className="text-xl font-black text-slate-900">Overview</h2>
-              </div>
-              <span className="rounded-full bg-slate-50 px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">
-                Product Summary
-              </span>
-            </div>
-            <p className="mt-5 text-base leading-8 text-slate-600">
-              {product.description}
-            </p>
-          </motion.section>
-
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05 }}
-            className="rounded-4xl border border-slate-200 bg-white p-7 shadow-sm md:p-8"
-          >
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-3">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/8 text-primary">
-                  <HiOutlineClipboardDocumentList size={22} />
-                </span>
-                <h2 className="text-xl font-black text-slate-900">Product Information</h2>
-              </div>
-              <span className="rounded-full bg-slate-50 px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">
-                Technical Details
-              </span>
-            </div>
-
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-3xl bg-slate-50 p-5">
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-slate-400">Ingredients</p>
-                <p className="mt-3 text-sm leading-7 text-slate-700">{product.ingredients}</p>
-              </div>
-              <div className="rounded-3xl bg-slate-50 p-5">
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-slate-400">Texture Profile</p>
-                <p className="mt-3 text-sm leading-7 text-slate-700">{product.textureProfile}</p>
-              </div>
-              <div className="rounded-3xl bg-slate-50 p-5">
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-slate-400">Bulk Packaging</p>
-                <p className="mt-3 text-sm leading-7 text-slate-700">{product.bulkPackaging}</p>
-              </div>
-              <div className="rounded-3xl bg-slate-50 p-5">
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-slate-400">Shelf Life And Storage</p>
-                <p className="mt-3 text-sm leading-7 text-slate-700">{product.shelfLifeStorage}</p>
-              </div>
-            </div>
-          </motion.section>
         </div>
       </div>
     </div>

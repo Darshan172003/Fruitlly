@@ -4,6 +4,7 @@ import { ImSpinner8 } from 'react-icons/im';
 import {
   collection,
   collectionGroup,
+  deleteField,
   deleteDoc,
   doc,
   getDocs,
@@ -49,13 +50,9 @@ const emptyForm: ProductFormState = {
   categoryId: '',
   title: '',
   shortDescription: '',
-  description: '',
-  ingredients: '',
-  textureProfile: '',
-  bulkPackaging: '',
-  shelfLifeStorage: '',
   imageUrl: '',
   imagePath: '',
+  moqs: [''],
 };
 
 const emptyCategoryForm: CategoryFormState = {
@@ -111,6 +108,7 @@ const AdminPanel = () => {
   const [categoryForm, setCategoryForm] = useState<CategoryFormState>(emptyCategoryForm);
   const [categoryError, setCategoryError] = useState('');
   const [savingCategory, setSavingCategory] = useState(false);
+  const [deletingCategoryId, setDeletingCategoryId] = useState('');
   const [productsLoading, setProductsLoading] = useState(true);
   const [libraryError, setLibraryError] = useState('');
   const [form, setForm] = useState<ProductFormState>(emptyForm);
@@ -187,7 +185,7 @@ const AdminPanel = () => {
         });
 
         setForm((current) => {
-          if (current.categoryId) {
+          if (current.categoryId && nextCategories.some((category) => category.id === current.categoryId)) {
             return current;
           }
 
@@ -362,6 +360,62 @@ const AdminPanel = () => {
     }
   };
 
+  const handleDeleteCategory = async (categoryId: string, categoryName: string) => {
+    const confirmed = window.confirm(
+      `Delete ${categoryName}? This will also delete every product and image inside this category.`,
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setDeletingCategoryId(categoryId);
+    setCategoryError('');
+    setFormError('');
+    setFormSuccess('');
+
+    try {
+      const productSnapshots = await getDocs(collection(db, 'products', categoryId, 'items'));
+
+      await Promise.all(
+        productSnapshots.docs.map(async (snapshot) => {
+          const product = mapProductDocument(snapshot);
+
+          await deleteDoc(snapshot.ref);
+
+          if (product.imagePath) {
+            await deleteObject(ref(storage, product.imagePath)).catch(() => undefined);
+          }
+        }),
+      );
+
+      await deleteDoc(doc(db, 'products', categoryId));
+
+      if (editingLocation?.categoryId === categoryId) {
+        resetForm();
+      }
+
+      if (selectedLibraryCategoryId === categoryId) {
+        setSelectedLibraryCategoryId('all');
+        setPageIndex(0);
+        setHasNextPage(false);
+        setPageCursors([null]);
+        setCurrentLastVisible(null);
+      }
+
+      setForm((current) => ({
+        ...current,
+        categoryId: current.categoryId === categoryId ? '' : current.categoryId,
+      }));
+      setFormSuccess(`Category ${categoryName} deleted successfully.`);
+      await refreshCurrentPage();
+    } catch (error) {
+      setCategoryError(normalizeError(error));
+    } finally {
+      setDeletingCategoryId('');
+    }
+  };
+
   const handleImageSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] ?? null;
     setSelectedImage(file);
@@ -376,13 +430,9 @@ const AdminPanel = () => {
       categoryId: product.categoryId,
       title: product.title,
       shortDescription: product.shortDescription,
-      description: product.description,
-      ingredients: product.ingredients,
-      textureProfile: product.textureProfile,
-      bulkPackaging: product.bulkPackaging,
-      shelfLifeStorage: product.shelfLifeStorage,
       imageUrl: product.imageUrl,
       imagePath: product.imagePath,
+      moqs: product.moqs.length > 0 ? product.moqs : [''],
     });
     setFormError('');
     setFormSuccess('');
@@ -442,6 +492,11 @@ const AdminPanel = () => {
         throw new Error('The selected category no longer exists.');
       }
 
+      const normalizedMoqs = form.moqs.map((value) => value.trim()).filter(Boolean);
+      if (normalizedMoqs.length === 0) {
+        throw new Error('Add at least one MOQ before saving the product.');
+      }
+
       const nextProductId = slugifyValue(form.title);
       if (!nextProductId) {
         throw new Error('Use letters or numbers in the product title.');
@@ -457,13 +512,14 @@ const AdminPanel = () => {
         productSortName: form.title.trim().toLowerCase(),
         title: form.title.trim(),
         shortDescription: form.shortDescription.trim(),
-        description: form.description.trim(),
-        ingredients: form.ingredients.trim(),
-        textureProfile: form.textureProfile.trim(),
-        bulkPackaging: form.bulkPackaging.trim(),
-        shelfLifeStorage: form.shelfLifeStorage.trim(),
         imageUrl: imageData.imageUrl,
         imagePath: imageData.imagePath,
+        moqs: normalizedMoqs,
+        description: deleteField(),
+        ingredients: deleteField(),
+        textureProfile: deleteField(),
+        bulkPackaging: deleteField(),
+        shelfLifeStorage: deleteField(),
         updatedAt: serverTimestamp(),
       };
 
@@ -589,6 +645,36 @@ const AdminPanel = () => {
     setForm((current) => ({ ...current, [field]: value }));
   };
 
+  const handleMoqChange = (index: number, value: string) => {
+    setForm((current) => ({
+      ...current,
+      moqs: current.moqs.map((moq, moqIndex) => (moqIndex === index ? value : moq)),
+    }));
+  };
+
+  const handleAddMoq = () => {
+    setForm((current) => ({
+      ...current,
+      moqs: [...current.moqs, ''],
+    }));
+  };
+
+  const handleRemoveMoq = (index: number) => {
+    setForm((current) => {
+      if (current.moqs.length === 1) {
+        return {
+          ...current,
+          moqs: [''],
+        };
+      }
+
+      return {
+        ...current,
+        moqs: current.moqs.filter((_, moqIndex) => moqIndex !== index),
+      };
+    });
+  };
+
   const renderSection = () => {
     switch (activeSection) {
       case 'add-product':
@@ -601,6 +687,7 @@ const AdminPanel = () => {
             categoriesLoading={categoriesLoading}
             categoryError={categoryError}
             savingCategory={savingCategory}
+            deletingCategoryId={deletingCategoryId}
             selectedImage={selectedImage}
             previewUrl={previewUrl}
             formError={formError}
@@ -608,9 +695,13 @@ const AdminPanel = () => {
             savingProduct={savingProduct}
             onCategoryFormChange={(value) => setCategoryForm({ name: value })}
             onCreateCategory={handleCategoryCreate}
+            onDeleteCategory={handleDeleteCategory}
             onCancelEdit={resetForm}
             onImageSelect={handleImageSelect}
             onFormChange={handleFormChange}
+            onMoqChange={handleMoqChange}
+            onAddMoq={handleAddMoq}
+            onRemoveMoq={handleRemoveMoq}
             onSubmit={handleSaveProduct}
           />
         );

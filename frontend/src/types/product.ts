@@ -12,13 +12,9 @@ export interface Product {
   productSortName: string;
   title: string;
   shortDescription: string;
-  description: string;
   imageUrl: string;
   imagePath: string;
-  ingredients: string;
-  textureProfile: string;
-  bulkPackaging: string;
-  shelfLifeStorage: string;
+  moqs: string[];
 }
 
 export interface ProductCategoryGroup {

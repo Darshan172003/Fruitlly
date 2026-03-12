@@ -7,13 +7,9 @@ export interface ProductFormState {
   categoryId: string;
   title: string;
   shortDescription: string;
-  description: string;
-  ingredients: string;
-  textureProfile: string;
-  bulkPackaging: string;
-  shelfLifeStorage: string;
   imageUrl: string;
   imagePath: string;
+  moqs: string[];
 }
 
 export interface AdminSidebarItem {
