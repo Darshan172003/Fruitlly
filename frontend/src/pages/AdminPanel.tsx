@@ -31,6 +31,7 @@ import {
   ref,
   uploadBytes,
 } from 'firebase/storage';
+import { toast } from 'react-toastify';
 import { auth, db, storage } from '../lib/firebase';
 import type { BlogPost } from '../types/blog';
 import type { Product } from '../types/product';
@@ -52,7 +53,7 @@ import {
   type ProductFormState,
   type RecipeFormState,
 } from '../components/Admin';
-import { getBlogCategoryColor, getBlogCategoryId, getBlogPlainText, getBlogReadTime, mapBlogDocument } from '../lib/blogs';
+import { getBlogCategoryColor, getBlogCategoryId, getBlogPlainText, normalizeBlogReadTime, mapBlogDocument } from '../lib/blogs';
 import { mapCategoryDocument, mapProductDocument, slugifyValue } from '../lib/productCatalog';
 import { extractYouTubeVideoId, getRecipeThumbnail, mapRecipeDocument } from '../lib/recipes';
 
@@ -80,6 +81,7 @@ const emptyBlogForm: BlogFormState = {
   title: '',
   category: '',
   excerpt: '',
+  readTime: '',
   content: '',
   imageUrl: '',
   imagePath: '',
@@ -96,6 +98,7 @@ const normalizeError = (message: unknown) => {
 const PRODUCTS_PAGE_SIZE = 6;
 const RECIPES_PAGE_SIZE = 6;
 const BLOGS_PAGE_SIZE = 6;
+const ADMIN_ACTIVE_SECTION_STORAGE_KEY = 'fruitlly-admin-active-section';
 
 const sidebarItems: AdminSidebarItem[] = [
   {
@@ -136,31 +139,22 @@ const sidebarItems: AdminSidebarItem[] = [
   },
 ];
 
-const sectionContent: Record<AdminSectionId, { title: string; description: string }> = {
-  'add-product': {
-    title: 'Add Product',
-    description: 'Create a new product entry for the live Fruitlly catalog.',
-  },
-  catalog: {
-    title: 'Product Library',
-    description: 'Browse products page-by-page, then edit or remove entries from the live catalog.',
-  },
-  'add-recipe': {
-    title: 'Add Recipe Video',
-    description: 'Publish recipe videos with a YouTube link, title, description, and duration.',
-  },
-  'recipe-library': {
-    title: 'Recipe Library',
-    description: 'Edit or remove the recipe videos shown on the public recipes page.',
-  },
-  'add-blog': {
-    title: 'Add Blog Post',
-    description: 'Create blog posts with cover images, excerpts, and formatted article content.',
-  },
-  'blog-library': {
-    title: 'Blog Library',
-    description: 'Edit or remove blog posts shown on the public blog page.',
-  },
+const isAdminSectionId = (value: string): value is AdminSectionId => {
+  return sidebarItems.some((item) => item.id === value);
+};
+
+const getInitialAdminSection = (): AdminSectionId => {
+  if (typeof window === 'undefined') {
+    return 'add-product';
+  }
+
+  const storedSection = window.localStorage.getItem(ADMIN_ACTIVE_SECTION_STORAGE_KEY);
+
+  if (storedSection && isAdminSectionId(storedSection)) {
+    return storedSection;
+  }
+
+  return 'add-product';
 };
 
 const AdminPanel = () => {
@@ -187,7 +181,7 @@ const AdminPanel = () => {
   const [savingProduct, setSavingProduct] = useState(false);
   const [editingProductId, setEditingProductId] = useState('');
   const [deletingProductId, setDeletingProductId] = useState('');
-  const [activeSection, setActiveSection] = useState<AdminSectionId>('add-product');
+  const [activeSection, setActiveSection] = useState<AdminSectionId>(getInitialAdminSection);
   const [selectedLibraryCategoryId, setSelectedLibraryCategoryId] = useState('all');
   const [pageIndex, setPageIndex] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(false);
@@ -222,6 +216,57 @@ const AdminPanel = () => {
   const [savingBlog, setSavingBlog] = useState(false);
   const [editingBlogId, setEditingBlogId] = useState('');
   const [deletingBlogId, setDeletingBlogId] = useState('');
+
+  useEffect(() => {
+    if (formError) {
+      toast.error(formError, { toastId: `admin-product-error:${formError}` });
+      setFormError('');
+      return;
+    }
+
+    if (formSuccess) {
+      toast.success(formSuccess, { toastId: `admin-product-success:${formSuccess}` });
+      setFormSuccess('');
+    }
+  }, [formError, formSuccess]);
+
+  useEffect(() => {
+    if (recipeFormError) {
+      toast.error(recipeFormError, { toastId: `admin-recipe-error:${recipeFormError}` });
+      setRecipeFormError('');
+      return;
+    }
+
+    if (recipeFormSuccess) {
+      toast.success(recipeFormSuccess, { toastId: `admin-recipe-success:${recipeFormSuccess}` });
+      setRecipeFormSuccess('');
+    }
+  }, [recipeFormError, recipeFormSuccess]);
+
+  useEffect(() => {
+    if (blogFormError) {
+      toast.error(blogFormError, { toastId: `admin-blog-error:${blogFormError}` });
+      setBlogFormError('');
+      return;
+    }
+
+    if (blogFormSuccess) {
+      toast.success(blogFormSuccess, { toastId: `admin-blog-success:${blogFormSuccess}` });
+      setBlogFormSuccess('');
+    }
+  }, [blogFormError, blogFormSuccess]);
+
+  const handleSectionChange = (sectionId: AdminSectionId) => {
+    setActiveSection(sectionId);
+  };
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    window.localStorage.setItem(ADMIN_ACTIVE_SECTION_STORAGE_KEY, activeSection);
+  }, [activeSection]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -888,6 +933,7 @@ const AdminPanel = () => {
       title: blog.title,
       category: blog.category,
       excerpt: blog.excerpt,
+      readTime: blog.readTime,
       content: blog.content,
       imageUrl: blog.imageUrl,
       imagePath: blog.imagePath,
@@ -1036,6 +1082,7 @@ const AdminPanel = () => {
       const title = blogForm.title.trim();
       const category = blogForm.category.trim();
       const excerpt = blogForm.excerpt.trim();
+      const readTime = blogForm.readTime.trim();
       const content = blogForm.content.trim();
       const contentText = getBlogPlainText(content);
 
@@ -1060,7 +1107,7 @@ const AdminPanel = () => {
         categoryColor: getBlogCategoryColor(categoryId),
         imageUrl: imageData.imageUrl,
         imagePath: imageData.imagePath,
-        readTime: getBlogReadTime(content),
+        readTime: normalizeBlogReadTime(readTime, content),
         sortTitle: title.toLowerCase(),
         updatedAt: serverTimestamp(),
       };
@@ -1387,9 +1434,7 @@ const AdminPanel = () => {
       activeSection={activeSection}
       items={sidebarItems}
       userEmail={adminUser.email || 'Admin'}
-      sectionTitle={sectionContent[activeSection].title}
-      sectionDescription={sectionContent[activeSection].description}
-      onSectionChange={setActiveSection}
+      onSectionChange={handleSectionChange}
       onLogout={handleLogout}
     >
       {renderSection()}

@@ -57,20 +57,11 @@ const ProductFormPanel = ({
 }: ProductFormPanelProps) => {
   return (
     <section className="rounded-[1.75rem] border border-slate-300 bg-white p-6 md:p-8 shadow-sm">
-      <div className="flex items-center justify-between gap-4 mb-6">
+      <div className="mb-6 flex items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-black text-slate-900">{editingProductId ? 'Edit Product' : 'Add Product'}</h2>
           <p className="mt-2 text-slate-500">Create new catalog items or update existing ones.</p>
         </div>
-        {editingProductId && (
-          <button
-            type="button"
-            onClick={onCancelEdit}
-            className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
-          >
-            Cancel Edit
-          </button>
-        )}
       </div>
 
       <form className="space-y-5" onSubmit={onSubmit}>
@@ -253,26 +244,26 @@ const ProductFormPanel = ({
           </div>
         )}
 
-        {formError && (
-          <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {formError}
-          </div>
-        )}
+        <div className="flex flex-wrap items-center gap-3">
+          {editingProductId && (
+            <button
+              type="button"
+              onClick={onCancelEdit}
+              className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+            >
+              Cancel Edit
+            </button>
+          )}
 
-        {formSuccess && (
-          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
-            {formSuccess}
-          </div>
-        )}
-
-        <button
-          type="submit"
-          disabled={savingProduct}
-          className="inline-flex items-center gap-2 rounded-xl bg-[#2563eb] px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
-        >
-          {savingProduct ? <span className="inline-flex animate-spin"><ImSpinner8 size={18} /></span> : <FaSave size={18} />}
-          {editingProductId ? 'Update Product' : 'Save Product'}
-        </button>
+          <button
+            type="submit"
+            disabled={savingProduct}
+            className="inline-flex items-center gap-2 rounded-xl bg-[#2563eb] px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {savingProduct ? <span className="inline-flex animate-spin"><ImSpinner8 size={18} /></span> : <FaSave size={18} />}
+            {editingProductId ? 'Update Product' : 'Save Product'}
+          </button>
+        </div>
       </form>
     </section>
   );
