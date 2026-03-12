@@ -97,7 +97,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ url, thumbnail, title }) => {
                 whileTap={{ scale: 0.9 }}
                 className="w-20 h-20 bg-primary text-white rounded-full flex items-center justify-center shadow-2xl shadow-primary/40"
               >
-                <span className="inline-flex translate-x-[2px]">
+                <span className="inline-flex translate-x-0.5">
                   <MdPlayArrow size={48} />
                 </span>
               </motion.div>
