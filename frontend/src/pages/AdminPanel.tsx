@@ -1,5 +1,5 @@
 import React, { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
-import { HiOutlinePlus, HiOutlineQueueList } from 'react-icons/hi2';
+import { HiOutlinePlayCircle, HiOutlinePlus, HiOutlineQueueList } from 'react-icons/hi2';
 import { ImSpinner8 } from 'react-icons/im';
 import {
   collection,
@@ -33,8 +33,11 @@ import {
 } from 'firebase/storage';
 import { auth, db, storage } from '../lib/firebase';
 import type { Product } from '../types/product';
+import type { Recipe } from '../types/recipe';
 import {
   AdminLogin,
+  RecipeFormPanel,
+  RecipeListPanel,
   AdminShell,
   ProductFormPanel,
   ProductListPanel,
@@ -43,8 +46,10 @@ import {
   type CategoryFormState,
   type CategoryOption,
   type ProductFormState,
+  type RecipeFormState,
 } from '../components/Admin';
 import { mapCategoryDocument, mapProductDocument, slugifyValue } from '../lib/productCatalog';
+import { extractYouTubeVideoId, getRecipeThumbnail, mapRecipeDocument } from '../lib/recipes';
 
 const emptyForm: ProductFormState = {
   categoryId: '',
@@ -59,6 +64,13 @@ const emptyCategoryForm: CategoryFormState = {
   name: '',
 };
 
+const emptyRecipeForm: RecipeFormState = {
+  title: '',
+  description: '',
+  youtubeUrl: '',
+  duration: '',
+};
+
 const normalizeError = (message: unknown) => {
   if (message instanceof Error) {
     return message.message;
@@ -68,6 +80,7 @@ const normalizeError = (message: unknown) => {
 };
 
 const PRODUCTS_PAGE_SIZE = 6;
+const RECIPES_PAGE_SIZE = 6;
 
 const sidebarItems: AdminSidebarItem[] = [
   {
@@ -82,6 +95,18 @@ const sidebarItems: AdminSidebarItem[] = [
     description: 'Paginated products',
     icon: <HiOutlineQueueList size={18} />,
   },
+  {
+    id: 'add-recipe',
+    label: 'Add Recipe Video',
+    description: 'Create recipe content',
+    icon: <HiOutlinePlayCircle size={18} />,
+  },
+  {
+    id: 'recipe-library',
+    label: 'Recipe Library',
+    description: 'Manage recipe videos',
+    icon: <HiOutlineQueueList size={18} />,
+  },
 ];
 
 const sectionContent: Record<AdminSectionId, { title: string; description: string }> = {
@@ -92,6 +117,14 @@ const sectionContent: Record<AdminSectionId, { title: string; description: strin
   catalog: {
     title: 'Product Library',
     description: 'Browse products page-by-page, then edit or remove entries from the live catalog.',
+  },
+  'add-recipe': {
+    title: 'Add Recipe Video',
+    description: 'Publish recipe videos with a YouTube link, title, description, and duration.',
+  },
+  'recipe-library': {
+    title: 'Recipe Library',
+    description: 'Edit or remove the recipe videos shown on the public recipes page.',
   },
 };
 
@@ -126,6 +159,19 @@ const AdminPanel = () => {
   const [pageCursors, setPageCursors] = useState<Array<QueryDocumentSnapshot<DocumentData> | null>>([null]);
   const [currentLastVisible, setCurrentLastVisible] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
   const [editingLocation, setEditingLocation] = useState<{ categoryId: string; productId: string } | null>(null);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [recipesLoading, setRecipesLoading] = useState(true);
+  const [recipesError, setRecipesError] = useState('');
+  const [recipePageIndex, setRecipePageIndex] = useState(0);
+  const [recipeHasNextPage, setRecipeHasNextPage] = useState(false);
+  const [recipePageCursors, setRecipePageCursors] = useState<Array<QueryDocumentSnapshot<DocumentData> | null>>([null]);
+  const [recipeCurrentLastVisible, setRecipeCurrentLastVisible] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+  const [recipeForm, setRecipeForm] = useState<RecipeFormState>(emptyRecipeForm);
+  const [recipeFormError, setRecipeFormError] = useState('');
+  const [recipeFormSuccess, setRecipeFormSuccess] = useState('');
+  const [savingRecipe, setSavingRecipe] = useState(false);
+  const [editingRecipeId, setEditingRecipeId] = useState('');
+  const [deletingRecipeId, setDeletingRecipeId] = useState('');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -151,6 +197,18 @@ const AdminPanel = () => {
       setHasNextPage(false);
       setPageCursors([null]);
       setCurrentLastVisible(null);
+      setRecipes([]);
+      setRecipesLoading(false);
+      setRecipesError('');
+      setRecipePageIndex(0);
+      setRecipeHasNextPage(false);
+      setRecipePageCursors([null]);
+      setRecipeCurrentLastVisible(null);
+      setRecipeForm(emptyRecipeForm);
+      setRecipeFormError('');
+      setRecipeFormSuccess('');
+      setEditingRecipeId('');
+      setDeletingRecipeId('');
       return;
     }
 
@@ -158,6 +216,10 @@ const AdminPanel = () => {
     setHasNextPage(false);
     setPageCursors([null]);
     setCurrentLastVisible(null);
+    setRecipePageIndex(0);
+    setRecipeHasNextPage(false);
+    setRecipePageCursors([null]);
+    setRecipeCurrentLastVisible(null);
   }, [adminUser]);
 
   useEffect(() => {
@@ -258,6 +320,45 @@ const AdminPanel = () => {
     }
   };
 
+  const loadRecipePage = async (
+    cursor: QueryDocumentSnapshot<DocumentData> | null,
+    nextPageIndex: number,
+  ) => {
+    setRecipesLoading(true);
+
+    try {
+      const recipesQuery = cursor
+        ? query(
+            collection(db, 'recipes'),
+            orderBy('sortName', 'asc'),
+            startAfter(cursor),
+            limit(RECIPES_PAGE_SIZE + 1),
+          )
+        : query(
+            collection(db, 'recipes'),
+            orderBy('sortName', 'asc'),
+            limit(RECIPES_PAGE_SIZE + 1),
+          );
+
+      const snapshot = await getDocs(recipesQuery);
+      const hasExtraDocument = snapshot.docs.length > RECIPES_PAGE_SIZE;
+      const visibleDocuments = hasExtraDocument ? snapshot.docs.slice(0, RECIPES_PAGE_SIZE) : snapshot.docs;
+
+      setRecipes(visibleDocuments.map(mapRecipeDocument));
+      setRecipeHasNextPage(hasExtraDocument);
+      setRecipeCurrentLastVisible(visibleDocuments.length > 0 ? visibleDocuments[visibleDocuments.length - 1] : null);
+      setRecipePageIndex(nextPageIndex);
+      setRecipesError('');
+
+      return { visibleCount: visibleDocuments.length };
+    } catch (error) {
+      setRecipesError(normalizeError(error));
+      return { visibleCount: 0 };
+    } finally {
+      setRecipesLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (!adminUser) {
       return;
@@ -265,6 +366,14 @@ const AdminPanel = () => {
 
     void loadProductPage(null, 0);
   }, [adminUser, selectedLibraryCategoryId]);
+
+  useEffect(() => {
+    if (!adminUser) {
+      return;
+    }
+
+    void loadRecipePage(null, 0);
+  }, [adminUser]);
 
   useEffect(() => {
     if (!selectedImage) {
@@ -290,6 +399,13 @@ const AdminPanel = () => {
     setEditingProductId('');
   };
 
+  const resetRecipeForm = () => {
+    setRecipeForm(emptyRecipeForm);
+    setRecipeFormError('');
+    setRecipeFormSuccess('');
+    setEditingRecipeId('');
+  };
+
   const refreshCurrentPage = async () => {
     const cursor = pageIndex === 0 ? null : pageCursors[pageIndex] ?? null;
     const result = await loadProductPage(cursor, pageIndex);
@@ -298,6 +414,17 @@ const AdminPanel = () => {
       const previousPageIndex = pageIndex - 1;
       const previousCursor = previousPageIndex === 0 ? null : pageCursors[previousPageIndex] ?? null;
       await loadProductPage(previousCursor, previousPageIndex);
+    }
+  };
+
+  const refreshCurrentRecipePage = async () => {
+    const cursor = recipePageIndex === 0 ? null : recipePageCursors[recipePageIndex] ?? null;
+    const result = await loadRecipePage(cursor, recipePageIndex);
+
+    if (result.visibleCount === 0 && recipePageIndex > 0) {
+      const previousPageIndex = recipePageIndex - 1;
+      const previousCursor = previousPageIndex === 0 ? null : recipePageCursors[previousPageIndex] ?? null;
+      await loadRecipePage(previousCursor, previousPageIndex);
     }
   };
 
@@ -318,6 +445,7 @@ const AdminPanel = () => {
   const handleLogout = async () => {
     await signOut(auth);
     resetForm();
+    resetRecipeForm();
   };
 
   const handleCategoryCreate = async () => {
@@ -584,6 +712,113 @@ const AdminPanel = () => {
     }
   };
 
+  const handleEditRecipe = (recipe: Recipe) => {
+    setActiveSection('add-recipe');
+    setEditingRecipeId(recipe.id);
+    setRecipeForm({
+      title: recipe.title,
+      description: recipe.description,
+      youtubeUrl: recipe.youtubeUrl,
+      duration: recipe.duration,
+    });
+    setRecipeFormError('');
+    setRecipeFormSuccess('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSaveRecipe = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!adminUser) {
+      setRecipeFormError('Please sign in again.');
+      return;
+    }
+
+    setSavingRecipe(true);
+    setRecipeFormError('');
+    setRecipeFormSuccess('');
+
+    try {
+      const title = recipeForm.title.trim();
+      const description = recipeForm.description.trim();
+      const youtubeUrl = recipeForm.youtubeUrl.trim();
+      const duration = recipeForm.duration.trim();
+
+      if (!title || !description || !youtubeUrl || !duration) {
+        throw new Error('Complete all recipe fields before saving.');
+      }
+
+      const youtubeId = extractYouTubeVideoId(youtubeUrl);
+      if (!youtubeId) {
+        throw new Error('Enter a valid YouTube link or video ID.');
+      }
+
+      const recipeId = slugifyValue(title);
+      if (!recipeId) {
+        throw new Error('Use letters or numbers in the recipe title.');
+      }
+
+      const nextRecipeRef = doc(db, 'recipes', recipeId);
+      const payload: Record<string, unknown> = {
+        title,
+        description,
+        youtubeUrl,
+        youtubeId,
+        thumbnail: getRecipeThumbnail(youtubeId),
+        duration,
+        sortName: title.toLowerCase(),
+        updatedAt: serverTimestamp(),
+      };
+
+      if (!editingRecipeId) {
+        payload.createdAt = serverTimestamp();
+      }
+
+      await setDoc(nextRecipeRef, payload, { merge: true });
+
+      if (editingRecipeId && editingRecipeId !== recipeId) {
+        await deleteDoc(doc(db, 'recipes', editingRecipeId));
+      }
+
+      setRecipePageCursors((current) => current.slice(0, recipePageIndex + 1));
+      await refreshCurrentRecipePage();
+      setRecipeForm(emptyRecipeForm);
+      setEditingRecipeId('');
+      setRecipeFormSuccess(editingRecipeId ? 'Recipe updated successfully.' : 'Recipe created successfully.');
+    } catch (error) {
+      setRecipeFormError(normalizeError(error));
+    } finally {
+      setSavingRecipe(false);
+    }
+  };
+
+  const handleDeleteRecipe = async (recipe: Recipe) => {
+    const confirmed = window.confirm(`Delete ${recipe.title}? This cannot be undone.`);
+    if (!confirmed) {
+      return;
+    }
+
+    setDeletingRecipeId(recipe.id);
+    setRecipeFormError('');
+    setRecipeFormSuccess('');
+
+    try {
+      await deleteDoc(doc(db, 'recipes', recipe.id));
+
+      if (editingRecipeId === recipe.id) {
+        resetRecipeForm();
+      }
+
+      setRecipePageCursors((current) => current.slice(0, recipePageIndex + 1));
+      await refreshCurrentRecipePage();
+      setRecipeFormSuccess('Recipe deleted successfully.');
+    } catch (error) {
+      setRecipeFormError(normalizeError(error));
+    } finally {
+      setDeletingRecipeId('');
+    }
+  };
+
   const handleNextPage = async () => {
     if (!hasNextPage || !currentLastVisible) {
       return;
@@ -608,6 +843,30 @@ const AdminPanel = () => {
     await loadProductPage(previousCursor, previousPageIndex);
   };
 
+  const handleNextRecipePage = async () => {
+    if (!recipeHasNextPage || !recipeCurrentLastVisible) {
+      return;
+    }
+
+    setRecipePageCursors((current) => {
+      const next = [...current];
+      next[recipePageIndex + 1] = recipeCurrentLastVisible;
+      return next;
+    });
+
+    await loadRecipePage(recipeCurrentLastVisible, recipePageIndex + 1);
+  };
+
+  const handlePreviousRecipePage = async () => {
+    if (recipePageIndex === 0) {
+      return;
+    }
+
+    const previousPageIndex = recipePageIndex - 1;
+    const previousCursor = previousPageIndex === 0 ? null : recipePageCursors[previousPageIndex] ?? null;
+    await loadRecipePage(previousCursor, previousPageIndex);
+  };
+
   const handleLibraryCategoryChange = (categoryId: string) => {
     setSelectedLibraryCategoryId(categoryId);
     setPageIndex(0);
@@ -620,7 +879,7 @@ const AdminPanel = () => {
     return (
       <div className="min-h-screen bg-[#090d1a] text-white grid place-items-center px-6">
         <div className="flex items-center gap-3 text-lg font-semibold">
-          <ImSpinner8 className="animate-spin" />
+          <span className="inline-flex animate-spin"><ImSpinner8 /></span>
           Checking admin access...
         </div>
       </div>
@@ -643,6 +902,10 @@ const AdminPanel = () => {
 
   const handleFormChange = (field: keyof ProductFormState, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
+  };
+
+  const handleRecipeFormChange = (field: keyof RecipeFormState, value: string) => {
+    setRecipeForm((current) => ({ ...current, [field]: value }));
   };
 
   const handleMoqChange = (index: number, value: string) => {
@@ -722,6 +985,35 @@ const AdminPanel = () => {
             onCategoryChange={handleLibraryCategoryChange}
             onNextPage={handleNextPage}
             onPreviousPage={handlePreviousPage}
+          />
+        );
+      case 'add-recipe':
+        return (
+          <RecipeFormPanel
+            editingRecipeId={editingRecipeId}
+            form={recipeForm}
+            formError={recipeFormError}
+            formSuccess={recipeFormSuccess}
+            savingRecipe={savingRecipe}
+            onFormChange={handleRecipeFormChange}
+            onCancelEdit={resetRecipeForm}
+            onSubmit={handleSaveRecipe}
+          />
+        );
+      case 'recipe-library':
+        return (
+          <RecipeListPanel
+            recipes={recipes}
+            recipesLoading={recipesLoading}
+            recipesError={recipesError}
+            deletingRecipeId={deletingRecipeId}
+            pageIndex={recipePageIndex}
+            hasNextPage={recipeHasNextPage}
+            hasPreviousPage={recipePageIndex > 0}
+            onEditRecipe={handleEditRecipe}
+            onDeleteRecipe={handleDeleteRecipe}
+            onNextPage={handleNextRecipePage}
+            onPreviousPage={handlePreviousRecipePage}
           />
         );
       default:

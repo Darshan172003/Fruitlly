@@ -1,5 +1,6 @@
 import React, { type ChangeEvent, type FormEvent } from 'react';
 import { HiOutlineCloudArrowUp, HiOutlineFolderPlus, HiOutlinePlus, HiOutlineTrash } from 'react-icons/hi2';
+import { FaSave } from "react-icons/fa";
 import { ImSpinner8 } from 'react-icons/im';
 import type { CategoryFormState, CategoryOption, ProductFormState } from './types';
 
@@ -92,7 +93,7 @@ const ProductFormPanel = ({
               disabled={savingCategory}
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0f172a] px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
             >
-              {savingCategory ? <ImSpinner8 className="animate-spin" size={18} /> : <HiOutlineFolderPlus size={18} />}
+              {savingCategory ? <span className="inline-flex animate-spin"><ImSpinner8 size={18} /></span> : <HiOutlineFolderPlus size={18} />}
               Create Category
             </button>
           </div>
@@ -127,7 +128,7 @@ const ProductFormPanel = ({
                       disabled={deletingCategoryId === category.id}
                       className="inline-flex items-center justify-center gap-2 rounded-xl border border-red-200 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                      {deletingCategoryId === category.id ? <ImSpinner8 className="animate-spin" size={16} /> : <HiOutlineTrash size={16} />}
+                      {deletingCategoryId === category.id ? <span className="inline-flex animate-spin"><ImSpinner8 size={16} /></span> : <HiOutlineTrash size={16} />}
                       Delete Category
                     </button>
                   </div>
@@ -269,7 +270,7 @@ const ProductFormPanel = ({
           disabled={savingProduct}
           className="inline-flex items-center gap-2 rounded-xl bg-[#2563eb] px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {savingProduct ? <ImSpinner8 className="animate-spin" size={18} /> : <HiOutlinePlus size={18} />}
+          {savingProduct ? <span className="inline-flex animate-spin"><ImSpinner8 size={18} /></span> : <FaSave size={18} />}
           {editingProductId ? 'Update Product' : 'Save Product'}
         </button>
       </form>

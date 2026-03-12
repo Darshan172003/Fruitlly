@@ -62,7 +62,9 @@ const AdminLogin = ({
                                 <label className="block">
                                     <span className="mb-2 block text-sm font-semibold text-slate-700">Email address</span>
                                     <div className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 transition focus-within:border-primary focus-within:bg-white focus-within:shadow-[0_0_0_4px_rgba(239,68,68,0.12)]">
-                                        <HiOutlineEnvelope size={18} className="shrink-0 text-slate-400 transition group-focus-within:text-primary" />
+                                        <span className="shrink-0 text-slate-400 transition group-focus-within:text-primary">
+                                            <HiOutlineEnvelope size={18} />
+                                        </span>
                                         <input
                                             type="email"
                                             value={email}
@@ -78,7 +80,9 @@ const AdminLogin = ({
                                 <label className="block">
                                     <span className="mb-2 block text-sm font-semibold text-slate-700">Password</span>
                                     <div className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 transition focus-within:border-primary focus-within:bg-white focus-within:shadow-[0_0_0_4px_rgba(239,68,68,0.12)]">
-                                        <HiOutlineKey size={18} className="shrink-0 text-slate-400 transition group-focus-within:text-primary" />
+                                        <span className="shrink-0 text-slate-400 transition group-focus-within:text-primary">
+                                            <HiOutlineKey size={18} />
+                                        </span>
                                         <input
                                             type="password"
                                             value={password}
@@ -102,7 +106,7 @@ const AdminLogin = ({
                                     disabled={submittingLogin}
                                     className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-linear-to-r from-[#0f172a] to-[#1e293b] px-5 py-3 text-sm font-bold text-white shadow-[0_10px_30px_rgba(15,23,42,0.28)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
                                 >
-                                    {submittingLogin ? <ImSpinner8 className="animate-spin" size={18} /> : <HiOutlineLockClosed size={18} />}
+                                    {submittingLogin ? <span className="inline-flex animate-spin"><ImSpinner8 size={18} /></span> : <HiOutlineLockClosed size={18} />}
                                     Sign in
                                 </button>
                             </form>

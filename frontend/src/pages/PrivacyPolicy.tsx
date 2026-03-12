@@ -192,15 +192,15 @@ const PrivacyPolicy = () => {
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <div className="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-800">
-                    <MdLock size={16} className="text-primary" />
+                    <span className="text-primary"><MdLock size={16} /></span>
                     SSL Encrypted
                   </div>
                   <div className="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-800">
-                    <MdVerifiedUser size={16} className="text-primary" />
+                    <span className="text-primary"><MdVerifiedUser size={16} /></span>
                     GDPR Compliant
                   </div>
                   <div className="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-800">
-                    <MdGppGood size={16} className="text-primary" />
+                    <span className="text-primary"><MdGppGood size={16} /></span>
                     Secure Payments
                   </div>
                 </div>

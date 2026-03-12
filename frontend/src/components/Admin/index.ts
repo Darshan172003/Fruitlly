@@ -2,4 +2,6 @@ export { default as AdminLogin } from './AdminLogin';
 export { default as AdminShell } from './AdminShell';
 export { default as ProductFormPanel } from './ProductFormPanel';
 export { default as ProductListPanel } from './ProductListPanel';
-export type { AdminSectionId, ProductFormState, AdminSidebarItem, CategoryFormState, CategoryOption } from './types';
+export { default as RecipeFormPanel } from './RecipeFormPanel';
+export { default as RecipeListPanel } from './RecipeListPanel';
+export type { AdminSectionId, ProductFormState, RecipeFormState, AdminSidebarItem, CategoryFormState, CategoryOption } from './types';

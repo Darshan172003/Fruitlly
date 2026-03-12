@@ -58,7 +58,9 @@ const B2BFocusSection = () => {
                 <div
                   className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center mb-4 sm:mb-6 transition-transform duration-300 group-hover:scale-110 ${iconToneClass}`}
                 >
-                  <Icon size={24} className="sm:w-7 sm:h-7" />
+                  <span className="inline-flex sm:scale-110">
+                    <Icon size={24} />
+                  </span>
                 </div>
                 <h4 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">{item.title}</h4>
                 <p className="text-gray-600 text-sm leading-relaxed">{item.description}</p>

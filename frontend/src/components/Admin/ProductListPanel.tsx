@@ -150,7 +150,7 @@ const ProductListPanel = ({
                       disabled={deletingProductId === getDeleteKey(product)}
                       className="inline-flex items-center gap-2 rounded-xl border border-red-200 px-4 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                      {deletingProductId === getDeleteKey(product) ? <ImSpinner8 className="animate-spin" size={14} /> : <HiOutlineTrash size={14} />}
+                      {deletingProductId === getDeleteKey(product) ? <span className="inline-flex animate-spin"><ImSpinner8 size={14} /></span> : <HiOutlineTrash size={14} />}
                       Delete
                     </button>
                   </div>
