@@ -23,6 +23,7 @@ export interface BlogFormState {
   title: string;
   category: string;
   excerpt: string;
+  readTime: string;
   content: string;
   imageUrl: string;
   imagePath: string;

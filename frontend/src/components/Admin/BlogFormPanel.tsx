@@ -347,15 +347,6 @@ const BlogFormPanel = ({
           <h2 className="text-2xl font-black text-slate-900">{editingBlogId ? 'Edit Blog Post' : 'Add Blog Post'}</h2>
           <p className="mt-2 text-slate-500">Create blog articles with cover images, excerpts, and formatted content blocks.</p>
         </div>
-        {editingBlogId && (
-          <button
-            type="button"
-            onClick={onCancelEdit}
-            className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
-          >
-            Cancel Edit
-          </button>
-        )}
       </div>
 
       <form className="space-y-5" onSubmit={onSubmit}>
@@ -382,6 +373,18 @@ const BlogFormPanel = ({
               placeholder="Market Trend"
               required
             />
+          </label>
+
+          <label className="block">
+            <span className="mb-2 block text-sm font-semibold text-slate-700">Read time</span>
+            <input
+              type="text"
+              value={form.readTime}
+              onChange={(event) => onFormChange('readTime', event.target.value)}
+              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition focus:border-primary"
+              placeholder="5 MIN READ"
+            />
+            <p className="mt-2 text-xs text-slate-500">Leave blank to calculate automatically from the article length.</p>
           </label>
 
           <label className="block">
@@ -492,26 +495,26 @@ const BlogFormPanel = ({
           </div>
         )}
 
-        {formError && (
-          <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {formError}
-          </div>
-        )}
+        <div className="flex flex-wrap items-center gap-3">
+          {editingBlogId && (
+            <button
+              type="button"
+              onClick={onCancelEdit}
+              className="rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+            >
+              Cancel Edit
+            </button>
+          )}
 
-        {formSuccess && (
-          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
-            {formSuccess}
-          </div>
-        )}
-
-        <button
-          type="submit"
-          disabled={savingBlog}
-          className="inline-flex items-center gap-2 rounded-xl bg-[#2563eb] px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
-        >
-          {savingBlog ? <span className="inline-flex animate-spin"><ImSpinner8 size={18} /></span> : 'Publish'}
-          {editingBlogId ? 'Update Blog Post' : 'Save Blog Post'}
-        </button>
+          <button
+            type="submit"
+            disabled={savingBlog}
+            className="inline-flex items-center gap-2 rounded-xl bg-[#2563eb] px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {savingBlog ? <span className="inline-flex animate-spin"><ImSpinner8 size={18} /></span> : 'Publish'}
+            {editingBlogId ? 'Update Blog Post' : 'Save Blog Post'}
+          </button>
+        </div>
 
         {!form.content.trim() && (
           <p className="text-sm text-slate-500">Add article content before saving the blog post.</p>

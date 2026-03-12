@@ -30,6 +30,21 @@ export const getBlogReadTime = (content: string) => {
   return `${minutes} MIN READ`;
 };
 
+export const normalizeBlogReadTime = (value: string, content: string) => {
+  const trimmedValue = value.trim();
+
+  if (!trimmedValue) {
+    return getBlogReadTime(content);
+  }
+
+  const digitsOnly = trimmedValue.match(/^\d+$/);
+  if (digitsOnly) {
+    return `${digitsOnly[0]} MIN READ`;
+  }
+
+  return trimmedValue.toUpperCase();
+};
+
 export const getBlogPublishedLabel = (value: Timestamp | Date | null | undefined) => {
   const date = value instanceof Date ? value : value?.toDate?.() ?? null;
 
@@ -48,6 +63,7 @@ export const mapBlogData = (id: string, data: DocumentData): BlogPost => {
   const category = String(data.category ?? 'General');
   const categoryId = String(data.categoryId ?? getBlogCategoryId(category));
   const content = String(data.content ?? '');
+  const storedReadTime = String(data.readTime ?? '').trim();
 
   return {
     id,
@@ -60,7 +76,7 @@ export const mapBlogData = (id: string, data: DocumentData): BlogPost => {
     imageUrl: String(data.imageUrl ?? ''),
     imagePath: String(data.imagePath ?? ''),
     publishedLabel: String(data.publishedLabel ?? getBlogPublishedLabel(data.publishedAt ?? data.createdAt)),
-    readTime: String(data.readTime ?? getBlogReadTime(content)),
+    readTime: storedReadTime || getBlogReadTime(content),
     sortTitle: String(data.sortTitle ?? id),
   };
 };
