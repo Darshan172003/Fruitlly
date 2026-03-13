@@ -95,15 +95,15 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ url, thumbnail, title }) => {
               <motion.div 
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="w-20 h-20 bg-primary text-white rounded-full flex items-center justify-center shadow-2xl shadow-primary/40"
+                className="h-16 w-16 sm:w-20 sm:h-20 bg-primary text-white rounded-full flex items-center justify-center shadow-2xl shadow-primary/40"
               >
-                <span className="inline-flex translate-x-0.5">
-                  <MdPlayArrow size={48} />
+                <span className="inline-flex">
+                  <MdPlayArrow  className='text-4xl sm:text-5xl' />
                 </span>
               </motion.div>
             </div>
             <div className="absolute bottom-0 left-0 right-0 p-6 bg-linear-to-t from-black/80 to-transparent">
-              <h3 className="text-white text-xl font-bold">{title}</h3>
+              {/* <h3 className="text-white text-xl font-bold">{title}</h3> */}
             </div>
           </motion.button>
         )}
