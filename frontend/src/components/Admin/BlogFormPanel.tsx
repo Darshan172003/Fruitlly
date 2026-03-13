@@ -511,7 +511,7 @@ const BlogFormPanel = ({
             disabled={savingBlog}
             className="inline-flex items-center gap-2 rounded-xl bg-[#2563eb] px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {savingBlog ? <span className="inline-flex animate-spin"><ImSpinner8 size={18} /></span> : 'Publish'}
+            {savingBlog ? <span className="inline-flex animate-spin"><ImSpinner8 size={18} /></span> : ''}
             {editingBlogId ? 'Update Blog Post' : 'Save Blog Post'}
           </button>
         </div>

@@ -7,6 +7,7 @@ import {
   deleteField,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   limit,
   onSnapshot,
@@ -1098,6 +1099,21 @@ const AdminPanel = () => {
       const imageData = await uploadBlogImageIfNeeded();
       const categoryId = getBlogCategoryId(category);
       const nextBlogRef = doc(db, 'blogs', blogId);
+      const isRenamingBlog = Boolean(editingBlogId && editingBlogId !== blogId);
+
+      let preservedPublishedAt: unknown;
+      let preservedCreatedAt: unknown;
+
+      if (isRenamingBlog) {
+        const previousBlogSnapshot = await getDoc(doc(db, 'blogs', editingBlogId));
+
+        if (previousBlogSnapshot.exists()) {
+          const previousData = previousBlogSnapshot.data();
+          preservedPublishedAt = previousData.publishedAt;
+          preservedCreatedAt = previousData.createdAt;
+        }
+      }
+
       const payload: Record<string, unknown> = {
         title,
         excerpt,
@@ -1115,6 +1131,9 @@ const AdminPanel = () => {
       if (!editingBlogId) {
         payload.createdAt = serverTimestamp();
         payload.publishedAt = serverTimestamp();
+      } else if (isRenamingBlog) {
+        payload.createdAt = preservedCreatedAt ?? preservedPublishedAt ?? serverTimestamp();
+        payload.publishedAt = preservedPublishedAt ?? preservedCreatedAt ?? serverTimestamp();
       }
 
       await setDoc(nextBlogRef, payload, { merge: true });
