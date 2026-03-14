@@ -40,9 +40,9 @@ const AppShell = () => {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/terms" element={<TermsAndConditions />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/faq" element={<FAQ />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:postId" element={<BlogDetails />} />
           <Route path="/recipes" element={<Recipes />} />

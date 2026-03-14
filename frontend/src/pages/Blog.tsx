@@ -115,7 +115,7 @@ const Blog = () => {
             <div className="flex min-w-72 flex-col gap-3">
               <h1 className="text-slate-900 text-5xl font-extrabold leading-tight tracking-tight font-display">Industry Insights</h1>
               <p className="text-slate-500 text-lg font-normal leading-normal max-w-2xl">
-                Stay updated with the latest trends in the confectionery market, bulk supply logistics, and manufacturing excellence at Fruitlly.
+                Stay updated with trends in jelly confectionery manufacturing, bulk supply, and fruit jelly product innovations from Fruitlly by Tulsi Foods.
               </p>
             </div>
             <div className="flex gap-3">
@@ -256,7 +256,7 @@ const Blog = () => {
           <div className="flex flex-col gap-4">
             <h4 className="text-slate-900 text-3xl font-bold leading-tight font-display">Get the latest B2B reports</h4>
             <p className="text-slate-500 text-lg font-normal leading-normal max-w-xl">
-              Join 500+ distributors receiving our monthly market analysis and product innovation updates.
+              Join distributors receiving updates on jelly confectionery trends, manufacturing insights, and new product launches.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">

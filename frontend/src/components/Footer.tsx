@@ -68,8 +68,8 @@ const Footer = () => {
         <div className="">&copy; {CurrentYear} Fruitlly by Tulsi Foods. All rights reserved.</div>
         <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-gray-500">
           <Link to="/faq" className="hover:text-primary">FAQ</Link>
-          <Link to="/privacy" className="hover:text-primary">Privacy Policy</Link>
-          <Link to="/terms" className="hover:text-primary">Terms and Conditions</Link>
+          <Link to="/privacy-policy" className="hover:text-primary">Privacy Policy</Link>
+          <Link to="/terms-and-conditions" className="hover:text-primary">Terms and Conditions</Link>
         </div>
       </div>
     </footer>
