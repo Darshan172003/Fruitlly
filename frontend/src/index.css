@@ -8,12 +8,14 @@
   --color-accent-green: #8BC34A;
   --color-background-light: #f8f6f6;
   --color-text-dark: #171212;
+  --breakpoint-mdsm: 52.5rem;
 }
 
 @layer base {
   body {
     @apply font-body bg-background-light text-text-dark;
   }
+
   h1, h2, h3, h4 {
     @apply font-display;
   }
