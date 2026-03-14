@@ -226,7 +226,7 @@ const Recipes = () => {
             Need a Custom Recipe?
           </h2>
           <p className="relative z-10 text-white/90 text-lg max-w-2xl leading-relaxed">
-            Our culinary team can help you develop exclusive jelly-based products and recipe cards for your private label or retail chain.
+            Our team can help develop jelly-based desserts, confectionery ideas, and recipe concepts for distributors, food brands, and retail partners.
           </p>
           <div className="relative z-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
