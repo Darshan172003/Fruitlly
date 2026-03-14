@@ -69,7 +69,7 @@ const PrivacyPolicy = () => {
       className="flex flex-col flex-1"
     >
       {/* Hero Section */}
-      <div className="relative w-full overflow-hidden border-b border-slate-200 bg-linear-to-b from-white to-slate-50">
+      <div className="relative w-full overflow-hidden border-b border-slate-200 bg-linear-to-b from-white to-accent-green/5">
         <div className="relative mx-auto max-w-7xl px-6 pb-12 pt-12 lg:pb-14 lg:pt-16">
           <div className="mb-5 inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-slate-600">
             Last Updated: October 24, 2023
@@ -95,7 +95,7 @@ const PrivacyPolicy = () => {
                     onClick={handleSectionClick(section.id)}
                     className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                       activeSection === section.id
-                        ? 'bg-slate-100 text-slate-900'
+                        ? 'bg-primary/5 text-primary'
                         : 'text-slate-600 hover:bg-slate-50'
                     }`}
                   >
@@ -111,7 +111,7 @@ const PrivacyPolicy = () => {
           <article className="w-full space-y-8 lg:w-3/4">
             <section id="introduction" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-8">
               <h2 className="mb-6 flex items-center gap-3 text-3xl font-bold text-slate-900">
-                <span className="h-8 w-1.5 rounded-full bg-primary"></span>
+                <span className="h-8 w-1.5 rounded-full bg-accent-green"></span>
                 Our Commitment to Your Privacy
               </h2>
               <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed space-y-4">
@@ -138,7 +138,7 @@ const PrivacyPolicy = () => {
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-green/10 text-accent-green">
                       <MdPerson size={20} />
                     </div>
                     <div>
@@ -158,7 +158,7 @@ const PrivacyPolicy = () => {
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-green/10 text-accent-green">
                       <MdDevices size={20} />
                     </div>
                     <div>
@@ -213,22 +213,22 @@ const PrivacyPolicy = () => {
                 Fruitlly B2B does not sell your business data to third parties. We only share information with service providers that help us operate our business, such as:
               </p>
               <div className="grid sm:grid-cols-3 gap-6">
-                <div className="rounded-xl border border-slate-200 p-4">
-                  <h4 className="font-bold text-primary mb-2">Logistics Partners</h4>
+                <div className="rounded-xl border border-accent-green/20 bg-accent-green/5 p-4">
+                  <h4 className="font-bold text-accent-green mb-2">Logistics Partners</h4>
                   <p className="text-xs text-slate-500">To ensure delivery of your wholesale jelly cube orders.</p>
                 </div>
-                <div className="rounded-xl border border-slate-200 p-4">
+                <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
                   <h4 className="font-bold text-primary mb-2">Payment Processors</h4>
                   <p className="text-xs text-slate-500">To securely handle B2B financial transactions.</p>
                 </div>
-                <div className="rounded-xl border border-slate-200 p-4">
-                  <h4 className="font-bold text-primary mb-2">Legal Compliance</h4>
+                <div className="rounded-xl border border-accent-green/20 bg-accent-green/5 p-4">
+                  <h4 className="font-bold text-accent-green mb-2">Legal Compliance</h4>
                   <p className="text-xs text-slate-500">When required by law to comply with regulations or legal requests.</p>
                 </div>
               </div>
             </section>
 
-            <section className="scroll-mt-28 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center shadow-sm sm:p-8" id="contact">
+            <section className="scroll-mt-28 rounded-2xl border border-accent-green/20 bg-accent-green/5 p-4 text-center shadow-sm sm:p-8" id="contact">
               <h2 className="text-2xl font-bold text-slate-900 mb-4">Questions about our Privacy Policy?</h2>
               <p className="text-slate-600 mb-8 max-w-xl mx-auto">
                 If you have any questions regarding how we handle your business data, please contact our Data Protection Officer.

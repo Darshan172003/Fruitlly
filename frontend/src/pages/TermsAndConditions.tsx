@@ -116,7 +116,7 @@ const TermsAndConditions = () => {
       animate={{ opacity: 1 }}
       className="flex flex-1 flex-col"
     >
-      <header className="border-b border-slate-200 bg-linear-to-b from-white to-slate-50">
+      <header className="border-b border-slate-200 bg-linear-to-b from-white to-accent-green/5">
         <div className="mx-auto w-full max-w-7xl px-6 pb-12 pt-12 lg:pb-14 lg:pt-16">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-slate-600">
             <MdCalendarToday size={14} />
@@ -147,11 +147,11 @@ const TermsAndConditions = () => {
                     onClick={handleTocClick(item.id)}
                     className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                       activeSection === item.id
-                        ? 'bg-slate-100 text-slate-900'
+                        ? 'bg-primary/5 text-primary'
                         : 'text-slate-700 hover:bg-slate-100'
                     }`}
                   >
-                    <span className="mr-2 text-xs text-slate-400">{String(index + 1).padStart(2, '0')}</span>
+                    <span className={`mr-2 text-xs font-bold ${activeSection === item.id ? 'text-primary' : 'text-slate-400'}`}>{String(index + 1).padStart(2, '0')}</span>
                     {item.label}
                   </a>
                 ))}
@@ -161,7 +161,10 @@ const TermsAndConditions = () => {
 
           <article className="w-full space-y-8 lg:w-3/4">
             <section id="overview" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-8">
-              <h2 className="mb-4 text-2xl font-bold text-slate-900">Agreement Overview</h2>
+              <h2 className="mb-4 flex items-center gap-3 text-2xl font-bold text-slate-900">
+                <span className="h-7 w-1.5 rounded-full bg-primary"></span>
+                Agreement Overview
+              </h2>
               <p className="leading-relaxed text-slate-600">
                 Welcome to the Fruitlly B2B platform, operated by Tulsi Foods. These Terms and
                 Conditions govern your use of our bulk procurement services for sugar-coated jelly
@@ -187,12 +190,12 @@ const TermsAndConditions = () => {
                         className="flex w-full items-center justify-between gap-6 p-5 text-left"
                       >
                         <h3 className="flex items-center gap-3 text-base font-bold text-slate-900 md:text-lg">
-                          <span className="rounded bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-600">
+                          <span className="rounded bg-accent-green/15 px-2 py-1 text-xs font-semibold text-accent-green">
                             {String(index + 1).padStart(2, '0')}
                           </span>
                           {clause.title}
                         </h3>
-                        <span className={`shrink-0 text-slate-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+                        <span className={`shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-accent-green' : 'text-slate-400'}`}>
                           <MdExpandMore size={24} />
                         </span>
                       </button>
@@ -214,7 +217,10 @@ const TermsAndConditions = () => {
             </section>
 
             <section id="details" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-8">
-              <h2 className="mb-6 text-2xl font-bold text-slate-900">Detailed Terms of Service</h2>
+              <h2 className="mb-6 flex items-center gap-3 text-2xl font-bold text-slate-900">
+                <span className="h-7 w-1.5 rounded-full bg-accent-green"></span>
+                Detailed Terms of Service
+              </h2>
               <div className="prose prose-slate max-w-none space-y-4 text-slate-600">
                 <p>
                   Fruitlly B2B is committed to maintaining the highest standards of food safety and
@@ -230,7 +236,7 @@ const TermsAndConditions = () => {
               </div>
             </section>
 
-            <section id="contact" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center shadow-sm sm:p-8">
+            <section id="contact" className="scroll-mt-28 rounded-2xl border border-accent-green/20 bg-accent-green/5 p-4 text-center shadow-sm sm:p-8">
               <h3 className="mb-2 text-xl font-bold text-slate-900">Have questions about these terms?</h3>
               <p className="mx-auto mb-6 max-w-xl text-slate-600">
                 Our legal and support teams are here to help you understand your B2B partnership.

@@ -163,7 +163,7 @@ const FAQ = () => {
 
   return (
     <div className="flex flex-col flex-1">
-      <header className="relative overflow-hidden border-b border-slate-200 bg-slate-50 py-16 lg:py-20">
+      <header className="relative overflow-hidden border-b border-slate-200 bg-linear-to-b from-white to-accent-green/5 py-16 lg:py-20">
         <div className="mx-auto max-w-5xl px-4 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 18 }}
@@ -176,13 +176,13 @@ const FAQ = () => {
             Everything procurement teams need to know about Fruitlly jelly products, including quality standards, bulk supply, packaging, and logistics support.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm">
+            <span className="rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-semibold text-primary shadow-sm">
               4 Key Categories
             </span>
             <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm">
               Quick Procurement Clarity
             </span>
-            <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm">
+            <span className="rounded-full border border-accent-green/25 bg-accent-green/5 px-4 py-2 text-sm font-semibold text-accent-green shadow-sm">
               B2B Support Ready
             </span>
           </div>
@@ -207,13 +207,13 @@ const FAQ = () => {
                       href={`#${cat.id}`}
                       onClick={handleCategoryClick(cat.id)}
                       className={`group block rounded-xl border px-3 py-3 transition-all ${isActive
-                          ? 'border-slate-300 bg-slate-100 text-slate-900 shadow-sm'
+                          ? 'border-primary/20 bg-primary/5 text-slate-900 shadow-sm'
                           : 'border-transparent text-slate-600 hover:border-slate-200 hover:bg-slate-50'
                         }`}
                     >
                       <div className="flex items-center gap-2.5">
                         <span
-                          className={`flex h-8 w-8 items-center justify-center rounded-lg ${isActive ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'
+                          className={`flex h-8 w-8 items-center justify-center rounded-lg ${isActive ? 'bg-primary text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'
                             }`}
                         >
                           <Icon size={18} />
@@ -236,7 +236,7 @@ const FAQ = () => {
               return (
                 <section key={category.id} id={category.id} className="scroll-mt-28">
                   <div className="mb-6 flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-green/10 text-accent-green">
                       <Icon size={24} />
                     </div>
                     <div>
@@ -263,7 +263,7 @@ const FAQ = () => {
                             <span className="pr-4 text-base font-semibold leading-relaxed text-slate-900 md:text-lg">
                               {item.question}
                             </span>
-                            <span className={`shrink-0 text-slate-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+                            <span className={`shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-accent-green' : 'text-slate-400'}`}>
                               <MdExpandMore size={24} />
                             </span>
                           </button>
@@ -294,7 +294,7 @@ const FAQ = () => {
         </div>
       </main>
 
-      <section className="border-t border-slate-200 bg-slate-50 py-16">
+      <section className="border-t border-slate-200 bg-linear-to-r from-primary/5 via-white to-accent-green/5 py-16">
         <div className="mx-auto max-w-6xl px-4">
           <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm md:p-12">
             <h2 className="mb-3 text-3xl font-black tracking-tight text-slate-900">Still have questions?</h2>
@@ -309,7 +309,7 @@ const FAQ = () => {
                 <MdEmail size={20} /> Email Support
               </a>
               <a
-                className="flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-8 py-4 font-bold text-slate-900 transition-all hover:border-slate-500"
+                className="flex items-center justify-center gap-2 rounded-xl border border-accent-green/40 bg-white px-8 py-4 font-bold text-slate-900 transition-all hover:border-accent-green hover:text-accent-green"
                 href="tel:+919422283890"
               >
                 <MdPhone size={20} /> Call Sales Team
