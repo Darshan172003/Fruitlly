@@ -324,7 +324,7 @@ const Products = () => {
                       ))}
                     </div>
 
-                    <div className="flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row sm:items-center items-center justify-center sm:justify-between">
                       <p className="text-sm font-medium text-slate-500">Page {pageIndex + 1}</p>
                       <div className="flex gap-3">
                         <button
