@@ -108,7 +108,7 @@ const Recipes = () => {
               Fruitlly Recipe Gallery
             </h1>
             <p className="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg md:text-xl md:leading-8">
-              Discover creative ways to incorporate our premium jelly cubes into your menu. Watch video guides crafted for professional results.
+              Discover creative dessert ideas using Fruitlly jelly cubes and fruit jelly products. Watch recipe videos and learn how to use premium jelly in cakes, desserts, and refreshing sweet treats.
             </p>
           </motion.div>
         </div>
