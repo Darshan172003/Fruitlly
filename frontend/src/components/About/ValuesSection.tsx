@@ -3,10 +3,10 @@ import { motion } from 'motion/react';
 import { MdEco, MdGroups, MdHandshake, MdScience } from 'react-icons/md';
 
 const values = [
-  { icon: MdHandshake, color: 'text-primary', title: 'Integrity', desc: 'Honesty and transparency in every business dealing.' },
-  { icon: MdScience, color: 'text-accent-green', title: 'Innovation', desc: 'Constantly pushing the boundaries of flavor and texture.' },
-  { icon: MdGroups, color: 'text-primary', title: 'Partnership', desc: 'Growing together with our clients and suppliers.' },
-  { icon: MdEco, color: 'text-accent-green', title: 'Sustainability', desc: 'Commitment to ethical sourcing and waste reduction.' },
+  { icon: MdHandshake, color: 'text-primary', title: 'Integrity', desc: 'Transparent and ethical business practices in every partnership.' },
+  { icon: MdScience, color: 'text-accent-green', title: 'Innovation', desc: 'Continuous improvement in flavor development and product quality.' },
+  { icon: MdGroups, color: 'text-primary', title: 'Partnership', desc: 'Building long-term relationships with distributors and business partners.' },
+  { icon: MdEco, color: 'text-accent-green', title: 'Sustainability', desc: 'Responsible sourcing and efficient manufacturing practices.' },
 ];
 
 const ValuesSection = () => {

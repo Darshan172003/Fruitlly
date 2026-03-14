@@ -8,21 +8,21 @@ const cards = [
     color: 'text-primary',
     bg: 'bg-primary/10',
     title: 'Industry Expertise',
-    desc: 'Over 20 years of excellence in high-volume confectionery manufacturing and supply chain management.',
+    desc: 'Over 5 years of experience in confectionery manufacturing and large-scale jelly production.',
   },
   {
     icon: MdPublic,
     color: 'text-accent-green',
     bg: 'bg-accent-green/10',
     title: 'Global Reach',
-    desc: 'Supplying premium jelly treats and snacks to B2B partners across 15+ countries worldwide.',
+    desc: 'Supplying fruit jelly candies and cubes to distributors and B2B partners across multiple regions.',
   },
   {
     icon: MdVerifiedUser,
     color: 'text-primary',
     bg: 'bg-primary/10',
     title: 'Quality Assurance',
-    desc: 'Strict adherence to ISO and HACCP international food safety standards for every batch.',
+    desc: 'Strict production standards and hygiene controls ensuring consistent quality in every batch.',
   },
 ];
 
@@ -43,7 +43,7 @@ const LegacySection = () => {
               The Legacy of Tulsi Foods
             </h2>
             <p className="text-gray-600 text-base font-normal leading-relaxed">
-              With decades of expertise in the confectionery industry, Tulsi Foods is committed to delivering quality and taste across the globe. Our parent company serves as the backbone of innovation and ethical sourcing for every Fruitlly product.
+              With decades of expertise in confectionery manufacturing, Tulsi Foods is committed to producing high-quality fruit jelly products for domestic and global markets. Our modern production systems, industry knowledge, and quality processes ensure reliable bulk manufacturing for distributors and B2B partners.
             </p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

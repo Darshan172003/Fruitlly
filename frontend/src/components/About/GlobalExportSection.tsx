@@ -74,7 +74,7 @@ const GlobalExportSection = () => {
           <span className="text-white/80 font-bold text-sm uppercase tracking-widest">Global Export Network</span>
           <h2 className="text-4xl md:text-5xl font-black tracking-tight font-display">Connecting Sweetness Worldwide</h2>
           <p className="text-white/80 text-lg max-w-180">
-            From our central manufacturing hub, we export to major markets across Asia, Europe, and the Middle East. Our logistics network is optimized for temperature-controlled shipping to preserve product integrity.
+            From our central manufacturing facility in Jalgaon, Fruitlly products reach multiple domestic and international markets. Our efficient supply chain supports reliable bulk distribution while maintaining product quality during transportation.
           </p>
         </motion.div>
         <div className="grid min-[450px]:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">

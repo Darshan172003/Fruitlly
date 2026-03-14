@@ -22,7 +22,7 @@ const ManufacturingSection = () => {
                 State-of-the-Art Production
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed">
-                Our manufacturing facility is equipped with the latest technology to ensure consistency, hygiene, and efficiency. We operate at a scale that allows us to meet the demands of global B2B partners without compromising on the artisanal quality of our jelly cubes.
+                Our modern manufacturing facility in MIDC Jalgaon is equipped with advanced machinery to ensure consistent texture, hygiene, and efficient large-scale production. Our infrastructure supports bulk supply requirements while maintaining the premium quality of every Fruitlly product.
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -32,7 +32,7 @@ const ManufacturingSection = () => {
                 </div>
                 <div>
                   <h4 className="text-text-dark font-bold mb-1">Advanced Automation</h4>
-                  <p className="text-gray-600 text-sm">Precision cooking and cooling systems for perfect texture.</p>
+                  <p className="text-gray-600 text-sm">Precision cooking and cooling systems ensuring consistent jelly texture.</p>
                 </div>
               </div>
               <div className="flex gap-4">
@@ -41,7 +41,7 @@ const ManufacturingSection = () => {
                 </div>
                 <div>
                   <h4 className="text-text-dark font-bold mb-1">R&D Laboratory</h4>
-                  <p className="text-gray-600 text-sm">Continuous flavor innovation and shelf-life testing.</p>
+                  <p className="text-gray-600 text-sm">Continuous product improvement and quality testing for every batch.</p>
                 </div>
               </div>
             </div>
