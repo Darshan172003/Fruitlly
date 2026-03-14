@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { MdCheckCircle } from 'react-icons/md';
 import Image2 from '../../assets/Home2.png';
 
@@ -17,18 +18,30 @@ const CoreProductSection = () => {
       <div className="absolute -bottom-24 left-0 h-64 w-64 rounded-full bg-accent-green/15 blur-3xl -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="mb-7 sm:mb-10 text-center lg:text-left">
+        <motion.div
+          initial={{ opacity: 0, y: 22 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.55, ease: 'easeOut' }}
+          className="mb-7 sm:mb-10 text-center lg:text-left"
+        >
           <span className="inline-flex items-center rounded-full border border-primary/15 bg-white/90 px-4 py-2 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-primary shadow-sm">
             CORE MANUFACTURING PRODUCT
           </span>
           <h2 className="mt-4 text-text-dark text-3xl sm:text-4xl font-extrabold tracking-tight">Our Core Product</h2>
-        </div>
+        </motion.div>
 
         <div className="relative overflow-hidden rounded-4xl border border-gray-100 bg-white/95 shadow-2xl">
           <div className="absolute inset-0 -z-10 bg-linear-to-tr from-primary/5 via-transparent to-accent-green/10" />
 
           <div className="flex flex-col lg:flex-row items-stretch">
-            <div className="relative w-full lg:w-1/2">
+            <motion.div
+              initial={{ opacity: 0, x: -32 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="relative w-full lg:w-1/2"
+            >
               <div className="h-72 sm:h-96 lg:h-full">
                 <img
                   src={Image2}
@@ -41,9 +54,15 @@ const CoreProductSection = () => {
                 <p className="text-xs uppercase text-gray-500 font-semibold">Texture Profile</p>
                 <p className="text-xs sm:text-base font-bold text-text-dark">Soft Chew + Sugary Crunch</p>
               </div> */}
-            </div>
+            </motion.div>
 
-            <div className="flex w-full lg:w-1/2 flex-col gap-6 p-6 sm:p-8 lg:p-12">
+            <motion.div
+              initial={{ opacity: 0, x: 32 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+              className="flex w-full lg:w-1/2 flex-col gap-6 p-6 sm:p-8 lg:p-12"
+            >
               <div className="flex flex-col gap-3">
                 <h3 className="text-text-dark text-2xl sm:text-3xl font-bold leading-tight">
                   Premium Sugar Coated Jelly Cubes
@@ -70,7 +89,7 @@ const CoreProductSection = () => {
                 </button>
                 <p className="text-xs sm:text-sm text-gray-500 font-medium">Available for bulk supply and private labeling.</p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

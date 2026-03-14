@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { MdFactory, MdSecurity, MdInventory2, MdCategory } from 'react-icons/md';
 
 const focusItems = [
@@ -36,12 +37,18 @@ const B2BFocusSection = () => {
   return (
     <section className="py-10 sm:py-14 lg:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex flex-col items-center text-center gap-3 sm:gap-4 mb-8 sm:mb-12 lg:mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 22 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.55, ease: 'easeOut' }}
+          className="flex flex-col items-center text-center gap-3 sm:gap-4 mb-8 sm:mb-12 lg:mb-16"
+        >
           <h2 className="text-text-dark text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">B2B Focus & Manufacturing Excellence</h2>
           <p className="text-gray-600 text-sm sm:text-base max-w-2xl leading-relaxed">
             We are more than a supplier - we are your strategic manufacturing partner for high-quality, large-scale jelly production.
           </p>
-        </div>
+        </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {focusItems.map((item) => {
             const Icon = item.icon;
@@ -50,9 +57,14 @@ const B2BFocusSection = () => {
                 ? 'bg-primary/10 text-primary'
                 : 'bg-accent-green/10 text-accent-green';
 
+            const index = focusItems.indexOf(item);
             return (
-              <div
+              <motion.div
                 key={item.title}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, ease: 'easeOut', delay: index * 0.1 }}
                 className="group bg-white p-5 sm:p-6 lg:p-8 rounded-2xl shadow-sm border border-gray-100 transition-all duration-300 hover:-translate-y-1 sm:hover:-translate-y-2 hover:shadow-lg"
               >
                 <div
@@ -64,7 +76,7 @@ const B2BFocusSection = () => {
                 </div>
                 <h4 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">{item.title}</h4>
                 <p className="text-gray-600 text-sm leading-relaxed">{item.description}</p>
-              </div>
+              </motion.div>
             );
           })}
         </div>
