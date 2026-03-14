@@ -33,20 +33,20 @@ const categories: FAQCategory[] = [
     icon: MdInventory2,
     items: [
       {
-        question: 'What is the shelf life of Fruitlly sugar-coated jelly cubes?',
+        question: 'What is the shelf life of Fruitlly jelly cubes?',
         answer:
-          'Our jelly cubes have a guaranteed shelf life of 12 months from the date of manufacture when stored in cool, dry conditions away from direct sunlight. Each batch is stamped with a clear expiry date for your inventory management.',
+          'Fruit jelly cubes and sugar-coated jelly products generally have a shelf life of up to 12 months when stored in a cool and dry place. Each batch is produced with strict quality checks to maintain taste and freshness.',
         open: true,
       },
       {
         question: 'Are the colors and flavors natural?',
         answer:
-          'At Tulsi Foods, we prioritize quality. We use FSSAI-approved food-grade ingredients. We offer both standard and premium ranges, including options with fruit pulp and natural extracts for specific B2B requirements.',
+          'Fruitlly jelly products are made using approved food ingredients and fruit flavors such as mango, strawberry, litchi, and mix fruit for consistent taste and color.',
       },
       {
         question: 'Do the jelly cubes clump together in humidity?',
         answer:
-          'Our unique double-coating process ensures individual jelly cubes remain separated even in moderate humidity. However, for bulk storage, we recommend temperature-controlled environments to maintain the sugar-crust integrity.',
+          'Proper packaging and storage help maintain the texture of jelly cubes. Products should be stored in dry conditions away from moisture and heat.',
       },
     ],
   },
@@ -59,12 +59,12 @@ const categories: FAQCategory[] = [
       {
         question: 'What is the Minimum Order Quantity (MOQ)?',
         answer:
-          'For standard Fruitlly packaging, the MOQ starts at 50 cartons. For custom white-labeling or bulk loose packaging (20kg bags), the MOQ is 500kg per flavor variant.',
+          'Bulk orders are supported for distributors and wholesalers, with packaging options designed for large-scale supply and distribution.',
       },
       {
         question: 'Can we request custom flavors or shapes?',
         answer:
-          'Yes, Tulsi Foods offers R&D support for large-scale B2B clients. We can develop custom flavor profiles and shapes for orders exceeding 2 metric tons. Contact our sales team for feasibility.',
+          'Fruit jelly and confectionery products are available in multiple flavors such as mango, guava, strawberry, and mix fruit for different market preferences.',
       },
     ],
   },
@@ -77,12 +77,12 @@ const categories: FAQCategory[] = [
       {
         question: 'What are the standard packaging sizes available?',
         answer:
-          'We offer 150g retail pouches, 500g family packs, and 5kg bulk jars. For industrial clients, we provide 20kg moisture-resistant corrugated boxes.',
+          'Products are typically packed in secure boxes or containers suitable for storage, transport, and bulk distribution.',
       },
       {
         question: 'Do you ship internationally?',
         answer:
-          'Yes, we have a dedicated export division that handles logistics for international shipping. We are familiar with global food safety standards and labeling requirements for the Middle East, SE Asia, and Africa.',
+          'Tulsi Foods supports bulk supply and distribution across different markets through reliable logistics partners.',
       },
     ],
   },
@@ -95,12 +95,12 @@ const categories: FAQCategory[] = [
       {
         question: 'Do you provide food safety certificates with shipments?',
         answer:
-          'Yes. We provide batch-wise documentation, including relevant quality and compliance records required for wholesale procurement and audits.',
+          'Production follows strict hygiene and quality standards to maintain safety and consistency for confectionery products.',
       },
       {
         question: 'Can you support custom labeling for regulatory markets?',
         answer:
-          'Yes, our team can support market-specific label requirements for approved bulk orders, including ingredient declarations and export documentation.',
+          'Custom packaging and labeling options can be arranged for distributors and private-label partners.',
       },
     ],
   },
@@ -173,8 +173,7 @@ const FAQ = () => {
             Answers for Fast B2B Decisions
           </motion.h1>
           <p className="mx-auto max-w-3xl text-base leading-relaxed text-slate-600 md:text-lg">
-            Everything your procurement team needs to know about Fruitlly jelly cubes,
-            from product quality to logistics and compliance.
+            Everything procurement teams need to know about Fruitlly jelly products, including quality standards, bulk supply, packaging, and logistics support.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <span className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm">
@@ -207,17 +206,15 @@ const FAQ = () => {
                       key={cat.id}
                       href={`#${cat.id}`}
                       onClick={handleCategoryClick(cat.id)}
-                      className={`group block rounded-xl border px-3 py-3 transition-all ${
-                        isActive
+                      className={`group block rounded-xl border px-3 py-3 transition-all ${isActive
                           ? 'border-slate-300 bg-slate-100 text-slate-900 shadow-sm'
                           : 'border-transparent text-slate-600 hover:border-slate-200 hover:bg-slate-50'
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center gap-2.5">
                         <span
-                          className={`flex h-8 w-8 items-center justify-center rounded-lg ${
-                            isActive ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'
-                          }`}
+                          className={`flex h-8 w-8 items-center justify-center rounded-lg ${isActive ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'
+                            }`}
                         >
                           <Icon size={18} />
                         </span>
@@ -263,12 +260,12 @@ const FAQ = () => {
                             aria-expanded={isOpen}
                             className="flex w-full cursor-pointer items-center justify-between gap-6 p-5 text-left md:p-6"
                           >
-                          <span className="pr-4 text-base font-semibold leading-relaxed text-slate-900 md:text-lg">
-                            {item.question}
-                          </span>
-                          <span className={`shrink-0 text-slate-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
-                            <MdExpandMore size={24} />
-                          </span>
+                            <span className="pr-4 text-base font-semibold leading-relaxed text-slate-900 md:text-lg">
+                              {item.question}
+                            </span>
+                            <span className={`shrink-0 text-slate-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+                              <MdExpandMore size={24} />
+                            </span>
                           </button>
                           <motion.div
                             initial={false}
@@ -302,18 +299,18 @@ const FAQ = () => {
           <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm md:p-12">
             <h2 className="mb-3 text-3xl font-black tracking-tight text-slate-900">Still have questions?</h2>
             <p className="mx-auto mb-8 max-w-2xl text-slate-600">
-              Our B2B team can help with pricing, custom requirements, and supply planning.
+              Our B2B team can help with bulk pricing, product information, and distribution inquiries.
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <a
                 className="flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 font-bold text-white transition-all hover:shadow-lg"
-                href="mailto:support@fruitlly.com"
+                href="mailto:contact.fruitlly@gmail.com"
               >
                 <MdEmail size={20} /> Email Support
               </a>
               <a
                 className="flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-8 py-4 font-bold text-slate-900 transition-all hover:border-slate-500"
-                href="tel:+1234567890"
+                href="tel:+919422283890"
               >
                 <MdPhone size={20} /> Call Sales Team
               </a>
