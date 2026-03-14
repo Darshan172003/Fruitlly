@@ -174,14 +174,14 @@ const Products = () => {
               transition={{ duration: 0.55, ease: 'easeOut' }}
               className="max-w-3xl"
             >
-              <span className="mb-4 inline-flex rounded-full border border-primary/15 bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.25em] text-primary sm:text-xs">
-                Fruitlly Catalog
+              <span className="mb-4 inline-flex rounded-full border border-primary/15 bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.20em] text-primary sm:text-xs">
+                FRUITLLY PRODUCT RANGE
               </span>
               <h1 className="mb-5 text-3xl font-black leading-tight tracking-tight text-slate-900 sm:text-4xl md:text-5xl lg:text-6xl">
-                Premium jelly products crafted for wholesale and retail shelves.
+                Premium jelly products crafted for wholesale and distribution.
               </h1>
-              <p className="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg md:text-xl md:leading-8">
-                Browse the live Fruitlly range with product names, images, and short descriptions. The hero section stays fixed while products update from the admin panel.
+              <p className="max-w-3xl text-base leading-7 text-slate-600 sm:text-lg md:text-xl md:leading-8">
+                Explore the Fruitlly range of fruit jelly candies, jelly cubes, jams, fruit crush, and syrups manufactured by Tulsi Foods in Jalgaon. Our products are designed for consistent taste, reliable shelf life, and large-scale B2B supply.
               </p>
             </motion.div>
 
@@ -370,9 +370,7 @@ const Products = () => {
           <div className="max-w-2xl text-center lg:text-left">
             <h2 className="mb-5 text-2xl font-black text-slate-900 sm:text-3xl">Request a Wholesale Catalog</h2>
             <p className="text-base leading-7 text-slate-700 sm:text-lg sm:leading-relaxed">
-              Interested in exploring our full range of confectionery products? Get in touch for our
-              latest product catalog, certifications, and volume-based pricing structures for global
-              distribution.
+              Interested in the full Fruitlly confectionery range? Contact Tulsi Foods for product catalogs, bulk pricing details, certifications, and distribution partnerships.
             </p>
           </div>
           <div className="flex w-full flex-col gap-4 sm:flex-row lg:w-auto">
