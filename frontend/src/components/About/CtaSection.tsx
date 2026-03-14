@@ -1,25 +1,29 @@
 import React from 'react';
+import { motion } from 'motion/react';
 
 const CtaSection = () => {
   return (
-    <section className="flex flex-1 justify-center py-24 px-4 md:px-10 lg:px-40 bg-white">
-      <div className="flex flex-col max-w-300 flex-1 bg-slate-900 rounded-[40px] p-12 md:p-20 text-center items-center gap-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -mr-32 -mt-32"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary-green/20 rounded-full blur-[80px] -ml-32 -mb-32"></div>
-
-        <h2 className="text-white text-4xl md:text-5xl font-black font-display relative z-10">Ready to Partner with Fruitlly?</h2>
-        <p className="text-slate-400 text-lg max-w-150 relative z-10">
-          Join our network of global B2B partners and bring premium jelly treats to your market.
-        </p>
-        <div className="flex flex-wrap justify-center gap-4 relative z-10">
-          <button className="bg-primary hover:bg-red-700 text-white px-10 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-primary/20">
+    <section className="max-w-7xl mx-auto w-full px-4 sm:px-6 py-10 sm:py-12 lg:py-16">
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className="bg-primary rounded-2xl sm:rounded-[2.5rem] p-6 sm:p-10 lg:p-14 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 lg:gap-10"
+      >
+        <div className="flex flex-col gap-4 text-white w-full lg:w-auto">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">Ready to Partner with Fruitlly?</h2>
+          <p className="text-white/80 text-base sm:text-lg max-w-xl">Join our network of global B2B partners and bring premium jelly treats to your market.</p>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full lg:w-auto lg:shrink-0">
+          <button className="w-full sm:w-auto bg-white text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base sm:text-lg hover:bg-gray-100 transition-colors shadow-lg text-center">
             Contact Sales
           </button>
-          <button className="bg-white/10 hover:bg-white/20 text-white px-10 py-4 rounded-2xl font-bold transition-all backdrop-blur-md">
+          <button className="w-full sm:w-auto bg-black/20 text-white border border-white/30 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base sm:text-lg hover:bg-black/30 transition-colors text-center">
             Download Brochure
           </button>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

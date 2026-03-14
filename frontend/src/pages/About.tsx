@@ -12,11 +12,7 @@ import {
 
 const About = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="flex flex-col flex-1"
-    >
+    <div className="flex flex-col flex-1 bg-linear-to-b from-white via-white to-primary/5">
       <HeroSection />
       <LegacySection />
       <ManufacturingSection />
@@ -24,7 +20,7 @@ const About = () => {
       <PillarsSection />
       <ValuesSection />
       <CtaSection />
-    </motion.div>
+    </div>
   );
 };
 
