@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
-import { ChevronLeft, ChevronRight, Mail } from 'lucide-react';
+import { HiChevronLeft, HiChevronRight, HiArrowSmallRight, HiOutlineEnvelope } from 'react-icons/hi2';
 import { Link } from 'react-router-dom';
 import {
   collection,
@@ -171,6 +171,7 @@ const Products = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: 'easeOut' }}
               className="max-w-3xl"
             >
               <span className="mb-4 inline-flex rounded-full border border-primary/15 bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.25em] text-primary sm:text-xs">
@@ -185,6 +186,9 @@ const Products = () => {
             </motion.div>
 
             <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: 'easeOut', delay: 0.15 }}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               className="w-full md:w-auto flex justify-center md:justify-start"
@@ -297,7 +301,7 @@ const Products = () => {
                             className="group flex h-full flex-col overflow-hidden rounded-4xl border border-[#f3e8df] bg-white shadow-[0_18px_45px_rgba(34,24,14,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_65px_rgba(34,24,14,0.14)]"
                           >
                             <div className="relative aspect-4/3 overflow-hidden bg-slate-100">
-                              <span className="absolute left-4 top-4 z-10 rounded-2xl bg-white/90 px-3 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-900 shadow-sm sm:left-5 sm:top-5 sm:px-4 sm:text-xs">
+                              <span className="absolute left-4 top-4 z-10 rounded-2xl bg-white/90 px-2 py-2 text-[10px] font-black uppercase  text-slate-900 shadow-sm sm:left-5 sm:top-5 sm:px-4 sm:text-xs">
                                 {product.categoryName}
                               </span>
                               <img
@@ -307,15 +311,15 @@ const Products = () => {
                                 referrerPolicy="no-referrer"
                               />
                             </div>
-                            <div className="flex flex-1 flex-col p-4 sm:p-5 lg:p-6">
+                            <div className="flex flex-1 flex-col p-4">
                               <h3 className="text-xl font-bold leading-tight text-slate-900 sm:text-2xl">{product.title}</h3>
-                              <p className="mt-3 flex-1 text-sm leading-6 text-slate-700 sm:text-[15px]">
+                              <p className="mt-3 flex-1 text-sm text-slate-700 sm:text-[15px]">
                                 {getShortDescriptionPreview(product.shortDescription)}
                               </p>
                               <div className="mt-5 flex items-center justify-center border-t border-slate-100 pt-5 sm:mt-6">
                                 <span className="inline-flex min-w-37 items-center justify-center gap-2 rounded-xl border border-primary bg-white px-5 py-3 text-sm font-bold text-primary transition group-hover:bg-primary group-hover:text-white sm:min-w-40">
                                   View Details
-                                  <ChevronRight size={16} />
+                                  <HiArrowSmallRight size={16} />
                                 </span>
                               </div>
                             </div>
@@ -333,7 +337,7 @@ const Products = () => {
                           disabled={pageIndex === 0 || loading}
                           className="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
                         >
-                          <ChevronLeft size={16} />
+                          <HiChevronLeft size={16} />
                           Previous
                         </button>
                         <button
@@ -343,7 +347,7 @@ const Products = () => {
                           className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           Next
-                          <ChevronRight size={16} />
+                          <HiChevronRight size={16} />
                         </button>
                       </div>
                     </div>
@@ -355,8 +359,14 @@ const Products = () => {
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="flex flex-col items-center justify-center md:justify-between gap-10 rounded-4xl border border-slate-200 bg-white p-8 shadow-[0_20px_50px_rgba(15,23,42,0.06)] md:p-12 lg:flex-row lg:gap-12 lg:p-16">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="flex flex-col items-center justify-center md:justify-between gap-10 rounded-4xl border border-slate-200 bg-white p-8 shadow-[0_20px_50px_rgba(15,23,42,0.06)] md:p-12 lg:flex-row lg:gap-12 lg:p-16"
+        >
           <div className="max-w-2xl text-center lg:text-left">
             <h2 className="mb-5 text-2xl font-black text-slate-900 sm:text-3xl">Request a Wholesale Catalog</h2>
             <p className="text-base leading-7 text-slate-700 sm:text-lg sm:leading-relaxed">
@@ -370,11 +380,11 @@ const Products = () => {
               to="/contact"
               className="flex items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-4 text-sm font-bold text-white transition-all hover:bg-primary/90 sm:px-8 sm:text-base"
             >
-              <Mail size={20} />
+              <HiOutlineEnvelope size={20} />
               Contact Sales
             </Link>
           </div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );
