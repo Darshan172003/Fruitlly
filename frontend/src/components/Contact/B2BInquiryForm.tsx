@@ -31,7 +31,8 @@ const B2BInquiryForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [submitMessage, setSubmitMessage] = useState('');
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+  const configuredBackendUrl = import.meta.env.VITE_BACKEND_URL?.trim();
+  const backendUrl = configuredBackendUrl ? configuredBackendUrl.replace(/\/+$/, '') : '';
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -48,7 +49,9 @@ const B2BInquiryForm = () => {
       setSubmitStatus('idle');
       setSubmitMessage('');
 
-      const response = await fetch(`${backendUrl}/api/contact`, {
+      const contactEndpoint = backendUrl ? `${backendUrl}/api/contact` : '/api/contact';
+
+      const response = await fetch(contactEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

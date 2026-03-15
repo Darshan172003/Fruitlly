@@ -6,7 +6,32 @@ import { validateContactPayload } from './validators/contact.js';
 
 const app = express();
 
-app.use(cors({ origin: env.frontendOrigin }));
+const normalizeOrigin = (origin) => String(origin || '').trim().replace(/\/+$/, '').toLowerCase();
+const allowedOrigins = new Set(env.frontendOrigin.map(normalizeOrigin).filter(Boolean));
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow server-to-server calls that don't include an Origin header.
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+
+    if (allowedOrigins.has(normalizeOrigin(origin))) {
+      callback(null, true);
+      return;
+    }
+
+    console.warn(`Blocked CORS origin: ${origin}`);
+    callback(null, false);
+  },
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(express.json());
 
 app.get('/health', (_req, res) => {
