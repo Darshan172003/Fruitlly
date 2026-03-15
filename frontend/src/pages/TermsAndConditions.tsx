@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
-import { 
-  MdCalendarToday, 
-  MdExpandMore, 
-  MdMail 
+import {
+  MdCalendarToday,
+  MdExpandMore,
+  MdMail
 } from 'react-icons/md';
 
 type Clause = {
@@ -17,23 +17,23 @@ const clauses: Clause[] = [
   {
     id: 'bulk-supply-ordering',
     title: 'Bulk Supply & Ordering',
-    body: 'All bulk orders for Fruitlly sugar-coated jelly cubes are subject to availability and confirmation by Tulsi Foods. Minimum order quantities (MOQ) apply for B2B pricing tiers. We reserve the right to limit the quantity of products supplied to any single customer or entity to ensure fair distribution during peak demand periods.',
+    body: 'All bulk orders for Fruitlly fruit jelly products are subject to availability and confirmation by Tulsi Foods. Minimum order quantities (MOQ) apply for B2B pricing tiers. We reserve the right to limit quantities supplied to any single customer to ensure fair distribution during peak demand.',
     open: true,
   },
   {
     id: 'pricing-payment',
     title: 'Pricing and Payment',
-    body: 'B2B prices are confidential and provided upon request or through verified accounts. All prices are exclusive of applicable taxes unless stated otherwise. Standard payment terms are Net 30 days for approved credit accounts. Late payments may incur interest charges at 2% per month.',
+    body: 'B2B pricing is confidential and available upon request or through verified accounts. All prices are exclusive of applicable taxes unless stated otherwise. Standard payment terms are Net 30 for approved credit accounts. Late payments may incur interest at 2% per month.',
   },
   {
     id: 'shipping-delivery',
     title: 'Shipping and Delivery',
-    body: 'Delivery timelines are estimates and not guaranteed. Tulsi Foods utilizes third-party logistics partners for fulfillment. Risk of loss passes to the buyer upon delivery to the carrier. Any damaged shipments must be reported within 48 hours of receipt with photographic evidence for claim processing.',
+    body: 'Delivery timelines are estimates and not guaranteed. Tulsi Foods uses third-party logistics partners for fulfillment. Risk of loss transfers to the buyer upon carrier pickup. Damaged shipments must be reported within 48 hours of receipt with photographic evidence for claims.',
   },
   {
     id: 'ip-rights',
     title: 'Intellectual Property Rights',
-    body: '"Fruitlly" and all associated logos, branding, and proprietary recipes are the exclusive property of Tulsi Foods. B2B partners are granted a limited, non-exclusive license to use marketing materials provided by us for the sole purpose of reselling the products in their original packaging.',
+    body: '"Fruitlly" and all associated logos, branding, and proprietary formulations are the exclusive property of Tulsi Foods. B2B partners receive a limited, non-exclusive license to use provided marketing materials solely for reselling products in their original packaging.',
   },
   {
     id: 'limitation-liability',
@@ -43,7 +43,7 @@ const clauses: Clause[] = [
   {
     id: 'governing-law',
     title: 'Governing Law',
-    body: 'These terms shall be governed by and construed in accordance with the laws of the jurisdiction in which Tulsi Foods is headquartered. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the local courts of that region.',
+    body: 'These terms are governed by the laws of Maharashtra, India, where Tulsi Foods is headquartered. Any disputes shall be subject to the exclusive jurisdiction of the courts in Jalgaon, Maharashtra.',
   },
 ];
 
@@ -67,6 +67,10 @@ const TermsAndConditions = () => {
     []
   );
   const sectionIds = useMemo(() => tocItems.map((item) => item.id), [tocItems]);
+
+  const currentMonth = new Date().toLocaleString('default', { month: 'long' });
+  const currentYear = new Date().getFullYear();
+
 
   useEffect(() => {
     const nodes = sectionIds
@@ -111,7 +115,7 @@ const TermsAndConditions = () => {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="flex flex-1 flex-col"
@@ -120,14 +124,13 @@ const TermsAndConditions = () => {
         <div className="mx-auto w-full max-w-7xl px-6 pb-12 pt-12 lg:pb-14 lg:pt-16">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-slate-600">
             <MdCalendarToday size={14} />
-            <span>Last Revised: October 24, 2023</span>
+            <span>Last Revised: {currentMonth} {currentYear}</span>
           </div>
           <h1 className="text-4xl font-black tracking-tight text-slate-900 md:text-5xl">
-            Terms and Conditions
+            Terms and Conditions - Fruitlly B2B Platform
           </h1>
           <p className="mt-4 max-w-3xl text-base text-slate-600 md:text-lg">
-            These terms govern your use of Fruitlly B2B services for wholesale procurement,
-            commercial ordering, and partner operations.
+            These terms govern your use of Fruitlly B2B services for wholesale procurement, bulk ordering, and distribution partnerships.
           </p>
         </div>
       </header>
@@ -145,11 +148,10 @@ const TermsAndConditions = () => {
                     key={item.id}
                     href={`#${item.id}`}
                     onClick={handleTocClick(item.id)}
-                    className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                      activeSection === item.id
+                    className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${activeSection === item.id
                         ? 'bg-primary/5 text-primary'
                         : 'text-slate-700 hover:bg-slate-100'
-                    }`}
+                      }`}
                   >
                     <span className={`mr-2 text-xs font-bold ${activeSection === item.id ? 'text-primary' : 'text-slate-400'}`}>{String(index + 1).padStart(2, '0')}</span>
                     {item.label}
@@ -166,9 +168,7 @@ const TermsAndConditions = () => {
                 Agreement Overview
               </h2>
               <p className="leading-relaxed text-slate-600">
-                Welcome to the Fruitlly B2B platform, operated by Tulsi Foods. These Terms and
-                Conditions govern your use of our bulk procurement services for sugar-coated jelly
-                cubes. By placing an order or using our services, you agree to be bound by these terms.
+               Welcome to the Fruitlly B2B platform, operated by Tulsi Foods, Jalgaon. These Terms and Conditions govern your use of our bulk procurement services for fruit jelly products and confectionery. By placing an order or using our services, you agree to these terms.
               </p>
             </section>
 
@@ -223,15 +223,10 @@ const TermsAndConditions = () => {
               </h2>
               <div className="prose prose-slate max-w-none space-y-4 text-slate-600">
                 <p>
-                  Fruitlly B2B is committed to maintaining the highest standards of food safety and
-                  customer service. Our jelly cubes are manufactured in state-of-the-art facilities
-                  following strict hygiene protocols. B2B partners are expected to store the products
-                  in cool, dry environments to maintain quality and shelf life.
+                  Fruitlly by Tulsi Foods maintains the highest standards of food safety and B2B service. Our fruit jelly products are manufactured in ISO-compliant facilities following strict hygiene protocols. Partners must store products in cool, dry environments to maintain quality and shelf life.
                 </p>
                 <p>
-                  We reserve the right to update these Terms and Conditions at any time. Significant
-                  changes will be communicated via email to registered B2B accounts. Continued use of
-                  the platform after such changes constitutes acceptance of the new terms.
+                  We reserve the right to update these Terms and Conditions at any time. Significant changes will be communicated via email to registered B2B accounts. Continued platform use after updates constitutes acceptance of the revised terms.
                 </p>
               </div>
             </section>
@@ -239,7 +234,7 @@ const TermsAndConditions = () => {
             <section id="contact" className="scroll-mt-28 rounded-2xl border border-accent-green/20 bg-accent-green/5 p-4 text-center shadow-sm sm:p-8">
               <h3 className="mb-2 text-xl font-bold text-slate-900">Have questions about these terms?</h3>
               <p className="mx-auto mb-6 max-w-xl text-slate-600">
-                Our legal and support teams are here to help you understand your B2B partnership.
+                Our legal and support teams are here to clarify your B2B partnership terms.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <button className="flex items-center gap-2 rounded-lg bg-primary px-8 py-3 font-bold text-white transition-all hover:bg-primary/90">
