@@ -72,9 +72,9 @@ const GlobalExportSection = () => {
           className="flex flex-col items-center text-center gap-6 mb-12"
         >
           <span className="text-white/80 font-bold text-sm uppercase tracking-widest">Global Export Network</span>
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight font-display">Connecting Sweetness Worldwide</h2>
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight font-display">Exporting Fruit Jelly Worldwide</h2>
           <p className="text-white/80 text-lg max-w-180">
-            From our central manufacturing facility in Jalgaon, Fruitlly products reach multiple domestic and international markets. Our efficient supply chain supports reliable bulk distribution while maintaining product quality during transportation.
+            From our facility in Jalgaon, Fruitlly fruit jelly products reach domestic and international markets. Our supply chain ensures reliable bulk distribution while maintaining product quality during transit.
           </p>
         </motion.div>
         <div className="grid min-[450px]:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">

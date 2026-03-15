@@ -37,7 +37,7 @@ const PillarsSection = () => {
                 <h3 className="text-text-dark text-2xl font-bold leading-normal">Our Mission</h3>
               </div>
               <p className="text-gray-600 text-base font-normal leading-relaxed">
-                To manufacture high-quality fruit jelly confectionery products that support distributors and B2B partners through reliable production capacity and consistent product quality.
+                To manufacture high-quality fruit jelly and confectionery products that support B2B partners through reliable production and consistent quality.
               </p>
             </div>
           </motion.div>
@@ -60,7 +60,7 @@ const PillarsSection = () => {
                 <h3 className="text-text-dark text-2xl font-bold leading-normal">Our Vision</h3>
               </div>
               <p className="text-gray-600 text-base font-normal leading-relaxed">
-                To become a trusted global jelly confectionery manufacturer known for innovation, quality manufacturing, and strong distribution partnerships.
+                To become a trusted global fruit jelly manufacturer known for innovation, quality, and strong distribution partnerships.
               </p>
             </div>
           </motion.div>

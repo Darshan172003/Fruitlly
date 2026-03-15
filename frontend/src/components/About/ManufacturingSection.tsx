@@ -19,10 +19,10 @@ const ManufacturingSection = () => {
             <div className="flex flex-col gap-4">
               <span className="text-primary font-bold text-sm uppercase tracking-widest">Manufacturing Excellence</span>
               <h2 className="text-text-dark text-3xl font-bold leading-tight md:text-4xl font-display">
-                State-of-the-Art Production
+                State-of-the-Art Jelly Manufacturing
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed">
-                Our modern manufacturing facility in MIDC Jalgaon is equipped with advanced machinery to ensure consistent texture, hygiene, and efficient large-scale production. Our infrastructure supports bulk supply requirements while maintaining the premium quality of every Fruitlly product.
+                Our manufacturing facility in MIDC Jalgaon is equipped with advanced machinery for consistent texture, hygiene, and efficient large-scale fruit jelly production. Our infrastructure supports bulk supply while maintaining premium quality across every Fruitlly product.
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -32,7 +32,7 @@ const ManufacturingSection = () => {
                 </div>
                 <div>
                   <h4 className="text-text-dark font-bold mb-1">Advanced Automation</h4>
-                  <p className="text-gray-600 text-sm">Precision cooking and cooling systems ensuring consistent jelly texture.</p>
+                  <p className="text-gray-600 text-sm">Precision cooking and cooling systems for consistent jelly texture.</p>
                 </div>
               </div>
               <div className="flex gap-4">
@@ -41,7 +41,7 @@ const ManufacturingSection = () => {
                 </div>
                 <div>
                   <h4 className="text-text-dark font-bold mb-1">R&D Laboratory</h4>
-                  <p className="text-gray-600 text-sm">Continuous product improvement and quality testing for every batch.</p>
+                  <p className="text-gray-600 text-sm">Continuous product development and quality testing for every batch.</p>
                 </div>
               </div>
             </div>
