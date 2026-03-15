@@ -78,8 +78,8 @@ const B2BInquiryForm = () => {
           <span className="inline-flex items-center rounded-full bg-accent-green/15 text-accent-green px-3 py-1 text-xs font-bold tracking-[0.12em] uppercase mb-4">
             Fast Response
           </span>
-          <h2 className="text-2xl md:text-3xl font-bold text-text-dark mb-2">B2B Inquiry Form</h2>
-          <p className="text-gray-600 leading-relaxed">Fill out the form below and our procurement team will contact you within 24 hours.</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-text-dark mb-2">B2B Bulk Order Inquiry</h2>
+          <p className="text-gray-600 leading-relaxed">Fill out the form and our team will respond within 24 hours.</p>
         </div>
         <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={handleSubmit}>
           <div className="md:col-span-2">
