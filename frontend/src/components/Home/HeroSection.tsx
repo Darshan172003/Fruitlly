@@ -29,16 +29,16 @@ const HeroSection = () => {
             <div className="inline-flex items-center rounded-full bg-white/80 backdrop-blur px-4 py-2 border border-primary/10 shadow-sm w-fit">
               <span className="h-2 w-2 rounded-full bg-accent-green mr-2" />
               <span className="text-[11px] sm:text-xs font-semibold tracking-[0.16em] uppercase text-primary">
-                India’s Largest Jelly Manufacturer
+                INDIA’S LEADING FRUIT JELLY MANUFACTURER
               </span>
             </div>
 
             <h1 className="mt-5 text-text-dark text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.2]">Premium Sugar Coated Jelly Cubes
-              <span className="text-primary"> Engineered for Large Scale Bulk Supply</span>
+              <span className="text-primary"> Engineered for Large-Scale Bulk Supply</span>
             </h1>
 
             <p className="mt-5 text-gray-600 text-base sm:text-lg max-w-xl">
-              Fruitlly, powered by Tulsi Foods, is a leading B2B jelly confectionery manufacturer delivering consistent taste, scalable production capacity, and strict quality assurance for distributors, wholesalers, and private label brands across India.
+              Fruitlly by Tulsi Foods is a leading B2B fruit jelly manufacturer in India, delivering consistent taste, scalable production, and strict quality assurance for distributors, wholesalers, and private label brands.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">

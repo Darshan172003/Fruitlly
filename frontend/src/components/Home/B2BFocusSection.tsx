@@ -6,7 +6,7 @@ const focusItems = [
   {
     title: 'Bulk Manufacturing',
     description:
-      'High-capacity automated production lines handling large-scale orders with reliable timelines.',
+      'Automated production lines handling large-scale orders with reliable delivery timelines.',
     icon: MdFactory,
     tone: 'primary',
   },
@@ -44,9 +44,9 @@ const B2BFocusSection = () => {
           transition={{ duration: 0.55, ease: 'easeOut' }}
           className="flex flex-col items-center text-center gap-3 sm:gap-4 mb-8 sm:mb-12 lg:mb-16"
         >
-          <h2 className="text-text-dark text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">B2B Focus & Manufacturing Excellence</h2>
+          <h2 className="text-text-dark text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">B2B Manufacturing Excellence</h2>
           <p className="text-gray-600 text-sm sm:text-base max-w-2xl leading-relaxed">
-            We are more than a supplier - we are your strategic manufacturing partner for high-quality, large-scale jelly production.
+            More than a supplier — your strategic manufacturing partner for high-quality, large-scale fruit jelly production.
           </p>
         </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">

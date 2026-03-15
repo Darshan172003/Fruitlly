@@ -26,9 +26,9 @@ const CoreProductSection = () => {
           className="mb-7 sm:mb-10 text-center lg:text-left"
         >
           <span className="inline-flex items-center rounded-full border border-primary/15 bg-white/90 px-4 py-2 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-primary shadow-sm">
-            CORE MANUFACTURING PRODUCT
+            CORE PRODUCT
           </span>
-          <h2 className="mt-4 text-text-dark text-3xl sm:text-4xl font-extrabold tracking-tight">Our Core Product</h2>
+          <h2 className="mt-4 text-text-dark text-3xl sm:text-4xl font-extrabold tracking-tight">Our Signature Fruit Jelly Product</h2>
         </motion.div>
 
         <div className="relative overflow-hidden rounded-4xl border border-gray-100 bg-white/95 shadow-2xl">
@@ -68,7 +68,7 @@ const CoreProductSection = () => {
                   Premium Sugar Coated Jelly Cubes
                 </h3>
                 <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
-                  Manufactured using advanced processing technology, our jelly cubes deliver consistent texture, vibrant color, and stable shelf performance for large-scale distribution.
+                  Made with advanced processing technology, our fruit jelly cubes deliver consistent texture, vibrant color, and stable shelf life for large-scale distribution.
                 </p>
               </div>
 
