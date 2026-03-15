@@ -121,12 +121,12 @@ const TermsAndConditions = () => {
       className="flex flex-1 flex-col"
     >
       <header className="border-b border-slate-200 bg-linear-to-b from-white to-accent-green/5">
-        <div className="mx-auto w-full max-w-7xl px-6 pb-12 pt-12 lg:pb-14 lg:pt-16">
+        <div className="mx-auto w-full max-w-7xl px-4 pb-12 pt-12 lg:pb-14 lg:pt-16">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-slate-600">
             <MdCalendarToday size={14} />
             <span>Last Revised: {currentMonth} {currentYear}</span>
           </div>
-          <h1 className="text-4xl font-black tracking-tight text-slate-900 md:text-5xl">
+          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 md:text-5xl">
             Terms and Conditions - Fruitlly B2B Platform
           </h1>
           <p className="mt-4 max-w-3xl text-base text-slate-600 md:text-lg">
@@ -135,7 +135,7 @@ const TermsAndConditions = () => {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-7xl px-6 py-12 lg:py-16">
+      <main className="mx-auto w-full max-w-7xl px-4 py-12 lg:py-16">
         <div className="flex flex-col gap-10 lg:flex-row">
           <aside className="hidden lg:block lg:w-1/4">
             <div className="sticky top-28 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">

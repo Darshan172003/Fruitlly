@@ -168,7 +168,7 @@ const FAQ = () => {
           <motion.h1
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-5 text-4xl font-black tracking-tight text-slate-900 md:text-5xl"
+            className="mb-5 text-3xl sm:text-4xl font-black tracking-tight text-slate-900 md:text-5xl"
           >
            Fruit Jelly FAQ for B2B Buyers
           </motion.h1>
