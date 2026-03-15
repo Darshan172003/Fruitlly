@@ -33,18 +33,18 @@ const categories: FAQCategory[] = [
     icon: MdInventory2,
     items: [
       {
-        question: 'What is the shelf life of Fruitlly jelly cubes?',
+        question: 'What is the shelf life of Fruitlly fruit jelly cubes?',
         answer:
-          'Fruit jelly cubes and sugar-coated jelly products generally have a shelf life of up to 12 months when stored in a cool and dry place. Each batch is produced with strict quality checks to maintain taste and freshness.',
+          'Fruitlly fruit jelly cubes and sugar coated jelly products have a shelf life of up to 12 months when stored in a cool, dry place. Every batch undergoes strict quality checks for taste and freshness.',
         open: true,
       },
       {
-        question: 'Are the colors and flavors natural?',
+        question: 'Are Fruitlly jelly colors and flavors natural?',
         answer:
           'Fruitlly jelly products are made using approved food ingredients and fruit flavors such as mango, strawberry, litchi, and mix fruit for consistent taste and color.',
       },
       {
-        question: 'Do the jelly cubes clump together in humidity?',
+        question: 'Do sugar coated jelly cubes clump in humidity?',
         answer:
           'Proper packaging and storage help maintain the texture of jelly cubes. Products should be stored in dry conditions away from moisture and heat.',
       },
@@ -62,7 +62,7 @@ const categories: FAQCategory[] = [
           'Bulk orders are supported for distributors and wholesalers, with packaging options designed for large-scale supply and distribution.',
       },
       {
-        question: 'Can we request custom flavors or shapes?',
+        question: 'Can we request custom fruit jelly flavors or shapes?',
         answer:
           'Fruit jelly and confectionery products are available in multiple flavors such as mango, guava, strawberry, and mix fruit for different market preferences.',
       },
@@ -80,7 +80,7 @@ const categories: FAQCategory[] = [
           'Products are typically packed in secure boxes or containers suitable for storage, transport, and bulk distribution.',
       },
       {
-        question: 'Do you ship internationally?',
+        question: 'Does Fruitlly ship fruit jelly internationally?',
         answer:
           'Tulsi Foods supports bulk supply and distribution across different markets through reliable logistics partners.',
       },
@@ -170,10 +170,10 @@ const FAQ = () => {
             animate={{ opacity: 1, y: 0 }}
             className="mb-5 text-4xl font-black tracking-tight text-slate-900 md:text-5xl"
           >
-            Answers for Fast B2B Decisions
+           Fruit Jelly FAQ for B2B Buyers
           </motion.h1>
           <p className="mx-auto max-w-3xl text-base leading-relaxed text-slate-600 md:text-lg">
-            Everything procurement teams need to know about Fruitlly jelly products, including quality standards, bulk supply, packaging, and logistics support.
+            Everything procurement teams need to know about Fruitlly fruit jelly products: quality standards, bulk supply, packaging, and logistics.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <span className="rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-semibold text-primary shadow-sm">
