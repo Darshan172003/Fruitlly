@@ -102,13 +102,13 @@ const Recipes = () => {
             className="max-w-3xl text-center flex flex-col items-center"
           >
             <span className="mb-4 inline-flex rounded-full border border-primary/15 bg-white/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.25em] text-primary sm:text-xs">
-              Culinary Inspiration
+              RECIPE IDEAS
             </span>
             <h1 className="mb-5 text-3xl font-black leading-tight tracking-tight text-slate-900 sm:text-4xl md:text-5xl lg:text-6xl">
-              Fruitlly Recipe Gallery
+              Fruit Jelly Recipes by Fruitlly
             </h1>
             <p className="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg md:text-xl md:leading-8">
-              Discover creative dessert ideas using Fruitlly jelly cubes and fruit jelly products. Watch recipe videos and learn how to use premium jelly in cakes, desserts, and refreshing sweet treats.
+              Discover creative dessert ideas using Fruitlly fruit jelly cubes. Watch recipe videos and learn to make cakes, desserts, and sweet treats with premium jelly products.
             </p>
           </motion.div>
         </div>
@@ -220,13 +220,13 @@ const Recipes = () => {
           className="rounded-2xl sm:rounded-[2.5rem] px-8 py-14 md:px-16 md:py-20 flex flex-col items-center text-center gap-8 relative overflow-hidden bg-linear-to-br from-primary to-accent-green"
         >
           <span className="relative z-10 inline-flex rounded-full border border-white/25 bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.25em] text-white/85">
-            Work With Us
+            CUSTOM DEVELOPMENT
           </span>
           <h2 className="relative z-10 text-3xl md:text-5xl font-black text-white leading-tight tracking-tight">
-            Need a Custom Recipe?
+            Need a Custom Jelly Recipe?
           </h2>
           <p className="relative z-10 text-white/90 text-lg max-w-2xl leading-relaxed">
-            Our team can help develop jelly-based desserts, confectionery ideas, and recipe concepts for distributors, food brands, and retail partners.
+            Our team develops custom fruit jelly desserts, confectionery concepts, and recipe ideas for distributors, food brands, and retail partners.
           </p>
           <div className="relative z-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
