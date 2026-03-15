@@ -35,7 +35,7 @@ const categories: FAQCategory[] = [
       {
         question: 'What is the shelf life of Fruitlly fruit jelly cubes?',
         answer:
-          'Fruitlly fruit jelly cubes and sugar coated jelly products have a shelf life of up to 12 months when stored in a cool, dry place. Every batch undergoes strict quality checks for taste and freshness.',
+          'Fruitlly fruit jelly cubes and sugar coated jelly products offer a shelf life of up to 12 months in cool, dry storage. Every batch undergoes strict quality testing to ensure consistent taste and freshness.',
         open: true,
       },
       {
