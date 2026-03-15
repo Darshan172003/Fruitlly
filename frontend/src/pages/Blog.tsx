@@ -113,9 +113,9 @@ const Blog = () => {
         <div className="flex flex-col max-w-300 flex-1">
           <div className="flex flex-wrap justify-between items-end gap-6">
             <div className="flex min-w-72 flex-col gap-3">
-              <h1 className="text-slate-900 text-5xl font-extrabold leading-tight tracking-tight font-display">Industry Insights</h1>
+              <h1 className="text-slate-900 text-5xl font-extrabold leading-tight tracking-tight font-display">Fruit Jelly Industry Insights</h1>
               <p className="text-slate-500 text-lg font-normal leading-normal max-w-2xl">
-                Stay updated with trends in jelly confectionery manufacturing, bulk supply, and fruit jelly product innovations from Fruitlly by Tulsi Foods.
+                Stay updated on jelly manufacturing trends, bulk supply insights, and fruit jelly innovations from Fruitlly by Tulsi Foods.
               </p>
             </div>
             <div className="flex gap-3">
@@ -254,9 +254,9 @@ const Blog = () => {
       <div className="px-4 md:px-10 lg:px-40 flex justify-center py-16">
         <div className="flex flex-1 flex-col items-start justify-between gap-8 rounded-2xl border border-slate-100 bg-white p-10 md:p-12 md:flex-row md:items-center shadow-lg max-w-300">
           <div className="flex flex-col gap-4">
-            <h4 className="text-slate-900 text-3xl font-bold leading-tight font-display">Get the latest B2B reports</h4>
+            <h4 className="text-slate-900 text-3xl font-bold leading-tight font-display">Get the Latest B2B Jelly Industry Reports</h4>
             <p className="text-slate-500 text-lg font-normal leading-normal max-w-xl">
-              Join distributors receiving updates on jelly confectionery trends, manufacturing insights, and new product launches.
+              Join distributors receiving updates on fruit jelly trends, manufacturing insights, and new product launches.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
