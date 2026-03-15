@@ -27,6 +27,9 @@ const PrivacyPolicy = () => {
   const [activeSection, setActiveSection] = useState(tocSections[0].id);
   const sectionIds = useMemo(() => tocSections.map((section) => section.id), []);
 
+  const currentMonth = new Date().toLocaleString('default', { month: 'long' });
+  const currentYear = new Date().getFullYear();
+
   useEffect(() => {
     const nodes = sectionIds
       .map((id) => document.getElementById(id))
@@ -72,11 +75,11 @@ const PrivacyPolicy = () => {
       <div className="relative w-full overflow-hidden border-b border-slate-200 bg-linear-to-b from-white to-accent-green/5">
         <div className="relative mx-auto max-w-7xl px-6 pb-12 pt-12 lg:pb-14 lg:pt-16">
           <div className="mb-5 inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-slate-600">
-            Last Updated: October 24, 2023
+            Last Updated: {currentMonth} {currentYear}
           </div>
           <h1 className="text-4xl font-black tracking-tight text-slate-900 md:text-5xl">Privacy Policy</h1>
           <p className="mt-4 max-w-3xl text-base text-slate-600 md:text-lg">
-            Learn how Fruitlly B2B protects and manages your corporate data and business information.
+            Learn how Fruitlly by Tulsi Foods protects your corporate data and business information.
           </p>
         </div>
       </div>
@@ -116,7 +119,7 @@ const PrivacyPolicy = () => {
               </h2>
               <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed space-y-4">
                 <p>
-                  At Fruitlly B2B by Tulsi Foods, we value the trust you place in us when sharing your business information. This Privacy Policy describes how Fruitlly collects, uses, and shares your personal and business information when you visit or make a purchase from our B2B platform.
+                  At Fruitlly by Tulsi Foods, we value the trust you place in us when sharing your business information. This Privacy Policy describes how we collect, use, and share your business information when you visit or transact on our B2B platform.
                 </p>
                 <p>
                   We ensure that your data is handled with the highest level of security and professional integrity. Our relationship with our business partners is built on transparency, and we are committed to being clear about what data we collect and why.
@@ -234,14 +237,14 @@ const PrivacyPolicy = () => {
                 If you have any questions regarding how we handle your business data, please contact our Data Protection Officer.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <button className="flex items-center justify-center gap-2 rounded-lg bg-primary px-8 py-3 font-bold text-white hover:bg-primary/90 transition-colors">
+                <a href='mailto:contact.fruitlly@gmail.com' className="flex items-center justify-center gap-2 rounded-lg bg-primary px-8 py-3 font-bold text-white hover:bg-primary/90 transition-colors">
                   <MdMail size={20} />
                   Contact Privacy Team
-                </button>
-                <button className="flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-8 py-3 font-bold text-slate-700 hover:bg-slate-50 transition-colors">
+                </a>
+                <a href='tel:+919422283890' className="flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-8 py-3 font-bold text-slate-700 hover:bg-slate-50 transition-colors">
                   <MdCall size={20} />
                   Request a Call
-                </button>
+                </a>
               </div>
             </section>
           </article>
