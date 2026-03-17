@@ -105,7 +105,7 @@ const Recipes = () => {
               RECIPE IDEAS
             </span>
             <h1 className="mb-5 text-3xl font-black leading-tight tracking-tight text-slate-900 sm:text-4xl md:text-5xl lg:text-6xl">
-              Fruit Jelly Recipes by Fruitlly
+              Creative Jelly Dessert Recipes
             </h1>
             <p className="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg md:text-xl md:leading-8">
               Discover creative dessert ideas using Fruitlly fruit jelly cubes. Watch recipe videos and learn to make cakes, desserts, and sweet treats with premium jelly products.
