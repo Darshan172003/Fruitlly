@@ -132,7 +132,27 @@ const Blog = () => {
         <div className="px-4 md:px-10 lg:px-40 flex justify-center">
           <div className="flex flex-col max-w-300 flex-1">
             <div className="pb-8">
-              <div className="flex border-b border-slate-100 px-0 gap-8 overflow-x-auto no-scrollbar">
+              <div className="md:hidden">
+                <label className="block">
+                  <span className="mb-2 block text-xs font-bold uppercase tracking-[0.22em] text-slate-500">
+                    Category Filter
+                  </span>
+                  <select
+                    value={selectedCategoryId}
+                    onChange={(event) => setSelectedCategoryId(event.target.value)}
+                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 outline-none transition focus:border-primary"
+                  >
+                    <option value="all">All Posts</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              <div className="hidden border-b border-slate-100 px-0 gap-8 overflow-x-auto no-scrollbar md:flex">
                 <button
                   type="button"
                   onClick={() => setSelectedCategoryId('all')}
@@ -192,43 +212,45 @@ const Blog = () => {
                     <motion.div
                       key={post.id}
                       whileHover={{ y: -5 }}
-                      className="group flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100"
+                      className="h-full"
                     >
-                      <div className="relative w-full aspect-video overflow-hidden">
-                        <img
-                          src={post.imageUrl}
-                          alt={post.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          referrerPolicy="no-referrer"
-                        />
-                        <div className={`absolute top-4 left-4 ${post.categoryColor} text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider`}>
-                          {post.category}
+                      <Link
+                        to={`/blog/${post.id}`}
+                        className="group flex h-full flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100"
+                      >
+                        <div className="relative w-full aspect-video overflow-hidden">
+                          <img
+                            src={post.imageUrl}
+                            alt={post.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            referrerPolicy="no-referrer"
+                          />
+                          <div className={`absolute top-4 left-4 ${post.categoryColor} text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider`}>
+                            {post.category}
+                          </div>
                         </div>
-                      </div>
-                      <div className="p-6 flex flex-col flex-1">
-                        <div className="flex items-center gap-2 text-[10px] text-primary font-bold mb-3">
-                          <span>{post.publishedLabel}</span>
-                          <span className="size-1 bg-slate-300 rounded-full"></span>
-                          <span>{post.readTime}</span>
-                        </div>
-                        <h3 className="text-slate-900 text-xl font-bold leading-tight mb-3 group-hover:text-primary transition-colors font-display">
-                          {post.title}
-                        </h3>
-                        <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3">
-                          {post.excerpt}
-                        </p>
-                        <div className="mt-auto flex items-center justify-between">
-                          <Link
-                            to={`/blog/${post.id}`}
-                            className="text-sm font-bold text-primary flex items-center gap-1 group/btn cursor-pointer"
-                          >
-                            Read Article
-                            <span className="group-hover/btn:translate-x-1 transition-transform">
-                              <MdArrowForward size={16} />
+                        <div className="p-6 flex flex-col flex-1">
+                          <div className="flex items-center gap-2 text-[10px] text-primary font-bold mb-3">
+                            <span>{post.publishedLabel}</span>
+                            <span className="size-1 bg-slate-300 rounded-full"></span>
+                            <span>{post.readTime}</span>
+                          </div>
+                          <h3 className="text-slate-900 text-xl font-bold leading-tight mb-3 group-hover:text-primary transition-colors font-display">
+                            {post.title}
+                          </h3>
+                          <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-3">
+                            {post.excerpt}
+                          </p>
+                          <div className="mt-auto flex items-center justify-between">
+                            <span className="text-sm font-bold text-primary flex items-center gap-1">
+                              Read Article
+                              <span className="transition-transform group-hover:translate-x-1">
+                                <MdArrowForward size={16} />
+                              </span>
                             </span>
-                          </Link>
+                          </div>
                         </div>
-                      </div>
+                      </Link>
                     </motion.div>
                   ))}
                 </div>
