@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   return (
@@ -32,16 +33,20 @@ const HeroSection = () => {
                 About Fruitlly — Fruit Jelly Manufacturer in India
               </h1>
               <p className="text-gray-600 text-lg font-normal leading-relaxed">
-                Fruitlly is the premium fruit jelly brand of <span className="text-primary font-bold">Tulsi Foods</span>, a leading confectionery manufacturer based in Jalgaon, Maharashtra. We specialize in sugar coated jelly cubes and fruit candies using modern manufacturing technology and strict quality control for consistent taste, texture, and bulk supply reliability. 
+                Fruitlly is the premium fruit jelly brand of <span className="text-primary font-bold">Tulsi Foods</span>, a leading confectionery manufacturer based in Jalgaon, Maharashtra. We specialize in sugar coated jelly cubes and fruit candies using modern manufacturing technology and strict quality control for consistent taste, texture, and bulk supply reliability.
               </p>
             </div>
             <div className="flex flex-wrap gap-4">
-              <button className="flex min-w-35 cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-white text-base font-bold leading-normal tracking-tight hover:scale-105 transition-transform shadow-lg shadow-primary/20">
-                View Products
-              </button>
-              <button className="flex min-w-35 cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-accent-green text-white text-base font-bold leading-normal tracking-tight hover:scale-105 transition-transform shadow-lg shadow-accent-green/20">
-                Certifications
-              </button>
+              <Link to="/products">
+                <button className="flex min-w-35 cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-white text-base font-bold leading-normal tracking-tight hover:scale-105 transition-transform shadow-lg shadow-primary/20">
+                  View Products
+                </button>
+              </Link>
+              <Link to="/contact">
+                <button className="flex min-w-35 cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-accent-green text-white text-base font-bold leading-normal tracking-tight hover:scale-105 transition-transform shadow-lg shadow-accent-green/20">
+                  Contact Us
+                </button>
+              </Link>
             </div>
           </motion.div>
         </div>

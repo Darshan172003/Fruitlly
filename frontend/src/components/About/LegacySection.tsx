@@ -8,7 +8,7 @@ const cards = [
     color: 'text-primary',
     bg: 'bg-primary/10',
     title: 'Industry Expertise',
-    desc: 'Over 5 years of experience in confectionery manufacturing and large-scale jelly production.',
+    desc: 'Over 30 years of experience in confectionery manufacturing and large-scale jelly production.',
   },
   {
     icon: MdPublic,
