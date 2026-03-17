@@ -148,7 +148,7 @@ const Navbar = () => {
                   </NavLink>
                 ))}
 
-                <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="pt-6 mt-auto">
+                <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="pt-6">
                   <button className="w-full bg-primary hover:bg-red-700 text-white px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-md">
                     Get a Quote
                   </button>
