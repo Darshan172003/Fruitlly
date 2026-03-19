@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import Image1 from '../../assets/Home1.png';
+import { Link } from 'react-router-dom';
 
 const metrics = [
   { value: '500+', label: 'Distribution Partners' },
@@ -42,15 +43,18 @@ const HeroSection = () => {
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
-              {/* <button className="group flex w-full sm:w-auto min-w-44 cursor-pointer items-center justify-center rounded-xl h-12 sm:h-14 px-7 bg-primary text-white text-sm sm:text-base font-bold shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-primary/30">
-                View Products
-              </button> */}
-              <button
-                onClick={() => navigate('/contact')}
-                className="group flex w-full sm:w-auto min-w-44 cursor-pointer items-center justify-center rounded-xl h-12 sm:h-14 px-7 bg-accent-green text-white text-sm sm:text-base font-bold shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-accent-green/30"
-              >
-                Request Bulk Orders
-              </button>
+              <Link to="/products">
+                <button className="group flex w-full sm:w-auto min-w-44 cursor-pointer items-center justify-center rounded-xl h-12 sm:h-14 px-7 bg-primary text-white text-sm sm:text-base font-bold shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-primary/30">
+                  View Products
+                </button>
+              </Link>
+              <Link to="/contact">
+                <button
+                  className="group flex w-full sm:w-auto min-w-44 cursor-pointer items-center justify-center rounded-xl h-12 sm:h-14 px-7 bg-accent-green text-white text-sm sm:text-base font-bold shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-accent-green/30"
+                >
+                  Request Bulk Orders
+                </button>
+              </Link>
             </div>
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
