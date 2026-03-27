@@ -30,6 +30,24 @@ export const mapCategoryDocument = (document: QueryDocumentSnapshot<DocumentData
   sortName: String(document.data().sortName ?? document.id),
 });
 
+const mapImageUrls = (data: DocumentData): string[] => {
+  if (Array.isArray(data.imageUrls) && data.imageUrls.length > 0) {
+    return data.imageUrls.map((v: unknown) => String(v ?? '')).filter(Boolean);
+  }
+  // Backward-compat: old single imageUrl field
+  const legacy = String(data.imageUrl ?? '');
+  return legacy ? [legacy] : [];
+};
+
+const mapImagePaths = (data: DocumentData): string[] => {
+  if (Array.isArray(data.imagePaths) && data.imagePaths.length > 0) {
+    return data.imagePaths.map((v: unknown) => String(v ?? '')).filter(Boolean);
+  }
+  // Backward-compat: old single imagePath field
+  const legacy = String(data.imagePath ?? '');
+  return legacy ? [legacy] : [];
+};
+
 export const mapProductData = (id: string, data: DocumentData, parentCategoryId: string): Product => {
   return {
     id,
@@ -39,8 +57,8 @@ export const mapProductData = (id: string, data: DocumentData, parentCategoryId:
     productSortName: String(data.productSortName ?? id),
     title: String(data.title ?? ''),
     shortDescription: String(data.shortDescription ?? ''),
-    imageUrl: String(data.imageUrl ?? ''),
-    imagePath: String(data.imagePath ?? ''),
+    imageUrls: mapImageUrls(data),
+    imagePaths: mapImagePaths(data),
     moqs: mapMoqValues(data.moqs),
   };
 };

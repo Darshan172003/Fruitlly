@@ -126,7 +126,7 @@ const ProductListPanel = ({
                     {product.categoryName}
                   </span>
                   <img
-                    src={product.imageUrl}
+                    src={product.imageUrls[0] ?? ''}
                     alt={product.title}
                     className="h-full w-full object-cover"
                   />

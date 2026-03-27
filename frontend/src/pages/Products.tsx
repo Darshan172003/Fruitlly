@@ -305,7 +305,7 @@ const Products = () => {
                                 {product.categoryName}
                               </span>
                               <img
-                                src={product.imageUrl}
+                                src={product.imageUrls[0] ?? ''}
                                 alt={product.title}
                                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                 referrerPolicy="no-referrer"

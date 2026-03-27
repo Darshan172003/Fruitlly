@@ -14,6 +14,7 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedMoq, setSelectedMoq] = useState('');
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
     if (!productId || !categoryId) {
@@ -48,6 +49,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     setSelectedMoq(product?.moqs[0] ?? '');
+    setActiveImageIndex(0);
   }, [product]);
 
   if (loading) {
@@ -96,28 +98,42 @@ const ProductDetails = () => {
         </Link>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] lg:items-start">
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
+            {/* Main image */}
             <div className="overflow-hidden rounded-4xl border border-slate-200 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.07)]">
-              <div className="aspect-4/3 bg-slate-100">
-                <img
-                  src={product.imageUrl}
-                  alt={product.title}
-                  className="h-full w-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
+              <img
+                key={activeImageIndex}
+                src={product.imageUrls[activeImageIndex] ?? product.imageUrls[0] ?? ''}
+                alt={product.title}
+                className="w-full h-auto max-h-80 sm:max-h-105 lg:max-h-130 object-contain transition-opacity duration-300"
+                referrerPolicy="no-referrer"
+              />
             </div>
-{/* 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-slate-400">Category</p>
-                <p className="mt-3 text-lg font-bold text-slate-900">{product.categoryName}</p>
+
+            {/* Thumbnail strip */}
+            {product.imageUrls.length > 1 && (
+              <div className="flex gap-3 overflow-x-auto pb-1">
+                {product.imageUrls.map((url, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => setActiveImageIndex(index)}
+                    className={`relative shrink-0 overflow-hidden rounded-2xl border-2 transition-all duration-200 ${
+                      activeImageIndex === index
+                        ? 'border-primary shadow-md'
+                        : 'border-slate-200 opacity-70 hover:border-slate-400 hover:opacity-100'
+                    }`}
+                  >
+                    <img
+                      src={url}
+                      alt={`${product.title} view ${index + 1}`}
+                      className="h-16 w-20 object-cover sm:h-20 sm:w-24"
+                      referrerPolicy="no-referrer"
+                    />
+                  </button>
+                ))}
               </div>
-              <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-slate-400">Product</p>
-                <p className="mt-3 text-lg font-bold text-slate-900">{product.title}</p>
-              </div>
-            </div> */}
+            )}
           </motion.div>
 
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">

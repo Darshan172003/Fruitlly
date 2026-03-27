@@ -13,8 +13,8 @@ interface ProductFormPanelProps {
   categoryError: string;
   savingCategory: boolean;
   deletingCategoryId: string;
-  selectedImage: File | null;
-  previewUrl: string;
+  selectedImages: File[];
+  previewUrls: string[];
   formError: string;
   formSuccess: string;
   savingProduct: boolean;
@@ -23,7 +23,9 @@ interface ProductFormPanelProps {
   onDeleteCategory: (categoryId: string, categoryName: string) => void;
   onCancelEdit: () => void;
   onImageSelect: (event: ChangeEvent<HTMLInputElement>) => void;
-  onFormChange: (field: keyof ProductFormState, value: string) => void;
+  onRemoveSelectedImage: (index: number) => void;
+  onRemoveExistingImage: (index: number) => void;
+  onFormChange: (field: 'categoryId' | 'title' | 'shortDescription', value: string) => void;
   onMoqChange: (index: number, value: string) => void;
   onAddMoq: () => void;
   onRemoveMoq: (index: number) => void;
@@ -39,8 +41,8 @@ const ProductFormPanel = ({
   categoryError,
   savingCategory,
   deletingCategoryId,
-  selectedImage,
-  previewUrl,
+  selectedImages,
+  previewUrls,
   formError,
   formSuccess,
   savingProduct,
@@ -49,6 +51,8 @@ const ProductFormPanel = ({
   onDeleteCategory,
   onCancelEdit,
   onImageSelect,
+  onRemoveSelectedImage,
+  onRemoveExistingImage,
   onFormChange,
   onMoqChange,
   onAddMoq,
@@ -269,19 +273,71 @@ const ProductFormPanel = ({
             />
           </label>
 
-          <label className="block">
-            <span className="mb-2 block text-sm font-semibold text-slate-700">Product image</span>
+          <div className="block md:col-span-2">
+            <span className="mb-2 block text-sm font-semibold text-slate-700">Product images</span>
             <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-3">
               <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-[#0f172a] px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800">
                 <HiOutlineCloudArrowUp size={16} />
-                Choose image
-                <input type="file" accept="image/*" className="hidden" onChange={onImageSelect} />
+                Add images
+                <input type="file" accept="image/*" multiple className="hidden" onChange={onImageSelect} />
               </label>
               <p className="mt-3 text-sm text-slate-500">
-                {selectedImage ? selectedImage.name : form.imageUrl ? 'Current image will remain until you replace it.' : 'PNG, JPG, WEBP supported. Stored under the selected category.'}
+                {form.imageUrls.length > 0 || selectedImages.length > 0
+                  ? `${form.imageUrls.length} saved · ${selectedImages.length} new selected`
+                  : 'PNG, JPG, WEBP supported. Add multiple images.'}
               </p>
             </div>
-          </label>
+
+            {(form.imageUrls.length > 0 || selectedImages.length > 0) && (
+              <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <p className="mb-3 text-sm font-semibold text-slate-700">
+                  Images ({form.imageUrls.length + selectedImages.length}) · First image is the thumbnail
+                </p>
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+                  {form.imageUrls.map((url, index) => (
+                    <div key={`existing-${index}`} className="group relative">
+                      <img
+                        src={url}
+                        alt={`Saved image ${index + 1}`}
+                        className="h-24 w-full rounded-xl object-cover"
+                      />
+                      {index === 0 && (
+                        <span className="absolute left-1.5 top-1.5 rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-white">
+                          Main
+                        </span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => onRemoveExistingImage(index)}
+                        className="absolute right-1.5 top-1.5 rounded-full bg-red-600 p-1 text-white opacity-0 transition group-hover:opacity-100"
+                      >
+                        <HiOutlineTrash size={12} />
+                      </button>
+                    </div>
+                  ))}
+                  {previewUrls.map((url, index) => (
+                    <div key={`new-${index}`} className="group relative">
+                      <img
+                        src={url}
+                        alt={`New image ${index + 1}`}
+                        className="h-24 w-full rounded-xl object-cover opacity-90 ring-2 ring-blue-400"
+                      />
+                      <span className="absolute left-1.5 top-1.5 rounded-full bg-slate-700 px-2 py-0.5 text-[10px] font-bold text-white">
+                        New
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => onRemoveSelectedImage(index)}
+                        className="absolute right-1.5 top-1.5 rounded-full bg-red-600 p-1 text-white opacity-0 transition group-hover:opacity-100"
+                      >
+                        <HiOutlineTrash size={12} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
           <div className="block md:col-span-2">
             <div className="mb-3 flex items-center justify-between gap-3">
@@ -326,17 +382,6 @@ const ProductFormPanel = ({
             </div>
           </div>
         </div>
-
-        {(selectedImage || form.imageUrl) && (
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-            <p className="text-sm font-semibold text-slate-700 mb-3">Image preview</p>
-            <img
-              src={selectedImage ? previewUrl : form.imageUrl}
-              alt="Selected product preview"
-              className="h-52 w-full rounded-2xl object-cover"
-            />
-          </div>
-        )}
 
         <div className="flex flex-wrap items-center gap-3">
           {editingProductId && (

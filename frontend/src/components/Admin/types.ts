@@ -7,8 +7,8 @@ export interface ProductFormState {
   categoryId: string;
   title: string;
   shortDescription: string;
-  imageUrl: string;
-  imagePath: string;
+  imageUrls: string[];
+  imagePaths: string[];
   moqs: string[];
 }
 

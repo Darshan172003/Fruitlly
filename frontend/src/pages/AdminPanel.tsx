@@ -62,8 +62,8 @@ const emptyForm: ProductFormState = {
   categoryId: '',
   title: '',
   shortDescription: '',
-  imageUrl: '',
-  imagePath: '',
+  imageUrls: [],
+  imagePaths: [],
   moqs: [''],
 };
 
@@ -175,8 +175,9 @@ const AdminPanel = () => {
   const [productsLoading, setProductsLoading] = useState(true);
   const [libraryError, setLibraryError] = useState('');
   const [form, setForm] = useState<ProductFormState>(emptyForm);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState('');
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [removedImagePaths, setRemovedImagePaths] = useState<string[]>([]);
   const [formError, setFormError] = useState('');
   const [formSuccess, setFormSuccess] = useState('');
   const [savingProduct, setSavingProduct] = useState(false);
@@ -537,18 +538,18 @@ const AdminPanel = () => {
   }, [adminUser]);
 
   useEffect(() => {
-    if (!selectedImage) {
-      setPreviewUrl('');
+    if (selectedImages.length === 0) {
+      setPreviewUrls([]);
       return;
     }
 
-    const nextPreviewUrl = URL.createObjectURL(selectedImage);
-    setPreviewUrl(nextPreviewUrl);
+    const urls = selectedImages.map((file) => URL.createObjectURL(file));
+    setPreviewUrls(urls);
 
     return () => {
-      URL.revokeObjectURL(nextPreviewUrl);
+      urls.forEach((url) => URL.revokeObjectURL(url));
     };
-  }, [selectedImage]);
+  }, [selectedImages]);
 
   useEffect(() => {
     if (!blogSelectedImage) {
@@ -570,7 +571,8 @@ const AdminPanel = () => {
       categoryId: categories[0]?.id ?? '',
     });
     setEditingLocation(null);
-    setSelectedImage(null);
+    setSelectedImages([]);
+    setRemovedImagePaths([]);
     setEditingProductId('');
   };
 
@@ -706,9 +708,9 @@ const AdminPanel = () => {
 
           await deleteDoc(snapshot.ref);
 
-          if (product.imagePath) {
-            await deleteObject(ref(storage, product.imagePath)).catch(() => undefined);
-          }
+          await Promise.all(
+            product.imagePaths.map((path) => deleteObject(ref(storage, path)).catch(() => undefined)),
+          );
         }),
       );
 
@@ -740,8 +742,25 @@ const AdminPanel = () => {
   };
 
   const handleImageSelect = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] ?? null;
-    setSelectedImage(file);
+    const files = Array.from(event.target.files ?? []);
+    setSelectedImages((current) => [...current, ...files]);
+    event.target.value = '';
+  };
+
+  const handleRemoveSelectedImage = (index: number) => {
+    setSelectedImages((current) => current.filter((_, i) => i !== index));
+  };
+
+  const handleRemoveExistingImage = (index: number) => {
+    const removedPath = form.imagePaths[index];
+    if (removedPath) {
+      setRemovedImagePaths((current) => [...current, removedPath]);
+    }
+    setForm((current) => ({
+      ...current,
+      imageUrls: current.imageUrls.filter((_, i) => i !== index),
+      imagePaths: current.imagePaths.filter((_, i) => i !== index),
+    }));
   };
 
   const handleBlogImageSelect = (event: ChangeEvent<HTMLInputElement>) => {
@@ -753,13 +772,14 @@ const AdminPanel = () => {
     setActiveSection('add-product');
     setEditingLocation({ categoryId: product.categoryId, productId: product.id });
     setEditingProductId(product.id);
-    setSelectedImage(null);
+    setSelectedImages([]);
+    setRemovedImagePaths([]);
     setForm({
       categoryId: product.categoryId,
       title: product.title,
       shortDescription: product.shortDescription,
-      imageUrl: product.imageUrl,
-      imagePath: product.imagePath,
+      imageUrls: product.imageUrls,
+      imagePaths: product.imagePaths,
       moqs: product.moqs.length > 0 ? product.moqs : [''],
     });
     setFormError('');
@@ -767,28 +787,34 @@ const AdminPanel = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const uploadImageIfNeeded = async () => {
+  const uploadImagesIfNeeded = async () => {
     const productId = slugifyValue(form.title);
 
-    if (!selectedImage) {
+    // Delete images the admin explicitly removed
+    await Promise.all(
+      removedImagePaths.map((path) => deleteObject(ref(storage, path)).catch(() => undefined)),
+    );
+
+    if (selectedImages.length === 0) {
       return {
-        imageUrl: form.imageUrl,
-        imagePath: form.imagePath,
+        imageUrls: form.imageUrls,
+        imagePaths: form.imagePaths,
       };
     }
 
-    const fileName = `${Date.now()}-${selectedImage.name.replace(/\s+/g, '-').toLowerCase()}`;
-    const imageRef = ref(storage, `products/${form.categoryId}/${productId}/${fileName}`);
-    await uploadBytes(imageRef, selectedImage);
-    const downloadUrl = await getDownloadURL(imageRef);
-
-    if (editingLocation && form.imagePath) {
-      await deleteObject(ref(storage, form.imagePath)).catch(() => undefined);
-    }
+    const uploaded = await Promise.all(
+      selectedImages.map(async (file) => {
+        const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}-${file.name.replace(/\s+/g, '-').toLowerCase()}`;
+        const imageRef = ref(storage, `products/${form.categoryId}/${productId}/${fileName}`);
+        await uploadBytes(imageRef, file);
+        const downloadUrl = await getDownloadURL(imageRef);
+        return { url: downloadUrl, path: imageRef.fullPath };
+      }),
+    );
 
     return {
-      imageUrl: downloadUrl,
-      imagePath: imageRef.fullPath,
+      imageUrls: [...form.imageUrls, ...uploaded.map((u) => u.url)],
+      imagePaths: [...form.imagePaths, ...uploaded.map((u) => u.path)],
     };
   };
 
@@ -805,8 +831,8 @@ const AdminPanel = () => {
       return;
     }
 
-    if (!editingProductId && !selectedImage) {
-      setFormError('Please choose a product image before saving.');
+    if (!editingProductId && selectedImages.length === 0) {
+      setFormError('Please choose at least one product image before saving.');
       return;
     }
 
@@ -830,7 +856,7 @@ const AdminPanel = () => {
         throw new Error('Use letters or numbers in the product title.');
       }
 
-      const imageData = await uploadImageIfNeeded();
+      const imageData = await uploadImagesIfNeeded();
       const nextProductRef = doc(db, 'products', category.id, 'items', nextProductId);
 
       const payload: Record<string, unknown> = {
@@ -840,8 +866,8 @@ const AdminPanel = () => {
         productSortName: form.title.trim().toLowerCase(),
         title: form.title.trim(),
         shortDescription: form.shortDescription.trim(),
-        imageUrl: imageData.imageUrl,
-        imagePath: imageData.imagePath,
+        imageUrls: imageData.imageUrls,
+        imagePaths: imageData.imagePaths,
         moqs: normalizedMoqs,
         description: deleteField(),
         ingredients: deleteField(),
@@ -894,9 +920,9 @@ const AdminPanel = () => {
     try {
       await deleteDoc(doc(db, 'products', product.categoryId, 'items', product.id));
 
-      if (product.imagePath) {
-        await deleteObject(ref(storage, product.imagePath)).catch(() => undefined);
-      }
+      await Promise.all(
+        product.imagePaths.map((path) => deleteObject(ref(storage, path)).catch(() => undefined)),
+      );
 
       if (editingLocation?.categoryId === product.categoryId && editingLocation.productId === product.id) {
         resetForm();
@@ -1346,8 +1372,8 @@ const AdminPanel = () => {
             categoryError={categoryError}
             savingCategory={savingCategory}
             deletingCategoryId={deletingCategoryId}
-            selectedImage={selectedImage}
-            previewUrl={previewUrl}
+            selectedImages={selectedImages}
+            previewUrls={previewUrls}
             formError={formError}
             formSuccess={formSuccess}
             savingProduct={savingProduct}
@@ -1356,6 +1382,8 @@ const AdminPanel = () => {
             onDeleteCategory={handleDeleteCategory}
             onCancelEdit={resetForm}
             onImageSelect={handleImageSelect}
+            onRemoveSelectedImage={handleRemoveSelectedImage}
+            onRemoveExistingImage={handleRemoveExistingImage}
             onFormChange={handleFormChange}
             onMoqChange={handleMoqChange}
             onAddMoq={handleAddMoq}
