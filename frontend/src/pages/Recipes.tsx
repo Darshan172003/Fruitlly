@@ -17,6 +17,8 @@ import VideoPlayer from '../components/VideoPlayer';
 import { db } from '../lib/firebase';
 import { mapRecipeDocument } from '../lib/recipes';
 import type { Recipe } from '../types/recipe';
+import SeoHead from '../components/SeoHead';
+import { getPageSeo } from '../lib/seo';
 
 const RECIPES_PAGE_SIZE = 6;
 
@@ -90,8 +92,17 @@ const Recipes = () => {
     }
   };
 
+  const seo = getPageSeo('recipes');
+
   return (
     <div className="flex flex-col flex-1 bg-[#f7f7f8]">
+      <SeoHead
+        title={seo.title}
+        description={seo.description}
+        canonical={seo.canonical}
+        ogType={seo.ogType}
+        schema={seo.schema}
+      />
       {/* Hero */}
       <section className="relative overflow-hidden bg-white border-b border-slate-100">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-24 flex items-center justify-center">

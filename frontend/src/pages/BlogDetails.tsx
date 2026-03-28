@@ -4,6 +4,8 @@ import { MdArrowBack } from 'react-icons/md';
 import { Link, useParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { getBlogPostSeo } from '../lib/seo';
+import SeoHead from '../components/SeoHead';
 import { mapBlogData } from '../lib/blogs';
 import type { BlogPost } from '../types/blog';
 
@@ -48,12 +50,25 @@ const BlogDetails = () => {
     void loadPost();
   }, [postId]);
 
+  const seo = post ? getBlogPostSeo(post) : null;
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="flex flex-1 flex-col bg-slate-50"
     >
+      {seo && (
+        <SeoHead
+          title={seo.title}
+          description={seo.description}
+          canonical={seo.canonical}
+          ogType={seo.ogType}
+          ogImage={post?.imageUrl}
+          schema={seo.schema}
+        />
+      )
+      }
       <div className="px-4 py-10 md:px-10 lg:px-40">
         <div className="mx-auto max-w-5xl">
           <Link

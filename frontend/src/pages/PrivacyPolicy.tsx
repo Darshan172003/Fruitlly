@@ -1,18 +1,20 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 import {
-  MdChevronRight, 
-  MdBusiness, 
-  MdPerson, 
-  MdPayments, 
-  MdDevices, 
-  MdLock, 
-  MdVerifiedUser, 
-  MdGppGood, 
-  MdMail, 
-  MdCall 
+  MdChevronRight,
+  MdBusiness,
+  MdPerson,
+  MdPayments,
+  MdDevices,
+  MdLock,
+  MdVerifiedUser,
+  MdGppGood,
+  MdMail,
+  MdCall
 } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import SeoHead from '../components/SeoHead';
+import { getPageSeo } from '../lib/seo';
 
 const tocSections = [
   { id: 'introduction', label: 'Introduction' },
@@ -65,12 +67,21 @@ const PrivacyPolicy = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  const seo = getPageSeo('privacy');
+
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="flex flex-col flex-1"
     >
+      <SeoHead
+        title={seo.title}
+        description={seo.description}
+        canonical={seo.canonical}
+        ogType={seo.ogType}
+        schema={seo.schema}
+      />
       {/* Hero Section */}
       <div className="relative w-full overflow-hidden border-b border-slate-200 bg-linear-to-b from-white to-accent-green/5">
         <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-12 lg:pb-14 lg:pt-16">
@@ -96,11 +107,10 @@ const PrivacyPolicy = () => {
                     key={section.id}
                     href={`#${section.id}`}
                     onClick={handleSectionClick(section.id)}
-                    className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                      activeSection === section.id
+                    className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${activeSection === section.id
                         ? 'bg-primary/5 text-primary'
                         : 'text-slate-600 hover:bg-slate-50'
-                    }`}
+                      }`}
                   >
                     <span className="mr-2 text-xs text-slate-400">{String(index + 1).padStart(2, '0')}</span>
                     {section.label}

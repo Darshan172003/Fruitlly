@@ -16,6 +16,8 @@ import {
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { mapCategoryDocument, mapProductDocument } from '../lib/productCatalog';
+import SeoHead from '../components/SeoHead';
+import { getPageSeo } from '../lib/seo';
 import type { Product, ProductCategory } from '../types/product';
 
 const getShortDescriptionPreview = (value: string, maxWords = 20) => {
@@ -29,6 +31,7 @@ const getShortDescriptionPreview = (value: string, maxWords = 20) => {
 };
 
 const PRODUCTS_PAGE_SIZE = 8;
+const seo = getPageSeo('products');
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -165,6 +168,13 @@ const Products = () => {
 
   return (
     <div className="bg-[#f7f7f8]">
+      <SeoHead
+        title={seo.title}
+        description={seo.description}
+        canonical={seo.canonical}
+        ogType={seo.ogType}
+        schema={seo.schema}
+      />
       <section className="relative overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-24">
           <div className="mb-10 flex flex-col gap-8 md:mb-12 lg:flex-row lg:items-end md:justify-between">

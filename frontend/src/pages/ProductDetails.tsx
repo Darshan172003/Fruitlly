@@ -5,6 +5,8 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { HiOutlineArrowLeft, HiOutlineArrowRight } from 'react-icons/hi2';
 import { db } from '../lib/firebase';
+import { getProductSeo } from '../lib/seo';
+import SeoHead from '../components/SeoHead';
 import type { Product } from '../types/product';
 import { mapProductData } from '../lib/productCatalog';
 
@@ -52,6 +54,9 @@ const ProductDetails = () => {
     setActiveImageIndex(0);
   }, [product]);
 
+  // Dynamic SEO
+  const seo = product ? getProductSeo(product) : null;
+
   if (loading) {
     return (
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -88,6 +93,16 @@ const ProductDetails = () => {
 
   return (
     <div className="bg-[#f4f5f7]">
+      {seo && (
+        <SeoHead
+          title={seo.title}
+          description={seo.description}
+          canonical={seo.canonical}
+          ogType={seo.ogType}
+          ogImage={product.imageUrls[0]}
+          schema={seo.schema}
+        />
+      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
         <Link
           to="/products"
@@ -118,11 +133,10 @@ const ProductDetails = () => {
                     key={index}
                     type="button"
                     onClick={() => setActiveImageIndex(index)}
-                    className={`relative shrink-0 overflow-hidden rounded-2xl border-2 transition-all duration-200 ${
-                      activeImageIndex === index
+                    className={`relative shrink-0 overflow-hidden rounded-2xl border-2 transition-all duration-200 ${activeImageIndex === index
                         ? 'border-primary shadow-md'
                         : 'border-slate-200 opacity-70 hover:border-slate-400 hover:opacity-100'
-                    }`}
+                      }`}
                   >
                     <img
                       src={url}

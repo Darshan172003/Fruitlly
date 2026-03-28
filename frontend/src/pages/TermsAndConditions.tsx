@@ -5,6 +5,8 @@ import {
   MdExpandMore,
   MdMail
 } from 'react-icons/md';
+import SeoHead from '../components/SeoHead';
+import { getPageSeo } from '../lib/seo';
 
 type Clause = {
   id: string;
@@ -114,12 +116,20 @@ const TermsAndConditions = () => {
     }));
   };
 
+  const seo = getPageSeo('terms');
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="flex flex-1 flex-col"
     >
+      <SeoHead
+        title={seo.title}
+        description={seo.description}
+        canonical={seo.canonical}
+        ogType={seo.ogType}
+        schema={seo.schema}
+      />
       <header className="border-b border-slate-200 bg-linear-to-b from-white to-accent-green/5">
         <div className="mx-auto w-full max-w-7xl px-4 pb-12 pt-12 lg:pb-14 lg:pt-16">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold text-slate-600">
@@ -149,8 +159,8 @@ const TermsAndConditions = () => {
                     href={`#${item.id}`}
                     onClick={handleTocClick(item.id)}
                     className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${activeSection === item.id
-                        ? 'bg-primary/5 text-primary'
-                        : 'text-slate-700 hover:bg-slate-100'
+                      ? 'bg-primary/5 text-primary'
+                      : 'text-slate-700 hover:bg-slate-100'
                       }`}
                   >
                     <span className={`mr-2 text-xs font-bold ${activeSection === item.id ? 'text-primary' : 'text-slate-400'}`}>{String(index + 1).padStart(2, '0')}</span>
@@ -168,7 +178,7 @@ const TermsAndConditions = () => {
                 Agreement Overview
               </h2>
               <p className="leading-relaxed text-slate-600">
-               Welcome to the Fruitlly B2B platform, operated by Tulsi Foods, Jalgaon. These Terms and Conditions govern your use of our bulk procurement services for fruit jelly products and confectionery. By placing an order or using our services, you agree to these terms.
+                Welcome to the Fruitlly B2B platform, operated by Tulsi Foods, Jalgaon. These Terms and Conditions govern your use of our bulk procurement services for fruit jelly products and confectionery. By placing an order or using our services, you agree to these terms.
               </p>
             </section>
 

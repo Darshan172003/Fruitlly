@@ -13,10 +13,13 @@ import {
   type QueryDocumentSnapshot,
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import SeoHead from '../components/SeoHead';
+import { getPageSeo } from '../lib/seo';
 import { mapBlogDocument } from '../lib/blogs';
 import type { BlogPost } from '../types/blog';
 
 const BLOGS_PAGE_SIZE = 6;
+const seo = getPageSeo('blog');
 
 const Blog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -109,6 +112,13 @@ const Blog = () => {
       animate={{ opacity: 1 }}
       className="flex flex-col flex-1"
     >
+      <SeoHead
+        title={seo.title}
+        description={seo.description}
+        canonical={seo.canonical}
+        ogType={seo.ogType}
+        schema={seo.schema}
+      />
       <div className="px-4 md:px-10 lg:px-40 flex justify-center py-12 md:py-16">
         <div className="flex flex-col max-w-300 flex-1">
           <div className="flex flex-wrap justify-between items-end gap-6">

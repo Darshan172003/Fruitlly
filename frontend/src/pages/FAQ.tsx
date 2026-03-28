@@ -10,6 +10,8 @@ import {
   MdPhone,
 } from 'react-icons/md';
 import type { IconType } from 'react-icons';
+import SeoHead from '../components/SeoHead';
+import { getPageSeo } from '../lib/seo';
 
 type FAQEntry = {
   question: string;
@@ -35,7 +37,7 @@ const categories: FAQCategory[] = [
       {
         question: 'What is the shelf life of Fruitlly fruit jelly cubes?',
         answer:
-          'Fruitlly fruit jelly cubes and sugar coated jelly products offer a shelf life of up to 12 months in cool, dry storage. Every batch undergoes strict quality testing to ensure consistent taste and freshness.',
+          'Yes, Fruitlly fruit jelly cubes offer a shelf life of up to 12 months when stored in cool, dry conditions. Every batch undergoes strict quality testing to ensure consistent taste and freshness throughout the shelf life period.',
         open: true,
       },
       {
@@ -46,7 +48,7 @@ const categories: FAQCategory[] = [
       {
         question: 'Do sugar coated jelly cubes clump in humidity?',
         answer:
-          'Proper packaging and storage help maintain the texture of jelly cubes. Products should be stored in dry conditions away from moisture and heat.',
+          'No, proper packaging and storage help maintain the texture of jelly cubes. Products should be stored in dry conditions away from moisture and heat to prevent any clumping.',
       },
     ],
   },
@@ -59,12 +61,12 @@ const categories: FAQCategory[] = [
       {
         question: 'What is the Minimum Order Quantity (MOQ)?',
         answer:
-          'Bulk orders are supported for distributors and wholesalers, with packaging options designed for large-scale supply and distribution.',
+          'Bulk orders are supported for distributors and wholesalers, with packaging options designed for large-scale supply and distribution. Contact our sales team at +91 94222 83890 for specific MOQ details for your region.',
       },
       {
         question: 'Can we request custom fruit jelly flavors or shapes?',
         answer:
-          'Fruit jelly and confectionery products are available in multiple flavors such as mango, guava, strawberry, and mix fruit for different market preferences.',
+          'Yes, fruit jelly and confectionery products are available in multiple flavors such as mango, guava, strawberry, and mix fruit. Custom flavors and private label options can be arranged for qualified bulk orders.',
       },
     ],
   },
@@ -77,12 +79,12 @@ const categories: FAQCategory[] = [
       {
         question: 'What are the standard packaging sizes available?',
         answer:
-          'Products are typically packed in secure boxes or containers suitable for storage, transport, and bulk distribution.',
+          'Products are available in pouches (50-piece and 85-piece), jars (500g and 1kg), and bulk cartons (5kg) suitable for storage, transport, and wholesale distribution.',
       },
       {
         question: 'Does Fruitlly ship fruit jelly internationally?',
         answer:
-          'Tulsi Foods supports bulk supply and distribution across different markets through reliable logistics partners.',
+          'Yes, Tulsi Foods supports bulk supply and international distribution across multiple markets including UAE, East Africa, and Southeast Asia through reliable logistics partners.',
       },
     ],
   },
@@ -95,16 +97,18 @@ const categories: FAQCategory[] = [
       {
         question: 'Do you provide food safety certificates with shipments?',
         answer:
-          'Production follows strict hygiene and quality standards to maintain safety and consistency for confectionery products.',
+          'Yes, production follows strict hygiene and quality standards. Food safety documentation is provided with bulk shipments upon request to support regulatory compliance.',
       },
       {
         question: 'Can you support custom labeling for regulatory markets?',
         answer:
-          'Custom packaging and labeling options can be arranged for distributors and private-label partners.',
+          'Yes, custom packaging and labeling options can be arranged for distributors and private-label partners to meet specific regional regulatory requirements.',
       },
     ],
   },
 ];
+
+const seo = getPageSeo('faq');
 
 const FAQ = () => {
   const [activeCategory, setActiveCategory] = useState(categories[0].id);
@@ -163,6 +167,14 @@ const FAQ = () => {
 
   return (
     <div className="flex flex-col flex-1">
+      <SeoHead
+        title={seo.title}
+        description={seo.description}
+        canonical={seo.canonical}
+        ogType={seo.ogType}
+        schema={seo.schema}
+      />
+
       <header className="relative overflow-hidden border-b border-slate-200 bg-linear-to-b from-white to-accent-green/5 py-16 lg:py-20">
         <div className="mx-auto max-w-5xl px-4 text-center">
           <motion.h1
@@ -170,7 +182,7 @@ const FAQ = () => {
             animate={{ opacity: 1, y: 0 }}
             className="mb-5 text-3xl sm:text-4xl font-black tracking-tight text-slate-900 md:text-5xl"
           >
-           Fruit Jelly FAQ for B2B Buyers
+            Fruit Jelly FAQ for B2B Buyers
           </motion.h1>
           <p className="mx-auto max-w-3xl text-base leading-relaxed text-slate-600 md:text-lg">
             Everything procurement teams need to know about Fruitlly fruit jelly products: quality standards, bulk supply, packaging, and logistics.
@@ -207,14 +219,13 @@ const FAQ = () => {
                       href={`#${cat.id}`}
                       onClick={handleCategoryClick(cat.id)}
                       className={`group block rounded-xl border px-3 py-3 transition-all ${isActive
-                          ? 'border-primary/20 bg-primary/5 text-slate-900 shadow-sm'
-                          : 'border-transparent text-slate-600 hover:border-slate-200 hover:bg-slate-50'
+                        ? 'border-primary/20 bg-primary/5 text-slate-900 shadow-sm'
+                        : 'border-transparent text-slate-600 hover:border-slate-200 hover:bg-slate-50'
                         }`}
                     >
                       <div className="flex items-center gap-2.5">
                         <span
-                          className={`flex h-8 w-8 items-center justify-center rounded-lg ${isActive ? 'bg-primary text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'
-                            }`}
+                          className={`flex h-8 w-8 items-center justify-center rounded-lg ${isActive ? 'bg-primary text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'}`}
                         >
                           <Icon size={18} />
                         </span>
