@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Core Pages -->
   <url>
     <loc>https://fruitlly.com/</loc>
     <changefreq>weekly</changefreq>
@@ -45,5 +44,100 @@
     <loc>https://fruitlly.com/terms-and-conditions</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/fruit-jelly-candy/fruit-jelly-mix</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/fruit-jelly-candy/green-mango-jelly</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/fruit-jelly-candy/guava-jelly</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/fruit-jelly-candy/litchi-jelly</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/fruit-jelly-candy/mango-jelly</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/fruit-jelly-candy/orange-jelly</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/fruit-jelly-candy/strawberry</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/jelly-cubes/jelly-cubes</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/jellyboo/fruitlly-jellyboo</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/other/fruitlly-assorted-jelly</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/other/fruitlly-imli-goli</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/other/fruitlly-jelly-zings</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/other/imli-ball-jelly</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/other/jelly-ball-rose</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/other/jujube</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/other/pan-jelly</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/products/sugar-cotted-jelly/jelly-cubes-sugar-coated</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/blog/exploring-seasonal-fruits-for-better-health</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://fruitlly.com/blog/jelly-craze-sweet-fun-and-flavorful</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>
