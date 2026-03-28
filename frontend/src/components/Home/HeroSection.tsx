@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
-import Image1 from '../../assets/Home1.png';
+import Image1 from '../../assets/Home1.webp';
 import { Link } from 'react-router-dom';
 
 const metrics = [
@@ -80,7 +80,7 @@ const HeroSection = () => {
           >
             <div className="relative">
               <div className="absolute -inset-3 rounded-4xl sm:rounded-[2.6rem] bg-linear-to-tr from-primary/20 to-accent-green/20 blur-md" />
-              <div className="relative w-full aspect-4/3 sm:aspect-square overflow-hidden rounded-[1.8rem] sm:rounded-[2.4rem] border border-white/70 shadow-2xl bg-white">
+              <div className="relative w-full aspect-4/3 sm:aspect-square overflow-hidden rounded-[1.8rem] sm:rounded-[2.4rem]  border-white/70 shadow-2xl bg-white">
                 <img
                   src={Image1}
                   alt="Jelly cubes for bulk manufacturing"

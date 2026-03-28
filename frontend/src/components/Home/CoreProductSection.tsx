@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { MdCheckCircle } from 'react-icons/md';
-import Image2 from '../../assets/Home2.png';
+import Image2 from '../../assets/Home2.webp';
 
 const highlights = [
 'Suitable for bulk packaging & distribution',
