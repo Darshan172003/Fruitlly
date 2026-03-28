@@ -46,9 +46,4 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-  <!--
-    NOTE: Product detail pages and blog post pages should be added dynamically.
-    Consider generating this sitemap at build time from Firestore data,
-    or creating a Firebase Cloud Function that serves /sitemap.xml dynamically.
-  -->
 </urlset>
