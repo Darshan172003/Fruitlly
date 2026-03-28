@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { MdRocketLaunch, MdVisibility } from 'react-icons/md';
+import VisionImg from '../../assets/Our_Vision.webp'
+import MissionImg from '../../assets/Our_Mission.webp'
 
 const PillarsSection = () => {
   return (
@@ -27,7 +29,7 @@ const PillarsSection = () => {
           >
             <div
               className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-2xl shadow-inner"
-              style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBir-Eo_fZ8k7J0j9cjpUkdOhHp_zgV8iSpAgvY32JOBusCq7Wcj-tmHV6kc-obqIjL0d21o47MU9vcjC-MLUL-1GvLVwMbUmjsH377uELv8DRvTa4ybzh_WiGT6jwAroMxrZspvpOxeSkpq_RoThudEWjEFrmGnFMAONeDesEv_TT55czmOTjrm2aXcMPYfP-gd-r-4EJNesjBsZLYD0zqi74C_rScshxf_2KNBsXevMuXBjBVh3vWVT1uWQhzeRKxoPQlyBrDSG83")' }}
+              style={{ backgroundImage: `url(${MissionImg})` }}
             ></div>
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
@@ -50,7 +52,7 @@ const PillarsSection = () => {
           >
             <div
               className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-2xl shadow-inner"
-              style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuB6Q1qPF-MG-mx_tmeEvyxmfqK2nzN2CzeYRemZHacvRJC3cYns6piGWabC2ulWeMwnHA2xLSxoAwPuRU4SCAktJjI1kqDdw7fbIP6USFWGXJhpNwd36dxVN_yR3fSRzox0brQpGEhAg2AkT0wm3ohZ7aNjt9zUaN7By4fK6-sYreeZzGgwXIt53ZcCXLo00tbj5zx3iV5Pp3RwX8boVHreax4ZMtbd7SkcTJHcT4MnagP4li_fY53xcKYLs4P_k23JdYjg8Ilw3GrV")' }}
+              style={{ backgroundImage: `url(${VisionImg})` }}
             ></div>
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">

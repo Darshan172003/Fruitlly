@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
+import AboutImg from '../../assets/About1.webp'
 
 const HeroSection = () => {
   return (
@@ -15,7 +16,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
             className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-2xl shadow-lg lg:w-1/2"
-            style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuC5TtGsFdK6IkktWJhzqcf3lH_ekdoBiOAzV5_blJOTE-JttkFok9bSQ-O-L_WfQtwA09UGsHH7-vmvIOKJ9wVhAAkjglhTg2HAfLttjoPTyUVnoUp97tSBqNzXTXLr_Cys2xueAWV_3WZVEWOHeUE8q_XMIGX9zZgTKTTLKM6mwDKMqx37t-s6sHSmeo2uhN5sHiQNDTyWD77w4ALqGouuBBDdWy0imyyB81LJN3nf3L95sUr_Dx-I5ex_6S2A4rqj7-UzTe7J3iKd")' }}
+            style={{ backgroundImage: `url(${AboutImg})` }}
           />
           <motion.div
             initial={{ opacity: 0, x: 40 }}
