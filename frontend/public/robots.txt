@@ -1,0 +1,8 @@
+# Fruitlly by Tulsi Foods - robots.txt
+# https://fruitlly.com
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://fruitlly.com/sitemap.xml
