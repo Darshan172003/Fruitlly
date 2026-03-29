@@ -315,7 +315,7 @@ const FAQ = () => {
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <a
                 className="flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 font-bold text-white transition-all hover:shadow-lg"
-                href="mailto:contact.fruitlly@gmail.com"
+                href="mailto:info@fruitlly.com"
               >
                 <MdEmail size={20} /> Email Support
               </a>

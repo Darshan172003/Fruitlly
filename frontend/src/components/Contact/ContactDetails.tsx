@@ -17,7 +17,7 @@ const infoItems = [
     label: 'Email',
     value: (
       <div className="flex flex-col gap-1">
-        <a href="mailto:contact.fruitlly@gmail.com" className="hover:text-primary break-all">contact.fruitlly@gmail.com</a>
+        <a href="mailto:info@fruitlly.com" className="hover:text-primary break-all">info@fruitlly.com</a>
         <a href="mailto:tulsifoods@yahoo.com" className="hover:text-primary break-all">tulsifoods@yahoo.com</a>
       </div>
     ),

@@ -247,7 +247,7 @@ const PrivacyPolicy = () => {
                 If you have any questions regarding how we handle your business data, please contact our Data Protection Officer.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <a href='mailto:contact.fruitlly@gmail.com' className="flex items-center justify-center gap-2 rounded-lg bg-primary px-8 py-3 font-bold text-white hover:bg-primary/90 transition-colors">
+                <a href='mailto:info@fruitlly.com' className="flex items-center justify-center gap-2 rounded-lg bg-primary px-8 py-3 font-bold text-white hover:bg-primary/90 transition-colors">
                   <MdMail size={20} />
                   Contact Privacy Team
                 </a>

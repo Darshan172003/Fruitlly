@@ -247,13 +247,10 @@ const TermsAndConditions = () => {
                 Our legal and support teams are here to clarify your B2B partnership terms.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <button className="flex items-center gap-2 rounded-lg bg-primary px-8 py-3 font-bold text-white transition-all hover:bg-primary/90">
+                <a href="mailto:info@fruitlly.com" className="flex items-center gap-2 rounded-lg bg-primary px-8 py-3 font-bold text-white transition-all hover:bg-primary/90">
                   <MdMail size={18} />
                   Contact Legal Team
-                </button>
-                <button className="rounded-lg border border-slate-300 bg-white px-8 py-3 font-bold text-slate-900 transition-all hover:bg-slate-50">
-                  Download PDF
-                </button>
+                </a>
               </div>
             </section>
           </article>
