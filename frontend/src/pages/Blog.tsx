@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
-import { MdArrowForward, MdNotifications } from 'react-icons/md';
+import { MdArrowForward } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import {
   collection,
@@ -127,12 +127,6 @@ const Blog = () => {
               <p className="text-slate-500 text-lg font-normal leading-normal max-w-2xl">
                 Stay updated on jelly manufacturing trends, bulk supply insights, and fruit jelly innovations from Fruitlly by Tulsi Foods.
               </p>
-            </div>
-            <div className="flex gap-3">
-              <button className="flex items-center gap-2 min-w-21 cursor-pointer justify-center overflow-hidden rounded-xl h-12 px-6 bg-white text-slate-900 border border-slate-200 text-sm font-bold hover:bg-gray-50 transition-colors">
-                <MdNotifications size={20} />
-                <span className="truncate">Subscribe</span>
-              </button>
             </div>
           </div>
         </div>
@@ -284,24 +278,19 @@ const Blog = () => {
       </div>
 
       <div className="px-4 md:px-10 lg:px-40 flex justify-center py-16">
-        <div className="flex flex-1 flex-col items-start justify-between gap-8 rounded-2xl border border-slate-100 bg-white p-10 md:p-12 md:flex-row md:items-center shadow-lg max-w-300">
-          <div className="flex flex-col gap-4">
-            <h4 className="text-slate-900 text-3xl font-bold leading-tight font-display">Get the Latest B2B Jelly Industry Reports</h4>
-            <p className="text-slate-500 text-lg font-normal leading-normal max-w-xl">
-              Join distributors receiving updates on fruit jelly trends, manufacturing insights, and new product launches.
+        <div className="flex w-full max-w-300 flex-col gap-8 rounded-2xl border border-slate-100 bg-white p-10 shadow-lg md:p-12 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex max-w-2xl flex-col gap-4">
+            <h4 className="text-slate-900 text-3xl font-bold leading-tight font-display">Plan Your Next Fruit Jelly Order</h4>
+            <p className="max-w-xl text-lg font-normal leading-normal text-slate-500">
+              Connect with our team for wholesale pricing, product samples, and custom manufacturing support.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-            <input
-              className="h-14 px-6 rounded-xl border border-slate-200 bg-slate-50 focus:ring-primary focus:border-primary text-base font-medium min-w-70"
-              placeholder="Your work email"
-              type="email"
-            />
+          <div className="flex w-full shrink-0 sm:w-auto">
             <Link
               to="/contact"
-              className="flex min-w-40 items-center justify-center overflow-hidden rounded-xl h-14 px-8 bg-primary text-white text-base font-bold shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all hover:scale-105"
+              className="flex h-14 w-full items-center justify-center overflow-hidden rounded-xl bg-primary px-8 text-base font-bold text-white shadow-lg shadow-primary/30 transition-all hover:scale-105 hover:shadow-primary/50 sm:w-auto sm:min-w-56"
             >
-              <span className="truncate">Join Newsletter</span>
+              <span className="truncate">Request Consultation</span>
             </Link>
           </div>
         </div>
