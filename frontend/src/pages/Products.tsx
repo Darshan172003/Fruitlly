@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { HiChevronLeft, HiChevronRight, HiArrowSmallRight, HiOutlineEnvelope } from 'react-icons/hi2';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import {
   collection,
   collectionGroup,
@@ -33,7 +33,40 @@ const getShortDescriptionPreview = (value: string, maxWords = 20) => {
 const PRODUCTS_PAGE_SIZE = 8;
 const seo = getPageSeo('products');
 
+const normalizeCategoryKey = (value: string) => value
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, ' ')
+  .trim()
+  .replace(/\s+/g, ' ');
+
+const CATEGORY_ALIASES: Record<string, string> = {
+  'sugar cotted jelly': 'sugar coated jelly',
+};
+
+const resolveCategoryIdFromQuery = (requestedCategory: string, categories: ProductCategory[]) => {
+  if (!requestedCategory) {
+    return 'all';
+  }
+
+  const normalizedRequested = normalizeCategoryKey(requestedCategory);
+  const aliasedRequested = CATEGORY_ALIASES[normalizedRequested] ?? normalizedRequested;
+
+  const matchedCategory = categories.find((category) => {
+    if (category.id === requestedCategory) {
+      return true;
+    }
+
+    const normalizedCategoryId = normalizeCategoryKey(category.id);
+    const normalizedCategoryName = normalizeCategoryKey(category.name);
+
+    return normalizedCategoryId === aliasedRequested || normalizedCategoryName === aliasedRequested;
+  });
+
+  return matchedCategory?.id ?? 'all';
+};
+
 const Products = () => {
+  const [searchParams] = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<ProductCategory[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState('all');
@@ -43,6 +76,7 @@ const Products = () => {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [pageCursors, setPageCursors] = useState<Array<QueryDocumentSnapshot<DocumentData> | null>>([null]);
   const [currentLastVisible, setCurrentLastVisible] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+  const requestedCategory = searchParams.get('category')?.trim() ?? '';
 
   useEffect(() => {
     const categoriesQuery = query(collection(db, 'products'), orderBy('sortName', 'asc'));
@@ -52,17 +86,6 @@ const Products = () => {
       (snapshot) => {
         const nextCategories = snapshot.docs.map(mapCategoryDocument);
         setCategories(nextCategories);
-        setSelectedCategoryId((current) => {
-          if (current === 'all') {
-            return current;
-          }
-
-          if (current && nextCategories.some((category) => category.id === current)) {
-            return current;
-          }
-
-          return 'all';
-        });
       },
       () => {
         setError('We could not load the product catalog right now.');
@@ -71,6 +94,28 @@ const Products = () => {
 
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (categories.length === 0) {
+      return;
+    }
+
+    setSelectedCategoryId((current) => {
+      if (requestedCategory) {
+        return resolveCategoryIdFromQuery(requestedCategory, categories);
+      }
+
+      if (current === 'all') {
+        return current;
+      }
+
+      if (categories.some((category) => category.id === current)) {
+        return current;
+      }
+
+      return 'all';
+    });
+  }, [categories, requestedCategory]);
 
   const loadProductPage = async (
     cursor: QueryDocumentSnapshot<DocumentData> | null,

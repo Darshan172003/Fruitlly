@@ -24,7 +24,7 @@ const Footer = () => {
           <h4 className="font-bold">Useful Links</h4>
           <ul className="text-sm text-gray-500 space-y-2">
             <li><Link to="/about" className="hover:text-primary">About Us</Link></li>
-            <li><Link to="/recipes" className="hover:text-primary">Recipes</Link></li>
+            {/* <li><Link to="/recipes" className="hover:text-primary">Recipes</Link></li> */}
             <li><Link to="/products" className="hover:text-primary">Products</Link></li>
             <li><Link to="/blog" className="hover:text-primary">Blogs</Link></li>
             <li><Link to="/contact" className="hover:text-primary">Contact Us</Link></li>
@@ -33,11 +33,11 @@ const Footer = () => {
         <div className="flex flex-col gap-4 w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(25%-2.25rem)]">
           <h4 className="font-bold">Products</h4>
           <ul className="text-sm text-gray-500 space-y-2">
-            <li><Link to="/products/jelly-cubes" className="hover:text-primary">Fruit Jelly Candy</Link></li>
-            <li><Link to="/products/fruit-bites" className="hover:text-primary">Jelly Cubes</Link></li>
-            <li><Link to="/products/gummy-mixes" className="hover:text-primary">Jams</Link></li>
-            <li><Link to="/products/custom" className="hover:text-primary">Fruit Crush</Link></li>
-            <li><Link to="/products/custom" className="hover:text-primary">Fruit Syrup</Link></li>
+            <li><Link to="/products?category=Fruit%20Jelly%20Candy" className="hover:text-primary">Fruit Jelly Candy</Link></li>
+            <li><Link to="/products?category=Jelly%20Cubes" className="hover:text-primary">Jelly Cubes</Link></li>
+            <li><Link to="/products?category=Jellyboo" className="hover:text-primary">Jellyboo</Link></li>
+            <li><Link to="/products?category=Other" className="hover:text-primary">Other</Link></li>
+            <li><Link to="/products?category=Sugar%20Cotted%20Jelly" className="hover:text-primary">Sugar Cotted Jelly</Link></li>
           </ul>
         </div>
         <div className="flex flex-col gap-4 w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(25%-2.25rem)]">
