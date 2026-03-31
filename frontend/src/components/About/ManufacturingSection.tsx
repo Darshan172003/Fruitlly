@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { MdFactory, MdScience, MdSettings } from 'react-icons/md';
+import FactoryImage from '../../assets/Factory.webp'
 
 const ManufacturingSection = () => {
   return (
@@ -55,8 +56,8 @@ const ManufacturingSection = () => {
           >
             <div className="w-full aspect-square bg-slate-100 rounded-3xl overflow-hidden shadow-2xl">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6Q1qPF-MG-mx_tmeEvyxmfqK2nzN2CzeYRemZHacvRJC3cYns6piGWabC2ulWeMwnHA2xLSxoAwPuRU4SCAktJjI1kqDdw7fbIP6USFWGXJhpNwd36dxVN_yR3fSRzox0brQpGEhAg2AkT0wm3ohZ7aNjt9zUaN7By4fK6-sYreeZzGgwXIt53ZcCXLo00tbj5zx3iV5Pp3RwX8boVHreax4ZMtbd7SkcTJHcT4MnagP4li_fY53xcKYLs4P_k23JdYjg8Ilw3GrV"
-                alt="Factory Floor"
+                src={FactoryImage}
+                alt="Factory Image"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
