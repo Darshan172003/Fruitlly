@@ -120,7 +120,7 @@ const ProductDetails = () => {
                 key={activeImageIndex}
                 src={product.imageUrls[activeImageIndex] ?? product.imageUrls[0] ?? ''}
                 alt={product.title}
-                className="w-full h-auto max-h-80 sm:max-h-105 lg:max-h-130 object-contain transition-opacity duration-300"
+                className="w-full h-auto object-contain transition-opacity duration-300"
                 referrerPolicy="no-referrer"
               />
             </div>
