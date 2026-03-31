@@ -31,10 +31,10 @@ const HeroSection = () => {
                 <span className="text-accent-green text-[11px] sm:text-xs font-semibold tracking-[0.16em] uppercase">Our Story</span>
               </div>
               <h1 className="text-text-dark text-4xl font-black leading-tight tracking-tight md:text-5xl font-display">
-                About Fruitlly — Fruit Jelly Manufacturer in India
+                About Fruitlly - Trusted Fruit Jelly Manufacturer in India
               </h1>
               <p className="text-gray-600 text-lg font-normal leading-relaxed">
-                Fruitlly is the premium fruit jelly brand of <span className="text-primary font-bold">Tulsi Foods</span>, a leading confectionery manufacturer based in Jalgaon, Maharashtra. We specialize in sugar coated jelly cubes and fruit candies using modern manufacturing technology and strict quality control for consistent taste, texture, and bulk supply reliability.
+                Fruitlly is the fruit jelly brand of <span className="text-primary font-bold">Tulsi Foods</span>, a B2B confectionery manufacturer based in Jalgaon, Maharashtra. We specialize in sugar-coated jelly cubes and fruit candies, offering bulk supply, private labelling, and consistent quality for distributors, wholesalers, and brands across India.
               </p>
             </div>
             <div className="flex flex-wrap gap-4">

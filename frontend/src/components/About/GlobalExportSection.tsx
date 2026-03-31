@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
 import { IconType } from 'react-icons';
-import { MdGroups, MdLanguage, MdPublic, MdVerifiedUser } from 'react-icons/md';
+import { HiOutlineBuildingOffice2, HiOutlineMap, HiOutlineShieldCheck } from 'react-icons/hi2';
+import { LuFactory } from 'react-icons/lu';
 
 type StatItem = {
   icon: IconType;
@@ -11,10 +12,10 @@ type StatItem = {
 };
 
 const stats: StatItem[] = [
-  { icon: MdLanguage, value: 15, suffix: '+', label: 'Countries' },
-  { icon: MdGroups, value: 200, suffix: '+', label: 'B2B Partners' },
-  { icon: MdPublic, value: 3, label: 'Continents' },
-  { icon: MdVerifiedUser, value: 100, suffix: '%', label: 'Export Grade' },
+  { icon: HiOutlineMap, value: 10, suffix: '+', label: 'States Served' },
+  { icon: HiOutlineBuildingOffice2, value: 200, suffix: '+', label: 'B2B Partners' },
+  { icon: LuFactory, value: 50000, suffix: '+', label: 'Daily Production Capacity' },
+  { icon: HiOutlineShieldCheck, value: 100, suffix: '%', label: 'Quality Tested' },
 ];
 
 const CountUp = ({ value, suffix = '', start }: { value: number; suffix?: string; start: boolean }) => {
@@ -71,10 +72,10 @@ const GlobalExportSection = () => {
           transition={{ duration: 0.55, ease: 'easeOut' }}
           className="flex flex-col items-center text-center gap-6 mb-12"
         >
-          <span className="text-white/80 font-bold text-sm uppercase tracking-widest">Global Export Network</span>
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight font-display">Exporting Fruit Jelly Worldwide</h2>
+          <span className="text-white/80 font-bold text-sm uppercase tracking-widest">DOMESTIC SUPPLY NETWORK</span>
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight font-display">Supplying Fruit Jelly Across India</h2>
           <p className="text-white/80 text-lg max-w-180">
-            From our facility in Jalgaon, Fruitlly fruit jelly products reach domestic and international markets. Our supply chain ensures reliable bulk distribution while maintaining product quality during transit.
+            From our facility in MIDC Jalgaon, Fruitlly fruit jelly products reach distributors, wholesalers, and private label partners across India. Our supply chain ensures reliable bulk distribution with consistent product quality from factory to delivery.
           </p>
         </motion.div>
         <div className="grid min-[450px]:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">

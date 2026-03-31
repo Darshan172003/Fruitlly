@@ -8,13 +8,13 @@ const cards = [
     color: 'text-primary',
     bg: 'bg-primary/10',
     title: 'Industry Expertise',
-    desc: 'Over 30 years of experience in confectionery manufacturing and large-scale jelly production.',
+    desc: 'Supplying fruit jelly cubes and candies to distributors and wholesalers across multiple states in India.',
   },
   {
     icon: MdPublic,
     color: 'text-accent-green',
     bg: 'bg-accent-green/10',
-    title: 'Global Reach',
+    title: 'Pan-India Distribution',
     desc: 'Supplying fruit jelly cubes and candies to distributors across multiple regions.',
   },
   {
@@ -22,7 +22,7 @@ const cards = [
     color: 'text-primary',
     bg: 'bg-primary/10',
     title: 'Quality Assurance',
-    desc: 'Strict production standards and food safety compliance in every batch.',
+    desc: 'Strict production standards, hygiene protocols, and food safety compliance in every batch.',
   },
 ];
 

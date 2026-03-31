@@ -13,15 +13,15 @@ const CtaSection = () => {
       >
         <div className="flex flex-col gap-4 text-white w-full lg:w-auto">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">Ready to Partner with Fruitlly?</h2>
-          <p className="text-white/80 text-base sm:text-lg max-w-xl">Join our B2B partner network and supply premium fruit jelly products to your market.</p>
+          <p className="text-white/80 text-base sm:text-lg max-w-xl">Join our B2B partner network and supply quality fruit jelly products to your customers. We offer bulk supply, private labelling, and dedicated support for distributors and brands across India.</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full lg:w-auto lg:shrink-0">
-          <button className="w-full sm:w-auto bg-white text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base sm:text-lg hover:bg-gray-100 transition-colors shadow-lg text-center">
+          <a href='tel:+919422283890' className="w-full sm:w-auto bg-white text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base sm:text-lg hover:bg-gray-100 transition-colors shadow-lg text-center">
             Contact Sales
-          </button>
-          <button className="w-full sm:w-auto bg-black/20 text-white border border-white/30 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base sm:text-lg hover:bg-black/30 transition-colors text-center">
+          </a>
+          <a href='#' className="w-full sm:w-auto bg-black/20 text-white border border-white/30 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base sm:text-lg hover:bg-black/30 transition-colors text-center">
             Download Brochure
-          </button>
+          </a>
         </div>
       </motion.div>
     </section>
