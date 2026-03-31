@@ -45,7 +45,7 @@ const AppShell = () => {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:postId" element={<BlogDetails />} />
-          <Route path="/recipes" element={<Recipes />} />
+          {/* <Route path="/recipes" element={<Recipes />} /> */}
           <Route path="/products" element={<Products />} />
           <Route path="/products/:categoryId/:productId" element={<ProductDetails />} />
           <Route path="/fruitllyadminpanel" element={<AdminPanel />} />
