@@ -17,7 +17,7 @@ const Footer = () => {
               referrerPolicy="no-referrer"
             />
           </Link>
-          <p className="text-sm text-gray-500">Premium fruit jelly manufacturer by Tulsi Foods, Jalgaon. Quality in every bite.</p>
+          <p className="text-sm text-gray-500">Premium sugar coated jelly cubes and fruit jelly manufacturer - Tulsi Foods, Jalgaon, Maharashtra. Quality in every bite since 1995.</p>
           <p className="text-sm text-gray-500">GSTIN: 27AANFT0134D1ZF</p>
         </div>
         <div className="flex flex-col gap-4 w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(25%-2.25rem)]">

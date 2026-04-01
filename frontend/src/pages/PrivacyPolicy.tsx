@@ -134,6 +134,9 @@ const PrivacyPolicy = () => {
                 <p>
                   We ensure that your data is handled with the highest level of security and professional integrity. Our relationship with our business partners is built on transparency, and we are committed to being clear about what data we collect and why.
                 </p>
+                <p>
+                  This policy is governed by the Information Technology Act, 2000 and applicable Indian data protection laws.
+                </p>
               </div>
             </section>
 
@@ -210,7 +213,7 @@ const PrivacyPolicy = () => {
                   </div>
                   <div className="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-800">
                     <span className="text-primary"><MdVerifiedUser size={16} /></span>
-                    GDPR Compliant
+                    IT Act Compliant
                   </div>
                   <div className="flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-800">
                     <span className="text-primary"><MdGppGood size={16} /></span>
@@ -244,7 +247,7 @@ const PrivacyPolicy = () => {
             <section className="scroll-mt-28 rounded-2xl border border-accent-green/20 bg-accent-green/5 p-4 text-center shadow-sm sm:p-8" id="contact">
               <h2 className="text-2xl font-bold text-slate-900 mb-4">Questions about our Privacy Policy?</h2>
               <p className="text-slate-600 mb-8 max-w-xl mx-auto">
-                If you have any questions regarding how we handle your business data, please contact our Data Protection Officer.
+                If you have any questions regarding how we handle your business data, please contact our Privacy Contact.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <a href='mailto:info@fruitlly.com' className="flex items-center justify-center gap-2 rounded-lg bg-primary px-8 py-3 font-bold text-white hover:bg-primary/90 transition-colors">

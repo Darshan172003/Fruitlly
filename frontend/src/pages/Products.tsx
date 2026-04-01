@@ -237,7 +237,7 @@ const Products = () => {
                 Premium fruit jelly products for wholesale and bulk distribution.
               </h1>
               <p className="max-w-3xl text-base leading-7 text-slate-600 sm:text-lg md:text-xl md:leading-8">
-                Explore Fruitlly’s range of fruit jelly candies, sugar coated jelly cubes, jams, fruit crush, and syrups by Tulsi Foods, Jalgaon. Designed for consistent taste, long shelf life, and large-scale B2B supply.
+                Explore Fruitlly's complete range of sugar coated jelly cubes, fruit jelly candy, jams, fruit crush, and syrups manufactured by Tulsi Foods, Jalgaon. Every product is designed for consistent taste, 12-month shelf life, and reliable large-scale B2B supply across India.
               </p>
             </motion.div>
 
@@ -426,7 +426,7 @@ const Products = () => {
           <div className="max-w-2xl text-center lg:text-left">
             <h2 className="mb-5 text-2xl font-black text-slate-900 sm:text-3xl">Request Our Wholesale Jelly Catalog</h2>
             <p className="text-base leading-7 text-slate-700 sm:text-lg sm:leading-relaxed">
-              Interested in the full Fruitlly fruit jelly range? Contact Tulsi Foods for bulk pricing, certifications, and distribution partnerships.
+              Interested in the full Fruitlly product range? Contact Tulsi Foods for bulk pricing, product samples, certifications, and distribution partnership details. We supply sugar coated jelly cubes, fruit candy, jams, and syrups to distributors across India.
             </p>
           </div>
           <div className="flex w-full flex-col gap-4 sm:flex-row lg:w-auto">

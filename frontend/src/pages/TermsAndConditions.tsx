@@ -178,7 +178,7 @@ const TermsAndConditions = () => {
                 Agreement Overview
               </h2>
               <p className="leading-relaxed text-slate-600">
-                Welcome to the Fruitlly B2B platform, operated by Tulsi Foods, Jalgaon. These Terms and Conditions govern your use of our bulk procurement services for fruit jelly products and confectionery. By placing an order or using our services, you agree to these terms.
+                Welcome to the Fruitlly B2B platform, operated by Tulsi Foods (GSTIN: 27AANFT0134D1ZF), D-45/1/1, MIDC Area, Jalgaon - 425003, Maharashtra, India. These Terms and Conditions govern your use of our bulk procurement services for fruit jelly products and confectionery. By placing an order or using our services, you agree to these terms.
               </p>
             </section>
 
