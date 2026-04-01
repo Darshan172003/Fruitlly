@@ -37,18 +37,18 @@ const categories: FAQCategory[] = [
       {
         question: 'What is the shelf life of Fruitlly fruit jelly cubes?',
         answer:
-          'Yes, Fruitlly fruit jelly cubes offer a shelf life of up to 12 months when stored in cool, dry conditions. Every batch undergoes strict quality testing to ensure consistent taste and freshness throughout the shelf life period.',
+          'Fruitlly fruit jelly cubes have a shelf life of up to 12 months when stored in cool, dry conditions below 25 degrees Celsius. Every batch is tested for moisture content and texture stability to ensure product freshness throughout the shelf life period.',
         open: true,
       },
       {
         question: 'Are Fruitlly jelly colors and flavors natural?',
         answer:
-          'Fruitlly jelly products are made using approved food ingredients and fruit flavors such as mango, strawberry, litchi, and mix fruit for consistent taste and color.',
+          'Fruitlly jelly products use FSSAI-approved food-grade colors and nature-identical fruit flavors including mango, strawberry, litchi, orange, guava, and mix fruit. All ingredients meet Indian food safety standards for commercial confectionery.',
       },
       {
         question: 'Do sugar coated jelly cubes clump in humidity?',
         answer:
-          'No, proper packaging and storage help maintain the texture of jelly cubes. Products should be stored in dry conditions away from moisture and heat to prevent any clumping.',
+          'No, sugar coated jelly cubes do not clump when stored properly. Keep products in cool, dry conditions below 25 degrees Celsius, away from direct sunlight and moisture. Our packaging is designed to maintain texture and prevent sticking during storage and transport.',
       },
     ],
   },
@@ -61,12 +61,12 @@ const categories: FAQCategory[] = [
       {
         question: 'What is the Minimum Order Quantity (MOQ)?',
         answer:
-          'Bulk orders are supported for distributors and wholesalers, with packaging options designed for large-scale supply and distribution. Contact our sales team at +91 94222 83890 for specific MOQ details for your region.',
+          'The minimum order quantity depends on the product and packaging format. Standard MOQ starts from 50kg for most sugar coated jelly cubes and fruit jelly products. Custom MOQ arrangements are available for distributors and private label partners. Contact our sales team at +91 94222 83890 for exact pricing and MOQ for your region.',
       },
       {
         question: 'Can we request custom fruit jelly flavors or shapes?',
         answer:
-          'Yes, fruit jelly and confectionery products are available in multiple flavors such as mango, guava, strawberry, and mix fruit. Custom flavors and private label options can be arranged for qualified bulk orders.',
+          'Yes, Fruitlly supports custom flavor development and private label manufacturing. Current flavors include mango, strawberry, litchi, orange, guava, imli, pineapple, and mix fruit. New flavors can be developed for orders above the minimum private label MOQ. Contact us to discuss your requirements.',
       },
     ],
   },
@@ -84,7 +84,7 @@ const categories: FAQCategory[] = [
       {
         question: 'Does Fruitlly ship fruit jelly internationally?',
         answer:
-          'Yes, Tulsi Foods supports bulk supply and international distribution across multiple markets including UAE, East Africa, and Southeast Asia through reliable logistics partners.',
+          'Yes, Tulsi Foods exports fruit jelly products to international markets including the UAE, East Africa, and Southeast Asia. We handle export documentation, packaging compliance, and work with established freight partners for reliable international delivery.',
       },
     ],
   },
