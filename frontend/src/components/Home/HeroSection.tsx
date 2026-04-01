@@ -39,7 +39,7 @@ const HeroSection = () => {
             </h1>
 
             <p className="mt-5 text-gray-600 text-base sm:text-lg max-w-xl">
-              Fruitlly by Tulsi Foods is a leading B2B fruit jelly manufacturer in India, delivering consistent taste, scalable production, and strict quality assurance for distributors, wholesalers, and private label brands.
+              Fruitlly by Tulsi Foods is a leading B2B fruit jelly manufacturer in Jalgaon, India, delivering consistent taste, scalable production, and strict quality assurance for distributors, wholesalers, and private label brands since 1995.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">

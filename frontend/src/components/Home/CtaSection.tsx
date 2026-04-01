@@ -22,7 +22,7 @@ const CtaSection = () => {
       >
         <div className="flex flex-col gap-4 text-white w-full lg:w-auto">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight">Ready to Scale Your Bulk Jelly Supply?</h2>
-          <p className="text-white/80 text-base sm:text-lg max-w-xl">Join distributors and brands across India who rely on Fruitlly for large-scale fruit jelly manufacturing.</p>
+          <p className="text-white/80 text-base sm:text-lg max-w-xl">Join 500+ distribution partners across India who rely on Fruitlly by Tulsi Foods for large-scale sugar coated jelly cubes and fruit jelly manufacturing.</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full lg:w-auto lg:shrink-0">
           <a
