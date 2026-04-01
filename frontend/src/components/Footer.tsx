@@ -37,7 +37,7 @@ const Footer = () => {
             <li><Link to="/products?category=Jelly%20Cubes" className="hover:text-primary">Jelly Cubes</Link></li>
             <li><Link to="/products?category=Jellyboo" className="hover:text-primary">Jellyboo</Link></li>
             <li><Link to="/products?category=Other" className="hover:text-primary">Other</Link></li>
-            <li><Link to="/products?category=Sugar%20Cotted%20Jelly" className="hover:text-primary">Sugar Cotted Jelly</Link></li>
+            <li><Link to="/products?category=Sugar%20Coated%20Jelly" className="hover:text-primary">Sugar Coated Jelly</Link></li>
           </ul>
         </div>
         <div className="flex flex-col gap-4 w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(25%-2.25rem)]">
