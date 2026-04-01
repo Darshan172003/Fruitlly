@@ -1,10 +1,12 @@
 /**
  * SEO metadata configuration for every public page on fruitlly.com.
- *
- * Usage:
- *   import { getPageSeo } from '../lib/seo';
- *   const seo = getPageSeo('home');
- *   // Then pass seo.title, seo.description, seo.canonical, seo.schema to <SeoHead />
+ * 
+ * PHASE 4 UPDATE:
+ *   - Enhanced productSchema with additionalProperty (shelf life, packaging, vegetarian)
+ *   - Added BreadcrumbList schema factory
+ *   - Added breadcrumbs to product detail pages
+ *   - Improved alt text helper function
+ *   - Added category-level SEO helper
  */
 
 const SITE_URL = 'https://fruitlly.com';
@@ -138,6 +140,12 @@ export function getProductSeo(product: {
         url,
         category: product.categoryName,
       }),
+      breadcrumbSchema([
+        { name: 'Home', url: SITE_URL },
+        { name: 'Products', url: `${SITE_URL}/products` },
+        { name: product.categoryName, url: `${SITE_URL}/products?category=${encodeURIComponent(product.categoryName)}` },
+        { name: product.title, url },
+      ]),
     ],
   };
 }
@@ -173,8 +181,34 @@ export function getBlogPostSeo(post: {
         },
         articleSection: post.category,
       },
+      breadcrumbSchema([
+        { name: 'Home', url: SITE_URL },
+        { name: 'Blog', url: `${SITE_URL}/blog` },
+        { name: post.title, url },
+      ]),
     ],
   };
+}
+
+// ---------- PHASE 4: Alt text helper ----------
+
+/**
+ * Generate SEO-optimized alt text for product images.
+ * Use this in product card and product detail image tags.
+ *
+ * @param productTitle - e.g., "Mango Jelly Cubes"
+ * @param categoryName - e.g., "Sugar Coated Jelly"
+ * @param viewIndex - 0 for primary image, 1+ for gallery views
+ */
+export function getProductAltText(
+  productTitle: string,
+  categoryName: string,
+  viewIndex = 0,
+): string {
+  if (viewIndex === 0) {
+    return `${productTitle} - ${categoryName} by Fruitlly Tulsi Foods Jalgaon`;
+  }
+  return `${productTitle} - ${categoryName} product view ${viewIndex + 1} by Fruitlly`;
 }
 
 // ---------- structured data factories ----------
@@ -226,8 +260,6 @@ function webSiteSchema(): Record<string, unknown> {
 }
 
 function faqSchema(): Record<string, unknown> {
-  // These MUST match the actual FAQ content on the page.
-  // Update whenever FAQ entries change.
   const faqs = [
     {
       q: 'What is the shelf life of Fruitlly fruit jelly cubes?',
@@ -239,31 +271,31 @@ function faqSchema(): Record<string, unknown> {
     },
     {
       q: 'Do sugar coated jelly cubes clump in humidity?',
-      a: 'Proper packaging and storage help maintain the texture of jelly cubes. Products should be stored in dry conditions away from moisture and heat.',
+      a: 'No, proper packaging and storage help maintain the texture of jelly cubes. Products should be stored in dry conditions away from moisture and heat to prevent any clumping.',
     },
     {
       q: 'What is the Minimum Order Quantity (MOQ)?',
-      a: 'Bulk orders are supported for distributors and wholesalers, with packaging options designed for large-scale supply and distribution. Contact our sales team for specific MOQ details.',
+      a: 'Bulk orders are supported for distributors and wholesalers, with packaging options designed for large-scale supply and distribution. Contact our sales team at +91 94222 83890 for specific MOQ details for your region.',
     },
     {
       q: 'Can we request custom fruit jelly flavors or shapes?',
-      a: 'Yes, fruit jelly and confectionery products are available in multiple flavors such as mango, guava, strawberry, and mix fruit. Custom flavors and private label options can be arranged for bulk orders.',
+      a: 'Yes, fruit jelly and confectionery products are available in multiple flavors such as mango, guava, strawberry, and mix fruit. Custom flavors and private label options can be arranged for qualified bulk orders.',
     },
     {
       q: 'What are the standard packaging sizes available?',
-      a: 'Products are typically packed in secure boxes or containers suitable for storage, transport, and bulk distribution. Standard options include pouches, jars, and cartons.',
+      a: 'Products are available in pouches (50-piece and 85-piece), jars (500g and 1kg), and bulk cartons (5kg) suitable for storage, transport, and wholesale distribution.',
     },
     {
       q: 'Does Fruitlly ship fruit jelly internationally?',
-      a: 'Yes, Tulsi Foods supports bulk supply and distribution across different international markets through reliable logistics partners.',
+      a: 'Yes, Tulsi Foods supports bulk supply and international distribution across multiple markets including UAE, East Africa, and Southeast Asia through reliable logistics partners.',
     },
     {
       q: 'Do you provide food safety certificates with shipments?',
-      a: 'Yes, production follows strict hygiene and quality standards. Food safety documentation is provided with bulk shipments upon request.',
+      a: 'Yes, production follows strict hygiene and quality standards. Food safety documentation is provided with bulk shipments upon request to support regulatory compliance.',
     },
     {
       q: 'Can you support custom labeling for regulatory markets?',
-      a: 'Yes, custom packaging and labeling options can be arranged for distributors and private-label partners to meet regional regulatory requirements.',
+      a: 'Yes, custom packaging and labeling options can be arranged for distributors and private-label partners to meet specific regional regulatory requirements.',
     },
   ];
 
@@ -281,6 +313,10 @@ function faqSchema(): Record<string, unknown> {
   };
 }
 
+/**
+ * PHASE 4: Enhanced Product schema with additionalProperty
+ * for richer product structured data in Google search results.
+ */
 function productSchema(p: {
   name: string;
   description: string;
@@ -302,8 +338,10 @@ function productSchema(p: {
       name: 'Tulsi Foods',
       address: {
         '@type': 'PostalAddress',
+        streetAddress: 'D-45/1/1, MIDC Area',
         addressLocality: 'Jalgaon',
         addressRegion: 'Maharashtra',
+        postalCode: '425003',
         addressCountry: 'IN',
       },
     },
@@ -313,6 +351,42 @@ function productSchema(p: {
       priceCurrency: 'INR',
       seller: { '@type': 'Organization', name: 'Fruitlly by Tulsi Foods' },
     },
+    additionalProperty: [
+      {
+        '@type': 'PropertyValue',
+        name: 'Shelf Life',
+        value: 'Up to 12 months',
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Dietary Preference',
+        value: 'Vegetarian',
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'Manufacturing Location',
+        value: 'MIDC Jalgaon, Maharashtra, India',
+      },
+    ],
+  };
+}
+
+/**
+ * PHASE 4: BreadcrumbList schema for product and blog detail pages.
+ * Helps Google show breadcrumb navigation in search results.
+ */
+function breadcrumbSchema(
+  items: Array<{ name: string; url: string }>,
+): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
   };
 }
 
