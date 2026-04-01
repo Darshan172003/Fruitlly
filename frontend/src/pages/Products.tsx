@@ -19,6 +19,7 @@ import { mapCategoryDocument, mapProductDocument } from '../lib/productCatalog';
 import SeoHead from '../components/SeoHead';
 import { getPageSeo } from '../lib/seo';
 import type { Product, ProductCategory } from '../types/product';
+import { getProductAltText } from '../lib/seo';
 
 const getShortDescriptionPreview = (value: string, maxWords = 20) => {
   const words = value.trim().split(/\s+/).filter(Boolean);
@@ -361,7 +362,7 @@ const Products = () => {
                               </span>
                               <img
                                 src={product.imageUrls[0] ?? ''}
-                                alt={product.title}
+                                alt={getProductAltText(product.title, product.categoryName)}
                                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                 referrerPolicy="no-referrer"
                               />

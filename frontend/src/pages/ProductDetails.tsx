@@ -9,6 +9,7 @@ import { getProductSeo } from '../lib/seo';
 import SeoHead from '../components/SeoHead';
 import type { Product } from '../types/product';
 import { mapProductData } from '../lib/productCatalog';
+import { getProductAltText } from '../lib/seo';
 
 const ProductDetails = () => {
   const { categoryId, productId } = useParams();
@@ -119,7 +120,7 @@ const ProductDetails = () => {
               <img
                 key={activeImageIndex}
                 src={product.imageUrls[activeImageIndex] ?? product.imageUrls[0] ?? ''}
-                alt={product.title}
+                alt={getProductAltText(product.title, product.categoryName, activeImageIndex)}
                 className="w-full h-auto object-contain transition-opacity duration-300"
                 referrerPolicy="no-referrer"
               />
@@ -140,7 +141,7 @@ const ProductDetails = () => {
                   >
                     <img
                       src={url}
-                      alt={`${product.title} view ${index + 1}`}
+                      alt={getProductAltText(product.title, product.categoryName, index)}
                       className="h-16 w-20 object-cover sm:h-20 sm:w-24"
                       referrerPolicy="no-referrer"
                     />
