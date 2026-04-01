@@ -12,7 +12,7 @@ type StatItem = {
 };
 
 const stats: StatItem[] = [
-  { icon: HiOutlineMap, value: 10, suffix: '+', label: 'States Served' },
+  { icon: HiOutlineMap, value: 15, suffix: '+', label: 'States Served' },
   { icon: HiOutlineBuildingOffice2, value: 200, suffix: '+', label: 'B2B Partners' },
   { icon: LuFactory, value: 50000, suffix: '+', label: 'Daily Production Capacity' },
   { icon: HiOutlineShieldCheck, value: 100, suffix: '%', label: 'Quality Tested' },

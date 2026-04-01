@@ -8,21 +8,21 @@ const cards = [
     color: 'text-primary',
     bg: 'bg-primary/10',
     title: 'Industry Expertise',
-    desc: 'Supplying fruit jelly cubes and candies to distributors and wholesalers across multiple states in India.',
+    desc: 'Over 30 years of hands-on confectionery manufacturing experience. Our team manages every stage — from pectin formulation and batch cooking to sugar coating and bulk packaging.',
   },
   {
     icon: MdPublic,
     color: 'text-accent-green',
     bg: 'bg-accent-green/10',
     title: 'Pan-India Distribution',
-    desc: 'Supplying fruit jelly cubes and candies to distributors across multiple regions.',
+    desc: 'Active supply network covering 15+ states across India. Our products reach kirana stores, bakeries, sweet shops, and modern retail through a network of established distributors.',
   },
   {
     icon: MdVerifiedUser,
     color: 'text-primary',
     bg: 'bg-primary/10',
     title: 'Quality Assurance',
-    desc: 'Strict production standards, hygiene protocols, and food safety compliance in every batch.',
+    desc: 'Every batch is tested for texture, moisture, color, and taste consistency. Our manufacturing follows FSSAI standards with documented quality checks at each production stage.',
   },
 ];
 
