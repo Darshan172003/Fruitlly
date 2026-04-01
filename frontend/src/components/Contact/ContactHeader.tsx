@@ -11,7 +11,7 @@ const ContactHeader = () => {
         <span className="block bg-linear-to-r from-primary to-accent-green bg-clip-text text-transparent">Fruit Jelly Supply Chain</span>
       </h1>
       <p className="text-gray-600 text-lg leading-relaxed max-w-2xl mt-4">
-        Connect with Tulsi Foods for bulk fruit jelly products, private labeling, and large-scale manufacturing inquiries.
+        Connect with Tulsi Foods for bulk sugar coated jelly cubes, fruit jelly candy, private labeling, and large-scale manufacturing inquiries. We respond to all B2B inquiries within 24 hours.
       </p>
     </div>
   );
