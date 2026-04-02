@@ -20,6 +20,8 @@
   ],
   "hosting": {
     "public": "frontend/dist",
+    "cleanUrls": true,
+    "trailingSlash": false,
     "ignore": [
       "firebase.json",
       "**/.*",
