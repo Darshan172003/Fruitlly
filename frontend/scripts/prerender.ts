@@ -1,25 +1,20 @@
 /**
- * prerender.ts
+ * prerender.ts — PHASE 9 FIX v2
  *
- * Run AFTER `vite build`. This script:
- *   1. Spins up a local static server serving the built dist/
- *   2. Uses Puppeteer to visit each public route
- *   3. Waits for React to render, then saves the full HTML
- *   4. Overwrites dist/index.html for each route with prerendered HTML
+ * Root cause of the /products and /blog timeout:
+ *   The Products page uses onSnapshot() which creates a persistent
+ *   WebSocket connection to Firestore. The "networkidle0" wait strategy
+ *   waits for ZERO open connections, which never happens because the
+ *   WebSocket stays open. Result: 30s timeout.
  *
- * The result: Googlebot gets fully rendered HTML with meta tags, schema,
- * content — no JavaScript execution needed on their end.
+ * Fix: Use "networkidle2" (allows 2 open connections) for pages that
+ *   use Firestore real-time listeners, and wait for content selectors.
  *
  * Usage:
  *   cd frontend
- *   npm run build
- *   npx tsx scripts/prerender.ts
- *
- * Or add to package.json scripts:
- *   "build:seo": "vite build && tsx scripts/prerender.ts"
+ *   npm run build:seo
  */
 
-import { execSync } from 'child_process';
 import fs from 'fs';
 import http from 'http';
 import path from 'path';
@@ -29,29 +24,53 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DIST_DIR = path.resolve(__dirname, '../dist');
 
-// All public routes to prerender.
-// Product detail and blog detail pages are dynamic — handled separately
-// via the Firestore-based sitemap generator (Phase 3).
-const STATIC_ROUTES = [
-  '/',
-  '/about',
-  '/products',
-  '/contact',
-  '/blog',
-  '/recipes',
-  '/faq',
-  '/privacy-policy',
-  '/terms-and-conditions',
-];
+const ROUTES: Array<{
+  path: string;
+  usesFirestore?: boolean;
+  readySelector?: string;
+  contentCheck?: string;
+  minOccurrences?: number;
+  maxWait?: number;
+}> = [
+    // Static pages — no Firestore, networkidle0 is fine
+    { path: '/' },
+    { path: '/about' },
+    { path: '/contact' },
+    { path: '/faq' },
+    { path: '/privacy-policy' },
+    { path: '/terms-and-conditions' },
+
+    // Firestore-dependent pages — use networkidle2 + smart selectors
+    {
+      path: '/products',
+      usesFirestore: true,
+      readySelector: 'a[href^="/products/"] img',
+      contentCheck: 'href="/products/',
+      minOccurrences: 4,
+      maxWait: 15000,
+    },
+    {
+      path: '/blog',
+      usesFirestore: true,
+      readySelector: 'a[href^="/blog/"]',
+      contentCheck: 'href="/blog/',
+      minOccurrences: 3,
+      maxWait: 15000,
+    },
+    {
+      path: '/recipes',
+      usesFirestore: true,
+      readySelector: 'iframe, video, [class*="grid"] > div > div',
+      maxWait: 10000,
+    },
+  ];
 
 const PORT = 4173;
 
-// Simple static file server for the dist directory
 function createStaticServer(): http.Server {
   return http.createServer((req, res) => {
     let filePath = path.join(DIST_DIR, req.url || '/');
 
-    // SPA fallback: if the path doesn't match a real file, serve index.html
     if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
       filePath = path.join(DIST_DIR, 'index.html');
     }
@@ -67,6 +86,8 @@ function createStaticServer(): http.Server {
       '.webp': 'image/webp',
       '.svg': 'image/svg+xml',
       '.woff2': 'font/woff2',
+      '.woff': 'font/woff',
+      '.ttf': 'font/ttf',
     };
 
     const contentType = mimeTypes[ext] || 'application/octet-stream';
@@ -83,32 +104,28 @@ function createStaticServer(): http.Server {
 }
 
 async function prerender() {
-  // Check if Puppeteer is available
   let puppeteer: any;
   try {
     puppeteer = await import('puppeteer');
   } catch {
     console.error(
-      '\n❌ Puppeteer not found. Install it:\n\n' +
-      '   npm install -D puppeteer\n\n' +
-      'Then run this script again.\n'
+      '\n\u274c Puppeteer not found. Install it:\n\n' +
+      '   npm install -D puppeteer\n\n'
     );
     process.exit(1);
   }
 
   if (!fs.existsSync(DIST_DIR)) {
-    console.error('❌ dist/ directory not found. Run "npm run build" first.');
+    console.error('\u274c dist/ directory not found. Run "npm run build" first.');
     process.exit(1);
   }
 
-  console.log('\n🔧 Starting prerender for Fruitlly SEO...\n');
+  console.log('\n\ud83d\udd27 Starting prerender for Fruitlly SEO (v2 \u2014 networkidle2 fix)...\n');
 
-  // Start local server
   const server = createStaticServer();
   await new Promise<void>((resolve) => server.listen(PORT, resolve));
   console.log(`   Static server running on http://localhost:${PORT}`);
 
-  // Launch headless browser
   const browser = await puppeteer.default.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -116,40 +133,88 @@ async function prerender() {
 
   const results: { route: string; status: string }[] = [];
 
-  for (const route of STATIC_ROUTES) {
-    const url = `http://localhost:${PORT}${route}`;
+  for (const route of ROUTES) {
+    const url = `http://localhost:${PORT}${route.path}`;
+    const maxWait = route.maxWait || 5000;
     const page = await browser.newPage();
 
     try {
-      // Navigate and wait for network to settle
-      await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
+      // KEY FIX: Use networkidle2 for Firestore pages.
+      // onSnapshot() keeps a WebSocket open permanently,
+      // so networkidle0 (zero connections) will NEVER resolve.
+      // networkidle2 allows up to 2 open connections.
+      const waitStrategy = route.usesFirestore ? 'networkidle2' : 'networkidle0';
 
-      // Wait a bit for React to finish rendering (helmet, dynamic content)
-      await page.waitForSelector('title', { timeout: 5000 }).catch(() => {});
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      console.log(`   \u23f3 ${route.path} \u2014 navigating (${waitStrategy})...`);
+      await page.goto(url, { waitUntil: waitStrategy, timeout: 30000 });
 
-      // Get the full rendered HTML
+      if (route.readySelector) {
+        // Wait for Firestore data to render into the DOM
+        console.log(`   \u23f3 ${route.path} \u2014 waiting for data...`);
+
+        const selectorFound = await page.waitForSelector(route.readySelector, {
+          timeout: maxWait,
+        }).then(() => true).catch(() => false);
+
+        if (selectorFound) {
+          // Give React a moment to finish re-rendering
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+          console.log(`   \u2705 ${route.path} \u2014 data loaded successfully`);
+        } else {
+          console.warn(`   \u26a0\ufe0f  ${route.path} \u2014 data selector not found within ${maxWait}ms`);
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+        }
+      } else {
+        // Static page \u2014 brief wait for React/Helmet
+        await page.waitForSelector('title', { timeout: 5000 }).catch(() => { });
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+      }
+
+      // Capture HTML
       const html = await page.content();
 
-      // Determine output path
-      const outputDir = route === '/'
-        ? DIST_DIR
-        : path.join(DIST_DIR, route);
+      // Validate content
+      let validationStatus = 'valid';
+      if (route.contentCheck && route.minOccurrences) {
+        const occurrences = (html.match(new RegExp(route.contentCheck, 'g')) || []).length;
+        if (occurrences < route.minOccurrences) {
+          validationStatus = 'partial';
+          console.warn(`   \u26a0\ufe0f  ${route.path} \u2014 found ${occurrences}x "${route.contentCheck}" (need ${route.minOccurrences}+)`);
+        }
+      }
 
-      // Create directory if needed
-      if (route !== '/') {
+      // Write output — save as BOTH formats for Firebase compatibility
+      // 1. products/index.html (for directory-style serving)
+      // 2. products.html (for cleanUrls resolution)
+      const outputDir = route.path === '/'
+        ? DIST_DIR
+        : path.join(DIST_DIR, route.path);
+
+      if (route.path !== '/') {
         fs.mkdirSync(outputDir, { recursive: true });
       }
 
+      // Save as directory/index.html
       const outputFile = path.join(outputDir, 'index.html');
       fs.writeFileSync(outputFile, html, 'utf-8');
 
-      results.push({ route, status: '✅ Prerendered' });
-      console.log(`   ✅ ${route} → ${path.relative(DIST_DIR, outputFile)}`);
+      // Also save as name.html for Firebase cleanUrls
+      if (route.path !== '/') {
+        const flatFile = path.join(DIST_DIR, route.path + '.html');
+        fs.writeFileSync(flatFile, html, 'utf-8');
+      }
+
+      if (validationStatus === 'valid') {
+        results.push({ route: route.path, status: '\u2705 Prerendered' });
+        console.log(`   \u2705 ${route.path} \u2192 ${path.relative(DIST_DIR, outputFile)}`);
+      } else {
+        results.push({ route: route.path, status: '\u26a0\ufe0f  Partial content' });
+        console.log(`   \u26a0\ufe0f  ${route.path} \u2192 ${path.relative(DIST_DIR, outputFile)} (partial)`);
+      }
 
     } catch (error: any) {
-      results.push({ route, status: `❌ Failed: ${error.message}` });
-      console.error(`   ❌ ${route} → ${error.message}`);
+      results.push({ route: route.path, status: `\u274c Failed: ${error.message}` });
+      console.error(`   \u274c ${route.path} \u2192 ${error.message}`);
     } finally {
       await page.close();
     }
@@ -158,11 +223,21 @@ async function prerender() {
   await browser.close();
   server.close();
 
-  console.log('\n📊 Prerender Summary:');
-  console.log(`   Total routes: ${STATIC_ROUTES.length}`);
-  console.log(`   Successful:   ${results.filter(r => r.status.startsWith('✅')).length}`);
-  console.log(`   Failed:       ${results.filter(r => r.status.startsWith('❌')).length}`);
-  console.log('\n✅ Prerendering complete. Deploy dist/ to Firebase Hosting.\n');
+  console.log('\n\ud83d\udcca Prerender Summary:');
+  console.log(`   Total routes: ${ROUTES.length}`);
+  console.log(`   \u2705 Success: ${results.filter(r => r.status.startsWith('\u2705')).length}`);
+  console.log(`   \u26a0\ufe0f  Partial: ${results.filter(r => r.status.startsWith('\u26a0\ufe0f')).length}`);
+  console.log(`   \u274c Failed:  ${results.filter(r => r.status.startsWith('\u274c')).length}`);
+
+  const failures = results.filter(r => r.status.startsWith('\u274c'));
+  if (failures.length > 0) {
+    console.log('\n   Troubleshooting failed pages:');
+    console.log('   1. Check internet connection (Firestore needs network)');
+    console.log('   2. Verify Firestore rules allow public reads');
+    console.log('   3. Try running build:seo again');
+  }
+
+  console.log('\n\u2705 Prerendering complete. Deploy dist/ to Firebase Hosting.\n');
 }
 
 prerender().catch((err) => {
